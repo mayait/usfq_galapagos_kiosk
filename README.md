@@ -29,7 +29,7 @@ Pantalla diseñada para monitores 16:9 a 1920×1080. Muestra dos paneles en para
 
 **Panel izquierdo**
 - Logo / título "¿Qué pasa en la USFQ?" con subtítulo de campus
-- Reloj en tiempo real (zona horaria Galápagos — `Pacific/Galapagos`, UTC-6)
+- Reloj en tiempo real (zona horaria Galápagos — `America/Costa_Rica`, UTC-6)
 - Fecha en español
 - **Mareas del día**: pleamares y bajamares de San Cristóbal con hora y altura exacta (NOAA)
 - Etiqueta de rango de la semana actual
@@ -121,7 +121,7 @@ Variables disponibles via `KIOSK_CONFIG`:
 | `NOAA_STATION`         | ID de estación NOAA (`9992401` = San Cristóbal)  |
 | `TIDES_REFRESH_MS`     | Intervalo de refresco de mareas (ms)             |
 | `LAT` / `LNG`          | Coordenadas de San Cristóbal                     |
-| `TIMEZONE`             | `Pacific/Galapagos` (UTC-6)                      |
+| `TIMEZONE`             | `America/Costa_Rica` (UTC-6, equiv. Galápagos)                      |
 | `AUTO_SCROLL_SPEED`    | Velocidad de auto-scroll en px/frame             |
 | `AUTO_SCROLL_PAUSE_MS` | Pausa al llegar al límite del scroll             |
 | `CORS_PROXIES`         | Array de funciones proxy para el ICS             |

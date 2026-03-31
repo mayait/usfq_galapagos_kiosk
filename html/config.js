@@ -14,8 +14,8 @@ const KIOSK_CONFIG = {
   // ── Calendario ICS (Outlook 365) ─────────────────────────────────────────
   ICS_URL: 'https://outlook.office365.com/owa/calendar/71a3663561a843bca1cccea1dffd9fa6@usfq.edu.ec/7755590ea9af4dcb84b49fb91d1b2a0f13028026135859137563/calendar.ics',
 
-  /** Intervalo de refresco del calendario (ms). Default: 10 minutos */
-  CALENDAR_REFRESH_MS: 600_000,
+  /** Intervalo de refresco del calendario (ms). Default: 2 minutos */
+  CALENDAR_REFRESH_MS: 120_000,
 
   // ── Mareas NOAA — San Cristóbal, Galápagos ──────────────────────────────
   /** Endpoint base de la API de mareas de NOAA (gratuita, sin API key) */
@@ -31,8 +31,8 @@ const KIOSK_CONFIG = {
   LAT: -0.9024,
   LNG: -89.6105,
 
-  /** Zona horaria de Galápagos: UTC-6 (NO es America/Guayaquil) */
-  TIMEZONE: 'Pacific/Galapagos',
+  /** Zona horaria de Galápagos: UTC-6 (usamos Costa Rica, mismo offset, máxima compatibilidad) */
+  TIMEZONE: 'America/Costa_Rica',
 
   // ── Auto-scroll del panel de eventos ─────────────────────────────────────
   /** Velocidad de scroll automático en píxeles por frame de animación */
