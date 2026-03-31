@@ -857,11 +857,21 @@ function expandRRule(ev, from, to) {
 }
 
 // ===== FETCH =====
+function bustCache(url) {
+  // Agregar timestamp para evitar caché de proxies
+  const sep = url.includes('?') ? '&' : '?';
+  return url + sep + '_t=' + Date.now();
+}
+
 async function fetchCalendar() {
   showStatus('Actualizando...');
   for (const proxy of CORS_PROXIES) {
     try {
-      const resp = await fetch(proxy(ICS_URL), { cache: 'no-cache' });
+      const url = bustCache(proxy(ICS_URL));
+      const resp = await fetch(url, {
+        cache: 'no-store',
+        headers: { 'Pragma': 'no-cache' }
+      });
       if (!resp.ok) continue;
       const text = await resp.text();
       if (!text.includes('BEGIN:VCALENDAR')) continue;

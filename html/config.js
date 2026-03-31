@@ -44,6 +44,7 @@ const KIOSK_CONFIG = {
   // ── Proxies CORS para obtener el ICS desde el navegador ──────────────────
   /** Se intentan en orden; el primero que funcione se usa */
   CORS_PROXIES: [
+    url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
     url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
     url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
     url => url,   // directo (funciona si hay servidor local o sin CORS)
