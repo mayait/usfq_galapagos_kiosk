@@ -3,658 +3,649 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1920,height=1080,initial-scale=1">
-<title>USFQ Galapagos — Kiosk v2</title>
+<title>Flujo Orgánico — USFQ Galápagos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --font-sans: 'Inter', sans-serif;
-    --font-serif: 'DM Serif Display', serif;
-    --glass-bg: rgba(10, 15, 30, 0.45);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-blur: blur(40px);
-    --glass-bg-light: rgba(255, 255, 255, 0.06);
-    --glass-border-light: rgba(255, 255, 255, 0.12);
-    --text-primary: #FFFFFF;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --text-muted: rgba(255, 255, 255, 0.4);
-    --accent: #00D4AA;
-    --accent-glow: rgba(0, 212, 170, 0.3);
-    --warning: #FFB347;
-    --danger: #FF6B6B;
-    --blue: #5B9CF6;
-    --purple: #B07CFF;
-    --radius-lg: 28px;
-    --radius-md: 20px;
-    --radius-sm: 14px;
+    --color-primary: #0F4C81;
+    --color-bg: #041C32;
+    --color-surface: rgba(4, 41, 58, 0.55);
+    --color-text: #F1F6F9;
+    --color-muted: #9BA4B5;
+    --color-accent: #00B4D8;
+    --color-warning: #F4A261;
+    --color-green: #2DD4A0;
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Outfit', sans-serif;
+    --radius-card: 24px;
     --radius-pill: 9999px;
+    --shadow-float: 0 8px 32px rgba(0, 0, 0, 0.35);
+    --blur-glass: blur(16px);
   }
 
   html, body {
     width: 100vw; height: 100vh;
     overflow: hidden;
-    background: #000;
+    background: var(--color-bg);
     font-family: var(--font-sans);
-    color: var(--text-primary);
+    color: var(--color-text);
   }
 
-  /* ===== FULLSCREEN BACKGROUND SLIDESHOW ===== */
-  .bg-slideshow {
+  /* ===== BACKGROUND ===== */
+  .ocean-bg {
     position: fixed; inset: 0; z-index: 0;
-  }
-  .bg-slide {
-    position: absolute; inset: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(1.05);
-    animation: kenBurns 25s ease-in-out infinite alternate;
-  }
-  .bg-slide.active {
-    opacity: 1;
-  }
-  @keyframes kenBurns {
-    0% { transform: scale(1.0); }
-    100% { transform: scale(1.08); }
+    overflow: hidden;
+    background: linear-gradient(170deg, #041C32 0%, #062a44 35%, #0a3a5c 70%, #062640 100%);
   }
 
-  /* Dark overlay for readability */
-  .bg-overlay {
-    position: fixed; inset: 0; z-index: 1;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.65) 0%,
-      rgba(0, 10, 20, 0.50) 40%,
-      rgba(0, 5, 15, 0.55) 70%,
-      rgba(0, 0, 0, 0.70) 100%
-    );
+  .wave-layer {
+    position: absolute; bottom: -10%; left: -50%; width: 200%; height: 50%;
+    opacity: 0.25;
+  }
+  .wave-layer path { fill: none; stroke-width: 2; }
+  .wave-layer.w1 { animation: waveSlide 40s linear infinite; }
+  .wave-layer.w1 path { stroke: var(--color-primary); stroke-width: 3; }
+  .wave-layer.w2 { animation: waveSlide 55s linear infinite reverse; bottom: -6%; opacity: 0.15; }
+  .wave-layer.w2 path { stroke: var(--color-accent); stroke-width: 2; }
+
+  @keyframes waveSlide {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
 
-  /* Noise texture overlay */
-  .bg-noise {
-    position: fixed; inset: 0; z-index: 2;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
-    pointer-events: none;
+  .orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(100px); opacity: 0.10; z-index: 0; pointer-events: none;
+  }
+  .orb-1 { width: 600px; height: 600px; background: var(--color-accent); top: -15%; right: -5%; animation: orbPulse 14s ease-in-out infinite; }
+  .orb-2 { width: 500px; height: 500px; background: var(--color-primary); bottom: 5%; left: -10%; animation: orbPulse 18s ease-in-out infinite reverse; }
+
+  @keyframes orbPulse {
+    0%, 100% { transform: scale(1); opacity: 0.08; }
+    50%      { transform: scale(1.2); opacity: 0.15; }
   }
 
-  /* ===== MAIN LAYOUT ===== */
+  /* Particles */
+  .particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+  .particle {
+    position: absolute; border-radius: 50%;
+    background: var(--color-accent); opacity: 0;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) translateX(0); }
+    10%  { opacity: 0.5; }
+    90%  { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-100vh) translateX(30px); }
+  }
+
+  /* ===== LAYOUT ===== */
   .kiosk {
     position: relative; z-index: 10;
     width: 100vw; height: 100vh;
     display: grid;
-    grid-template-columns: 480px 1fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0;
   }
 
-  /* ===== LEFT PANEL ===== */
+  /* ===== LEFT PANEL — Info ===== */
   .left-panel {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 48px 40px;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border-right: 1px solid var(--glass-border);
+    padding: 52px 48px 48px 64px;
   }
 
-  /* Top: Brand + Clock */
-  .brand-section {
+  .top-section {
     display: flex;
     flex-direction: column;
-    gap: 36px;
+    gap: 24px;
   }
 
-  .brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .brand-logo .logo-icon {
-    width: 48px; height: 48px;
-    background: linear-gradient(135deg, var(--accent), var(--blue));
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    box-shadow: 0 4px 20px var(--accent-glow);
-  }
-  .brand-logo .logo-text {
-    display: flex;
-    flex-direction: column;
-  }
-  .brand-logo .logo-text h1 {
-    font-family: var(--font-sans);
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: -0.5px;
-    line-height: 1.1;
-  }
-  .brand-logo .logo-text .campus-tag {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--accent);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .clock-section {
+  .brand {
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
-  .clock-time {
-    font-family: var(--font-sans);
-    font-weight: 900;
-    font-size: 96px;
-    line-height: 1;
-    letter-spacing: -6px;
-    background: linear-gradient(180deg, #fff 30%, rgba(255,255,255,0.5) 100%);
+  .brand h1 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .clock-date {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 22px;
-    color: var(--text-secondary);
-    padding-left: 4px;
+  .brand .campus {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--color-muted);
   }
 
-  /* Middle: Sea conditions */
-  .sea-section {
+  .clock-block {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 2px;
   }
-
-  .section-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--glass-border-light);
-  }
-
-  .sea-status-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 4px;
-  }
-  .sea-status-badge {
-    font-size: 11px;
+  .clock-block .time {
+    font-family: var(--font-sans);
     font-weight: 700;
-    letter-spacing: 1.5px;
+    font-size: 80px;
+    line-height: 1;
+    color: var(--color-text);
+    letter-spacing: -4px;
+  }
+  .clock-block .date-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--color-muted);
+  }
+
+  /* ===== SEA CONDITIONS ===== */
+  .sea-section {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 28px;
+  }
+
+  .sea-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .sea-header h2 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--color-text);
+  }
+  .sea-header .sea-badge {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 5px 14px;
+    padding: 4px 12px;
     border-radius: var(--radius-pill);
-    animation: badgePulse 3s ease-in-out infinite;
+    animation: nowPulse 2.5s ease-in-out infinite;
   }
-  .sea-status-badge.optimal {
-    color: var(--accent);
-    background: rgba(0, 212, 170, 0.1);
-    border: 1px solid rgba(0, 212, 170, 0.2);
+  .sea-badge.optimal {
+    color: var(--color-green);
+    background: rgba(45, 212, 160, 0.1);
+    border: 1px solid rgba(45, 212, 160, 0.25);
   }
-  .sea-status-badge.moderate {
-    color: var(--warning);
-    background: rgba(255, 179, 71, 0.1);
-    border: 1px solid rgba(255, 179, 71, 0.2);
+  .sea-badge.moderate {
+    color: var(--color-warning);
+    background: rgba(244, 162, 97, 0.1);
+    border: 1px solid rgba(244, 162, 97, 0.25);
   }
-  .sea-status-badge.rough {
-    color: var(--danger);
-    background: rgba(255, 107, 107, 0.1);
-    border: 1px solid rgba(255, 107, 107, 0.2);
-  }
-  @keyframes badgePulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+  .sea-badge.rough {
+    color: #EF4444;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
   }
 
   .sea-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
+
   .sea-card {
-    background: var(--glass-bg-light);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
+    background: var(--color-surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    padding: 16px 18px;
     display: flex;
     flex-direction: column;
     gap: 4px;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: border-color 0.4s ease;
   }
   .sea-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--glass-border-light);
-    transform: translateY(-2px);
+    border-color: rgba(0, 180, 216, 0.15);
   }
   .sea-card .sc-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-  }
-  .sea-card .sc-value {
-    font-weight: 700;
-    font-size: 26px;
-    line-height: 1;
-    color: var(--text-primary);
-  }
-  .sea-card .sc-unit {
+    font-family: var(--font-sans);
     font-weight: 400;
-    font-size: 14px;
-    color: var(--text-secondary);
-  }
-  .sea-card.highlight .sc-value {
-    color: var(--accent);
-  }
-
-  .snorkel-bar {
+    font-size: 13px;
+    color: var(--color-muted);
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: var(--glass-bg-light);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-    font-size: 14px;
-    color: var(--text-secondary);
+    gap: 6px;
   }
-  .snorkel-bar strong { color: var(--text-primary); font-weight: 600; }
+  .sea-card .sc-label svg { opacity: 0.5; flex-shrink: 0; }
+  .sea-card .sc-value {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 28px;
+    color: var(--color-text);
+    line-height: 1.1;
+  }
+  .sea-card .sc-unit {
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--color-muted);
+  }
+  .sea-card.highlight .sc-value {
+    color: var(--color-accent);
+  }
 
   .sea-loading {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 16px 0;
-    color: var(--text-muted);
-    font-size: 14px;
+    gap: 12px;
+    padding: 20px 0;
+    color: var(--color-muted);
+    font-size: 15px;
   }
-  .mini-spinner {
-    width: 18px; height: 18px;
-    border: 2px solid rgba(255,255,255,0.1);
-    border-top-color: var(--accent);
+  .sea-loading .mini-ring {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(0,180,216,0.15);
+    border-top-color: var(--color-accent);
     border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    animation: spin 1s linear infinite;
   }
 
-  /* Bottom: Week summary */
-  .week-summary {
-    font-size: 13px;
-    color: var(--text-muted);
-    border-top: 1px solid var(--glass-border);
+  .sea-snorkel {
+    margin-top: 14px;
+    background: var(--color-surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    backdrop-filter: var(--blur-glass);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sea-snorkel .snorkel-icon {
+    font-size: 24px;
+  }
+  .sea-snorkel .snorkel-text {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--color-muted);
+  }
+  .sea-snorkel .snorkel-text strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .week-label {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(155, 164, 181, 0.45);
+    border-top: 1px solid rgba(255,255,255,0.04);
     padding-top: 16px;
   }
 
-  /* ===== RIGHT PANEL ===== */
+  /* ===== RIGHT PANEL — Event List ===== */
   .right-panel {
     position: relative;
     overflow: hidden;
   }
 
-  /* Gradient masks */
+  /* Fade masks top/bottom */
   .right-panel::before,
   .right-panel::after {
     content: '';
     position: absolute;
     left: 0; right: 0;
-    height: 100px;
+    height: 80px;
     z-index: 20;
     pointer-events: none;
   }
   .right-panel::before {
     top: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+    background: linear-gradient(180deg, var(--color-bg) 0%, transparent 100%);
   }
   .right-panel::after {
     bottom: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, transparent 100%);
-  }
-
-  .right-header {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    z-index: 25;
-    padding: 40px 56px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .right-header h2 {
-    font-family: var(--font-serif);
-    font-size: 36px;
-    font-weight: 400;
-    color: var(--text-primary);
-  }
-  .right-header .event-count {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--accent);
-    background: rgba(0, 212, 170, 0.1);
-    border: 1px solid rgba(0, 212, 170, 0.15);
-    border-radius: var(--radius-pill);
-    padding: 6px 16px;
-    backdrop-filter: blur(10px);
+    background: linear-gradient(0deg, var(--color-bg) 0%, transparent 100%);
   }
 
   .scroll-container {
     height: 100%;
     overflow-y: auto;
-    padding: 110px 56px 100px 56px;
+    padding: 80px 56px 80px 24px;
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
   .scroll-container::-webkit-scrollbar { display: none; }
 
-  /* Day sections */
+  /* Day section */
   .day-section {
-    margin-bottom: 40px;
-    animation: sectionFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  @keyframes sectionFadeIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    margin-bottom: 36px;
   }
 
   .day-header {
     display: flex;
     align-items: baseline;
-    gap: 14px;
-    margin-bottom: 18px;
-    padding-left: 2px;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-left: 4px;
   }
-  .day-name {
+  .day-header .day-name {
     font-family: var(--font-serif);
+    font-weight: 700;
     font-size: 28px;
-    color: var(--text-primary);
+    color: var(--color-text);
   }
-  .day-name.is-today {
-    color: var(--accent);
+  .day-header .day-name.is-today {
+    color: var(--color-warning);
   }
-  .day-date {
-    font-size: 15px;
+  .day-header .day-date {
+    font-family: var(--font-sans);
     font-weight: 300;
-    color: var(--text-muted);
+    font-size: 16px;
+    color: var(--color-muted);
   }
-  .day-count-badge {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: var(--glass-bg-light);
-    border: 1px solid var(--glass-border);
+  .day-header .day-count {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--color-accent);
+    background: rgba(0, 180, 216, 0.08);
+    border: 1px solid rgba(0, 180, 216, 0.15);
     border-radius: var(--radius-pill);
     padding: 3px 12px;
-    backdrop-filter: blur(8px);
   }
 
-  /* Event cards — full glass */
-  .event-card {
-    background: var(--glass-bg-light);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+  /* Event card */
+  .event-item {
+    background: var(--color-surface);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-card);
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     padding: 24px 28px;
     margin-bottom: 14px;
     position: relative;
     overflow: hidden;
-    cursor: default;
-    animation: cardSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+    animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .event-card:hover {
-    background: rgba(255, 255, 255, 0.09);
-    border-color: var(--glass-border-light);
-    transform: translateY(-3px) scale(1.005);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  }
-  @keyframes cardSlideIn {
-    from { opacity: 0; transform: translateX(40px); }
-    to { opacity: 1; transform: translateX(0); }
+  .event-item:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 180, 216, 0.15);
   }
 
-  /* Color accent line */
-  .event-card::before {
+  @keyframes cardEnter {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Glow line on left */
+  .event-item::before {
     content: '';
     position: absolute;
-    left: 0; top: 0; bottom: 0;
+    top: 12px; bottom: 12px; left: 0;
     width: 3px;
     border-radius: 0 3px 3px 0;
   }
-  .event-card.cat-academico::before { background: var(--blue); }
-  .event-card.cat-club::before { background: var(--accent); }
-  .event-card.cat-deporte::before { background: var(--warning); }
-  .event-card.cat-social::before { background: var(--purple); }
-  .event-card.cat-bienestar::before { background: #34D399; }
-  .event-card.cat-evento::before { background: var(--text-muted); }
+  .event-item.type-academico::before { background: var(--color-accent); }
+  .event-item.type-club::before { background: var(--color-green); }
+  .event-item.type-deporte::before { background: var(--color-warning); }
+  .event-item.type-social::before { background: #E879F9; }
+  .event-item.type-bienestar::before { background: #34D399; }
+  .event-item.type-evento::before { background: var(--color-muted); }
 
-  .ev-meta {
+  .event-item .ev-top {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
+
   .ev-dot {
     width: 8px; height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
   }
-  .cat-academico .ev-dot { background: var(--blue); box-shadow: 0 0 10px rgba(91,156,246,0.5); }
-  .cat-club .ev-dot { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
-  .cat-deporte .ev-dot { background: var(--warning); box-shadow: 0 0 10px rgba(255,179,71,0.5); }
-  .cat-social .ev-dot { background: var(--purple); box-shadow: 0 0 10px rgba(176,124,255,0.5); }
-  .cat-bienestar .ev-dot { background: #34D399; box-shadow: 0 0 10px rgba(52,211,153,0.5); }
-  .cat-evento .ev-dot { background: var(--text-muted); }
+  .type-academico .ev-dot { background: var(--color-accent); box-shadow: 0 0 8px rgba(0,180,216,0.4); }
+  .type-club .ev-dot { background: var(--color-green); box-shadow: 0 0 8px rgba(45,212,160,0.4); }
+  .type-deporte .ev-dot { background: var(--color-warning); box-shadow: 0 0 8px rgba(244,162,97,0.4); }
+  .type-social .ev-dot { background: #E879F9; box-shadow: 0 0 8px rgba(232,121,249,0.4); }
+  .type-bienestar .ev-dot { background: #34D399; box-shadow: 0 0 8px rgba(52,211,153,0.4); }
+  .type-evento .ev-dot { background: var(--color-muted); }
 
   .ev-time {
-    font-size: 14px;
+    font-family: var(--font-sans);
     font-weight: 600;
+    font-size: 15px;
     letter-spacing: 0.5px;
   }
-  .cat-academico .ev-time { color: var(--blue); }
-  .cat-club .ev-time { color: var(--accent); }
-  .cat-deporte .ev-time { color: var(--warning); }
-  .cat-social .ev-time { color: var(--purple); }
-  .cat-bienestar .ev-time { color: #34D399; }
-  .cat-evento .ev-time { color: var(--text-muted); }
+  .type-academico .ev-time { color: var(--color-accent); }
+  .type-club .ev-time { color: var(--color-green); }
+  .type-deporte .ev-time { color: var(--color-warning); }
+  .type-social .ev-time { color: #E879F9; }
+  .type-bienestar .ev-time { color: #34D399; }
+  .type-evento .ev-time { color: var(--color-muted); }
 
   .ev-title {
     font-family: var(--font-serif);
+    font-weight: 700;
     font-size: 24px;
     line-height: 1.2;
-    color: var(--text-primary);
+    color: var(--color-text);
     margin-bottom: 6px;
   }
+
   .ev-location {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 14px;
+    font-family: var(--font-sans);
     font-weight: 300;
-    color: var(--text-secondary);
+    font-size: 15px;
+    color: var(--color-muted);
   }
-  .ev-location svg { opacity: 0.5; flex-shrink: 0; }
+  .ev-location svg { flex-shrink: 0; opacity: 0.6; }
 
-  /* NOW badge */
-  .event-card.is-now {
-    border-color: rgba(0, 212, 170, 0.25);
-    box-shadow: 0 0 40px rgba(0, 212, 170, 0.08);
+  /* Happening now pulse */
+  .event-item.is-now {
+    border-color: rgba(0, 180, 216, 0.3);
+    box-shadow: 0 4px 24px rgba(0, 180, 216, 0.12);
   }
-  .event-card.is-now::after {
-    content: 'EN VIVO';
+  .event-item.is-now::after {
+    content: 'AHORA';
     position: absolute;
-    top: 14px; right: 18px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--accent);
-    background: rgba(0, 212, 170, 0.1);
-    border: 1px solid rgba(0, 212, 170, 0.2);
+    top: 12px; right: 16px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--color-accent);
+    background: rgba(0, 180, 216, 0.12);
+    border: 1px solid rgba(0, 180, 216, 0.25);
     border-radius: var(--radius-pill);
-    padding: 4px 14px;
-    animation: livePulse 2s ease-in-out infinite;
+    padding: 4px 12px;
+    animation: nowPulse 2s ease-in-out infinite;
   }
-  @keyframes livePulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,212,170,0.3); }
-    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,212,170,0); }
+  @keyframes nowPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
   }
 
-  /* Empty & Loading */
+  /* Empty state */
   .empty-state {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; height: 60vh; text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 60px;
   }
   .empty-state h2 {
-    font-family: var(--font-serif); font-style: italic;
-    font-size: 30px; color: var(--text-secondary);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 32px;
+    color: var(--color-muted);
   }
   .empty-state p {
-    font-size: 15px; color: var(--text-muted); margin-top: 10px;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 16px;
+    color: rgba(155, 164, 181, 0.5);
+    margin-top: 12px;
   }
 
+  /* Loading */
   .loading-state {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; height: 60vh; gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
   }
   .loading-ring {
-    width: 44px; height: 44px;
-    border: 3px solid rgba(255,255,255,0.06);
-    border-top-color: var(--accent);
+    width: 48px; height: 48px;
+    border: 3px solid rgba(0, 180, 216, 0.12);
+    border-top-color: var(--color-accent);
     border-radius: 50%;
-    animation: spin 0.9s linear infinite;
+    animation: spin 1s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-state p { font-size: 15px; color: var(--text-muted); }
+  .loading-state p {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--color-muted);
+  }
 
-  /* Status toast */
-  .status-toast {
+  /* Status badge */
+  .status-badge {
     position: fixed;
-    bottom: 30px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border-light);
+    top: 20px; left: 50%;
+    transform: translateX(-50%) translateY(-60px);
+    background: rgba(0, 180, 216, 0.12);
+    border: 1px solid rgba(0, 180, 216, 0.25);
     border-radius: var(--radius-pill);
-    padding: 10px 28px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
+    padding: 8px 24px;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--color-accent);
     z-index: 200;
     opacity: 0;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .status-toast.visible {
+  .status-badge.visible {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
 
-  /* Photo credit */
-  .photo-credit {
-    position: fixed;
-    bottom: 12px; right: 20px;
-    z-index: 15;
-    font-size: 10px;
-    color: rgba(255,255,255,0.2);
-    font-weight: 400;
+  /* Stagger animation delays */
+  .event-item:nth-child(1) { animation-delay: 0s; }
+  .event-item:nth-child(2) { animation-delay: 0.08s; }
+  .event-item:nth-child(3) { animation-delay: 0.16s; }
+  .event-item:nth-child(4) { animation-delay: 0.24s; }
+  .event-item:nth-child(5) { animation-delay: 0.32s; }
+  .event-item:nth-child(6) { animation-delay: 0.4s; }
+
+  /* Auto-scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.4;
+    animation: hintBounce 2s ease-in-out infinite;
+    pointer-events: none;
   }
-
-  /* Stagger delays */
-  .event-card:nth-child(1) { animation-delay: 0.0s; }
-  .event-card:nth-child(2) { animation-delay: 0.08s; }
-  .event-card:nth-child(3) { animation-delay: 0.16s; }
-  .event-card:nth-child(4) { animation-delay: 0.24s; }
-  .event-card:nth-child(5) { animation-delay: 0.32s; }
-  .event-card:nth-child(6) { animation-delay: 0.40s; }
-  .event-card:nth-child(7) { animation-delay: 0.48s; }
-  .event-card:nth-child(8) { animation-delay: 0.56s; }
-
-  .day-section:nth-child(1) { animation-delay: 0s; }
-  .day-section:nth-child(2) { animation-delay: 0.15s; }
-  .day-section:nth-child(3) { animation-delay: 0.3s; }
-  .day-section:nth-child(4) { animation-delay: 0.45s; }
-  .day-section:nth-child(5) { animation-delay: 0.6s; }
+  .scroll-hint span {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+  @keyframes hintBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
 </style>
 </head>
 <body>
 
-<!-- ===== BACKGROUND SLIDESHOW ===== -->
-<div class="bg-slideshow" id="bgSlideshow"></div>
-<div class="bg-overlay"></div>
-<div class="bg-noise"></div>
+<!-- Background -->
+<div class="ocean-bg">
+  <svg class="wave-layer w1" viewBox="0 0 2400 400" preserveAspectRatio="none">
+    <path d="M0,200 C150,280 350,120 600,200 C850,280 1050,120 1200,200 C1350,280 1550,120 1800,200 C2050,280 2250,120 2400,200" />
+    <path d="M0,240 C200,310 400,170 600,240 C800,310 1000,170 1200,240 C1400,310 1600,170 1800,240 C2000,310 2200,170 2400,240" />
+    <path d="M0,280 C180,340 380,220 600,280 C820,340 1020,220 1200,280 C1380,340 1580,220 1800,280 C2020,340 2220,220 2400,280" />
+  </svg>
+  <svg class="wave-layer w2" viewBox="0 0 2400 400" preserveAspectRatio="none">
+    <path d="M0,220 C200,300 400,140 700,220 C1000,300 1200,140 1500,220 C1800,300 2000,140 2400,220" />
+    <path d="M0,260 C250,330 500,190 750,260 C1000,330 1250,190 1500,260 C1750,330 2000,190 2400,260" />
+  </svg>
+</div>
 
-<div class="status-toast" id="statusToast"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="particles" id="particles"></div>
+<div class="status-badge" id="statusBadge"></div>
 
-<!-- ===== MAIN KIOSK ===== -->
+<!-- Main layout -->
 <div class="kiosk">
-
-  <!-- LEFT PANEL -->
+  <!-- Left: Title + Clock + Sea Conditions -->
   <div class="left-panel">
-    <div class="brand-section">
-      <div class="brand-logo">
-        <div class="logo-icon">
-          <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-            <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4"/>
-            <path d="M12 16v-4"/>
-            <circle cx="12" cy="8" r="1"/>
-          </svg>
-        </div>
-        <div class="logo-text">
-          <h1>USFQ Galapagos</h1>
-          <span class="campus-tag">San Cristobal</span>
-        </div>
+    <div class="top-section">
+      <div class="brand">
+        <h1>¿Qué pasa<br>en la USFQ?</h1>
+        <div class="campus">Galápagos · San Cristóbal</div>
       </div>
-
-      <div class="clock-section">
-        <div class="clock-time" id="clock">--:--</div>
-        <div class="clock-date" id="dateText">cargando...</div>
+      <div class="clock-block">
+        <div class="time" id="clock">--:--</div>
+        <div class="date-text" id="dateText">cargando...</div>
       </div>
     </div>
 
     <div class="sea-section">
-      <div class="section-label">Estado del Mar</div>
-      <div class="sea-status-row">
-        <span class="sea-status-badge" id="seaBadge" style="display:none;">--</span>
+      <div class="sea-header">
+        <h2>Estado del Mar</h2>
+        <span class="sea-badge" id="seaBadge" style="display:none;">—</span>
       </div>
       <div id="seaContent">
         <div class="sea-loading">
-          <div class="mini-spinner"></div>
+          <div class="mini-ring"></div>
           Consultando condiciones...
         </div>
       </div>
     </div>
 
-    <div class="week-summary" id="weekLabel"></div>
+    <div class="week-label" id="weekLabel"></div>
   </div>
 
-  <!-- RIGHT PANEL -->
+  <!-- Right: Event list -->
   <div class="right-panel">
-    <div class="right-header">
-      <h2>Esta Semana</h2>
-      <span class="event-count" id="eventCountBadge"></span>
-    </div>
     <div class="scroll-container" id="scrollContainer">
       <div id="eventList">
         <div class="loading-state" id="loadingState">
@@ -666,8 +657,6 @@
   </div>
 </div>
 
-<div class="photo-credit" id="photoCredit"></div>
-
 <script>
 // ===== CONFIG =====
 const ICS_URL = 'https://outlook.office365.com/owa/calendar/71a3663561a843bca1cccea1dffd9fa6@usfq.edu.ec/7755590ea9af4dcb84b49fb91d1b2a0f13028026135859137563/calendar.ics';
@@ -677,57 +666,19 @@ const CORS_PROXIES = [
   url => url
 ];
 const REFRESH_INTERVAL = 600000;
-const AUTO_SCROLL_SPEED = 0.4;
-const AUTO_SCROLL_PAUSE = 8000;
+const AUTO_SCROLL_SPEED = 0.4; // px per frame
+const AUTO_SCROLL_PAUSE = 8000; // pause at bottom before resetting
 const GALAPAGOS_TZ = 'America/Guayaquil';
 
 const STORMGLASS_KEY = '34cdf64c-90e7-11f0-b07a-0242ac130006-34cdf700-90e7-11f0-b07a-0242ac130006';
 const STORMGLASS_LAT = -0.9024;
 const STORMGLASS_LNG = -89.6105;
 
-// Galapagos photos from Unsplash (direct links)
-const BG_PHOTOS = [
-  { url: 'https://images.unsplash.com/photo-1544979590-37e9b47eb705?w=1920&q=85&auto=format', credit: 'Galapagos Tortoise' },
-  { url: 'https://images.unsplash.com/photo-1559599238-308793637427?w=1920&q=85&auto=format', credit: 'Blue-footed Booby' },
-  { url: 'https://images.unsplash.com/photo-1609340667546-16e0f5e53eda?w=1920&q=85&auto=format', credit: 'Galapagos Islands' },
-  { url: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=1920&q=85&auto=format', credit: 'Ocean & Beach' },
-  { url: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1920&q=85&auto=format', credit: 'Underwater Marine Life' },
-  { url: 'https://images.unsplash.com/photo-1582967788606-a171c7e6d949?w=1920&q=85&auto=format', credit: 'Sea Lion' },
-  { url: 'https://images.unsplash.com/photo-1573790387438-4da905039392?w=1920&q=85&auto=format', credit: 'Iguana' },
-  { url: 'https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=1920&q=85&auto=format', credit: 'Sea Turtle' }
-];
-const SLIDE_INTERVAL = 12000; // 12s per photo
-
 let events = [];
+let autoScrolling = true;
+let scrollPaused = false;
 let userInteracted = false;
 let userInteractTimer = null;
-
-// ===== BACKGROUND SLIDESHOW =====
-function initSlideshow() {
-  const container = document.getElementById('bgSlideshow');
-  const creditEl = document.getElementById('photoCredit');
-  let currentIndex = 0;
-
-  // Preload and create slide divs
-  BG_PHOTOS.forEach((photo, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'bg-slide' + (i === 0 ? ' active' : '');
-    slide.style.backgroundImage = `url(${photo.url})`;
-    // Stagger ken burns start
-    slide.style.animationDelay = `${-i * 3}s`;
-    container.appendChild(slide);
-  });
-
-  creditEl.textContent = BG_PHOTOS[0].credit;
-
-  setInterval(() => {
-    const slides = container.querySelectorAll('.bg-slide');
-    slides[currentIndex].classList.remove('active');
-    currentIndex = (currentIndex + 1) % BG_PHOTOS.length;
-    slides[currentIndex].classList.add('active');
-    creditEl.textContent = BG_PHOTOS[currentIndex].credit;
-  }, SLIDE_INTERVAL);
-}
 
 // ===== CLOCK =====
 function updateClock() {
@@ -744,6 +695,22 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+// ===== PARTICLES =====
+(function createParticles() {
+  const c = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.bottom = '-10px';
+    const size = (2 + Math.random() * 3) + 'px';
+    p.style.width = size; p.style.height = size;
+    p.style.animationDuration = (18 + Math.random() * 25) + 's';
+    p.style.animationDelay = (-Math.random() * 30) + 's';
+    c.appendChild(p);
+  }
+})();
 
 // ===== ICS PARSER =====
 function parseICS(text) {
@@ -882,13 +849,13 @@ function useFallbackData() {
   };
   events = [
     { summary: 'Club de Jiu-Jitsu', dtstart: nxt(1,7,0), dtend: nxt(1,8,0), location: 'Tatamis' },
-    { summary: 'Coloquio: ADN para la Conservacion', dtstart: nxt(2,17,30), dtend: nxt(2,19,0), location: 'Salon de la Comunidad' },
+    { summary: 'Coloquio: ADN para la Conservación', dtstart: nxt(2,17,30), dtend: nxt(2,19,0), location: 'Salón de la Comunidad' },
     { summary: 'Club de Yoga', dtstart: nxt(3,18,0), dtend: nxt(3,19,30), location: 'Terraza USFQ' },
     { summary: 'Basket Interinstitucional', dtstart: nxt(3,14,0), dtend: nxt(3,16,0), location: 'Gualacata' },
-    { summary: 'TardeDePelis', dtstart: nxt(4,17,30), dtend: nxt(4,19,30), location: 'Salon de la Comunidad' },
-    { summary: 'Club Alfa Training', dtstart: nxt(5,12,30), dtend: nxt(5,13,30), location: 'Banderas - Loberia - Playa Mann' },
-    { summary: 'Club Creative Lab', dtstart: nxt(5,16,0), dtend: nxt(5,18,0), location: 'Pergola' },
-    { summary: 'Club de Peloteo', dtstart: nxt(0,15,30), dtend: nxt(0,17,0), location: 'Cancha Divino Nino' },
+    { summary: 'TardeDePelis', dtstart: nxt(4,17,30), dtend: nxt(4,19,30), location: 'Salón de la Comunidad' },
+    { summary: 'Club Alfa Training', dtstart: nxt(5,12,30), dtend: nxt(5,13,30), location: 'Banderas – Lobería – Playa Mann' },
+    { summary: 'Club Creative Lab', dtstart: nxt(5,16,0), dtend: nxt(5,18,0), location: 'Pérgola' },
+    { summary: 'Club de Peloteo', dtstart: nxt(0,15,30), dtend: nxt(0,17,0), location: 'Cancha Divino Niño' },
   ].sort((a,b) => a.dtstart - b.dtstart);
 }
 
@@ -898,13 +865,11 @@ function renderEvents() {
   list.innerHTML = '';
 
   if (events.length === 0) {
-    list.innerHTML = `<div class="empty-state"><h2>Sin eventos esta semana</h2><p>El calendario se actualiza automaticamente</p></div>`;
-    document.getElementById('eventCountBadge').textContent = '';
+    list.innerHTML = `<div class="empty-state"><h2>No hay eventos esta semana</h2><p>El calendario se actualiza automáticamente</p></div>`;
     return;
   }
 
-  document.getElementById('eventCountBadge').textContent = `${events.length} evento${events.length !== 1 ? 's' : ''}`;
-
+  // Group by day
   const groups = new Map();
   const now = new Date();
   events.forEach(ev => {
@@ -927,20 +892,20 @@ function renderEvents() {
       <div class="day-header">
         <span class="day-name ${isToday ? 'is-today' : ''}">${dayLabel}</span>
         <span class="day-date">${dateStr}</span>
-        <span class="day-count-badge">${dayEvents.length}</span>
+        <span class="day-count">${dayEvents.length} evento${dayEvents.length > 1 ? 's' : ''}</span>
       </div>`;
 
     dayEvents.forEach(ev => {
-      const catClass = 'cat-' + detectType(ev.summary);
+      const typeClass = 'type-' + detectType(ev.summary);
       const isNow = isHappeningNow(ev, now);
       const card = document.createElement('div');
-      card.className = `event-card ${catClass}${isNow ? ' is-now' : ''}`;
+      card.className = `event-item ${typeClass}${isNow ? ' is-now' : ''}`;
       card.style.animationDelay = (cardIndex * 0.07) + 's';
 
       card.innerHTML = `
-        <div class="ev-meta">
+        <div class="ev-top">
           <div class="ev-dot"></div>
-          <span class="ev-time">${formatTime(ev.dtstart)}${ev.dtend ? ' — ' + formatTime(ev.dtend) : ''}</span>
+          <span class="ev-time">${formatTime(ev.dtstart)}${ev.dtend ? ' – ' + formatTime(ev.dtend) : ''}</span>
         </div>
         <div class="ev-title">${cleanTitle(ev.summary)}</div>
         ${ev.location ? `
@@ -948,7 +913,7 @@ function renderEvents() {
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
           </svg>
-          ${ev.location}
+          ${ev.location.replace(/📍\s?/, '')}
         </div>` : ''}`;
       section.appendChild(card);
       cardIndex++;
@@ -957,20 +922,21 @@ function renderEvents() {
     list.appendChild(section);
   });
 
+  // Update week label
   const { monday, sunday } = getWeekBounds();
   const mFmt = monday.toLocaleDateString('es-EC', { day: 'numeric', month: 'short' });
   const sFmt = sunday.toLocaleDateString('es-EC', { day: 'numeric', month: 'short' });
   document.getElementById('weekLabel').textContent =
-    `Semana del ${mFmt} al ${sFmt}`;
+    `Semana del ${mFmt} al ${sFmt} · ${events.length} eventos`;
 }
 
 // ===== AUTO-SCROLL =====
 function setupAutoScroll() {
   const container = document.getElementById('scrollContainer');
   let direction = 1;
-  let scrollPaused = false;
   let pauseTimeout = null;
 
+  // Pause auto-scroll on user interaction
   container.addEventListener('wheel', onUserInteract, { passive: true });
   container.addEventListener('touchstart', onUserInteract, { passive: true });
   container.addEventListener('mousedown', onUserInteract);
@@ -982,27 +948,43 @@ function setupAutoScroll() {
   }
 
   function scrollStep() {
-    if (userInteracted) { requestAnimationFrame(scrollStep); return; }
+    if (userInteracted) {
+      requestAnimationFrame(scrollStep);
+      return;
+    }
 
     const maxScroll = container.scrollHeight - container.clientHeight;
-    if (maxScroll <= 0) { requestAnimationFrame(scrollStep); return; }
+    if (maxScroll <= 0) {
+      requestAnimationFrame(scrollStep);
+      return;
+    }
 
     if (!scrollPaused) {
       container.scrollTop += AUTO_SCROLL_SPEED * direction;
 
+      // Hit bottom
       if (container.scrollTop >= maxScroll - 1) {
         scrollPaused = true;
         clearTimeout(pauseTimeout);
-        pauseTimeout = setTimeout(() => { direction = -1; scrollPaused = false; }, AUTO_SCROLL_PAUSE);
+        pauseTimeout = setTimeout(() => {
+          direction = -1;
+          scrollPaused = false;
+        }, AUTO_SCROLL_PAUSE);
       }
+      // Hit top
       if (container.scrollTop <= 1 && direction === -1) {
         scrollPaused = true;
         clearTimeout(pauseTimeout);
-        pauseTimeout = setTimeout(() => { direction = 1; scrollPaused = false; }, AUTO_SCROLL_PAUSE);
+        pauseTimeout = setTimeout(() => {
+          direction = 1;
+          scrollPaused = false;
+        }, AUTO_SCROLL_PAUSE);
       }
     }
+
     requestAnimationFrame(scrollStep);
   }
+
   requestAnimationFrame(scrollStep);
 }
 
@@ -1010,7 +992,10 @@ function setupAutoScroll() {
 function formatTime(d) {
   return d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: GALAPAGOS_TZ }).toUpperCase();
 }
-function isSameDay(a, b) { return a.toDateString() === b.toDateString(); }
+
+function isSameDay(a, b) {
+  return a.toDateString() === b.toDateString();
+}
 
 function getRelativeDay(d) {
   const now = new Date();
@@ -1018,7 +1003,7 @@ function getRelativeDay(d) {
   const target = new Date(d.getFullYear(), d.getMonth(), d.getDate());
   const diff = Math.round((target - today) / 86400000);
   if (diff === 0) return 'Hoy';
-  if (diff === 1) return 'Manana';
+  if (diff === 1) return 'Mañana';
   if (diff === -1) return 'Ayer';
   const name = d.toLocaleDateString('es-EC', { weekday: 'long', timeZone: GALAPAGOS_TZ });
   return name.charAt(0).toUpperCase() + name.slice(1);
@@ -1029,6 +1014,7 @@ function isHappeningNow(ev, now) {
 }
 
 function cleanTitle(s) {
+  // Strip leading emojis
   return (s || 'Evento').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{200D}\s]+/u, '').trim() || s;
 }
 
@@ -1043,12 +1029,12 @@ function detectType(summary) {
 }
 
 function showStatus(msg) {
-  const el = document.getElementById('statusToast');
+  const el = document.getElementById('statusBadge');
   el.textContent = msg;
   el.classList.add('visible');
 }
 function hideStatus() {
-  document.getElementById('statusToast').classList.remove('visible');
+  document.getElementById('statusBadge').classList.remove('visible');
 }
 
 // ===== SEA CONDITIONS =====
@@ -1058,7 +1044,10 @@ async function fetchSeaConditions() {
     const end = now + 7200;
     const url = `https://api.stormglass.io/v2/weather/point?lat=${STORMGLASS_LAT}&lng=${STORMGLASS_LNG}&params=waterTemperature,waveHeight,wavePeriod,windSpeed,windDirection,visibility,swellHeight,swellPeriod&start=${now}&end=${end}`;
 
-    const resp = await fetch(url, { headers: { 'Authorization': STORMGLASS_KEY } });
+    const resp = await fetch(url, {
+      headers: { 'Authorization': STORMGLASS_KEY }
+    });
+
     if (!resp.ok) throw new Error('API error ' + resp.status);
     const data = await resp.json();
 
@@ -1079,55 +1068,74 @@ function renderSeaData(h) {
   const waveP = h.wavePeriod?.sg ?? h.wavePeriod?.ecmwf ?? '—';
   const windS = h.windSpeed?.sg ?? h.windSpeed?.ecmwf ?? '—';
   const windD = h.windDirection?.sg ?? h.windDirection?.ecmwf ?? 0;
+  const vis = h.visibility?.sg ?? h.visibility?.noaa ?? '—';
+  const swellH = h.swellHeight?.sg ?? h.swellHeight?.meteo ?? '—';
 
+  // Determine condition
   const waveVal = typeof waveH === 'number' ? waveH : 1;
-  let condClass, condLabel, snorkelText;
+  let condition, condClass, condLabel, snorkelText;
   if (waveVal <= 1.0) {
-    condClass = 'optimal'; condLabel = 'Optimo';
+    condition = 'optimal'; condClass = 'optimal'; condLabel = 'Óptimo';
     snorkelText = 'Condiciones <strong>excelentes</strong> para snorkel';
   } else if (waveVal <= 1.8) {
-    condClass = 'moderate'; condLabel = 'Moderado';
-    snorkelText = 'Snorkel con <strong>precaucion</strong> en zonas protegidas';
+    condition = 'moderate'; condClass = 'moderate'; condLabel = 'Moderado';
+    snorkelText = 'Snorkel con <strong>precaución</strong> en zonas protegidas';
   } else {
-    condClass = 'rough'; condLabel = 'Agitado';
+    condition = 'rough'; condClass = 'rough'; condLabel = 'Agitado';
     snorkelText = 'Snorkel <strong>no recomendado</strong> hoy';
   }
 
+  // Badge
   const badge = document.getElementById('seaBadge');
   badge.textContent = condLabel;
-  badge.className = 'sea-status-badge ' + condClass;
+  badge.className = 'sea-badge ' + condClass;
   badge.style.display = 'inline-block';
 
+  // Wind direction to compass
   const compass = ['N','NE','E','SE','S','SO','O','NO'];
   const windDir = compass[Math.round((typeof windD === 'number' ? windD : 0) / 45) % 8];
 
-  document.getElementById('seaContent').innerHTML = `
+  const container = document.getElementById('seaContent');
+  container.innerHTML = `
     <div class="sea-grid">
       <div class="sea-card highlight">
-        <span class="sc-label">Oleaje</span>
+        <span class="sc-label">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 4 3 8 10 8s10-4 10-8M2 12c0-4 3-8 10-8s10 4 10 8"/></svg>
+          Oleaje
+        </span>
         <span class="sc-value">${typeof waveH === 'number' ? waveH.toFixed(1) : waveH} <span class="sc-unit">m</span></span>
       </div>
       <div class="sea-card">
-        <span class="sc-label">Temp. agua</span>
+        <span class="sc-label">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 11-4 0V4a2 2 0 014 0z"/></svg>
+          Temp. agua
+        </span>
         <span class="sc-value">${typeof waterTemp === 'number' ? waterTemp.toFixed(0) : waterTemp}<span class="sc-unit">°C</span></span>
       </div>
       <div class="sea-card">
-        <span class="sc-label">Viento</span>
+        <span class="sc-label">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
+          Viento
+        </span>
         <span class="sc-value">${typeof windS === 'number' ? windS.toFixed(1) : windS} <span class="sc-unit">m/s ${windDir}</span></span>
       </div>
       <div class="sea-card">
-        <span class="sc-label">Periodo</span>
+        <span class="sc-label">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 4 3 8 10 8s10-4 10-8"/></svg>
+          Período
+        </span>
         <span class="sc-value">${typeof waveP === 'number' ? waveP.toFixed(0) : waveP} <span class="sc-unit">seg</span></span>
       </div>
     </div>
-    <div class="snorkel-bar">
-      <span style="font-size:22px;">🤿</span>
-      <span>${snorkelText}</span>
+    <div class="sea-snorkel">
+      <span class="snorkel-icon">🤿</span>
+      <span class="snorkel-text">${snorkelText}</span>
     </div>`;
 }
 
 function renderSeaFallback() {
-  document.getElementById('seaContent').innerHTML = `
+  const container = document.getElementById('seaContent');
+  container.innerHTML = `
     <div class="sea-grid">
       <div class="sea-card highlight">
         <span class="sc-label">Oleaje</span>
@@ -1142,25 +1150,24 @@ function renderSeaFallback() {
         <span class="sc-value">— <span class="sc-unit">m/s</span></span>
       </div>
       <div class="sea-card">
-        <span class="sc-label">Periodo</span>
+        <span class="sc-label">Período</span>
         <span class="sc-value">— <span class="sc-unit">seg</span></span>
       </div>
     </div>
-    <div class="snorkel-bar">
-      <span style="font-size:22px;">🤿</span>
-      <span>Sin datos disponibles — se reintentara</span>
+    <div class="sea-snorkel">
+      <span class="snorkel-icon">🤿</span>
+      <span class="snorkel-text">Sin datos disponibles — se reintentará</span>
     </div>`;
 
   const badge = document.getElementById('seaBadge');
   badge.textContent = 'Sin datos';
-  badge.className = 'sea-status-badge moderate';
+  badge.className = 'sea-badge moderate';
   badge.style.display = 'inline-block';
 }
 
 // ===== INIT =====
 async function init() {
-  initSlideshow();
-
+  // Launch both fetches in parallel
   const [_cal, _sea] = await Promise.allSettled([
     fetchCalendar(),
     fetchSeaConditions()
@@ -1169,13 +1176,19 @@ async function init() {
   renderEvents();
   setupAutoScroll();
 
+  // Refresh calendar every 10 min
   setInterval(async () => {
     await fetchCalendar();
     renderEvents();
   }, REFRESH_INTERVAL);
 
+  // Refresh sea data every 30 min
   setInterval(fetchSeaConditions, 1800000);
-  setInterval(() => { renderEvents(); }, 60000);
+
+  // Re-check "now" status every minute
+  setInterval(() => {
+    renderEvents();
+  }, 60000);
 }
 
 init();
