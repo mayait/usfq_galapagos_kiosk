@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920,height=1080,initial-scale=1">
+<title>Anuncios — USFQ Galápagos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="../html/config.js"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --color-primary:  #0F4C81;
+    --color-bg:       #041C32;
+    --color-surface:  rgba(4, 41, 58, 0.55);
+    --color-text:     #F1F6F9;
+    --color-muted:    #9BA4B5;
+    --color-accent:   #00B4D8;
+    --color-warning:  #F4A261;
+    --color-green:    #2DD4A0;
+    --font-serif:     'Playfair Display', serif;
+    --font-sans:      'Outfit', sans-serif;
+    --radius-card:    20px;
+    --radius-pill:    9999px;
+    --blur-glass:     blur(16px);
+  }
+
+  html, body {
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    background: var(--color-bg);
+    font-family: var(--font-sans);
+    color: var(--color-text);
+  }
+
+  /* ── Fondo ── */
+  .ocean-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: linear-gradient(170deg, #041C32 0%, #062a44 35%, #0a3a5c 70%, #062640 100%);
+    overflow: hidden;
+  }
+  .wave-layer {
+    position: absolute; bottom: -10%; left: -50%; width: 200%; height: 50%;
+    opacity: 0.18;
+  }
+  .wave-layer path { fill: none; }
+  .wave-layer.w1 { animation: waveSlide 40s linear infinite; }
+  .wave-layer.w1 path { stroke: var(--color-primary); stroke-width: 3; }
+  .wave-layer.w2 { animation: waveSlide 55s linear infinite reverse; bottom: -4%; opacity: 0.10; }
+  .wave-layer.w2 path { stroke: var(--color-accent); stroke-width: 2; }
+  @keyframes waveSlide {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(120px); opacity: 0.09; z-index: 0; pointer-events: none;
+  }
+  .orb-1 { width: 700px; height: 700px; background: var(--color-accent); top: -20%; right: -8%; animation: orbPulse 16s ease-in-out infinite; }
+  .orb-2 { width: 500px; height: 500px; background: var(--color-green);  bottom: 0; left: -12%; animation: orbPulse 20s ease-in-out infinite reverse; }
+  @keyframes orbPulse {
+    0%, 100% { transform: scale(1); opacity: 0.07; }
+    50%       { transform: scale(1.2); opacity: 0.13; }
+  }
+
+  /* ── Layout ── */
+  .kiosk {
+    position: relative; z-index: 10;
+    width: 100vw; height: 100vh;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+  }
+
+  /* ── Panel izquierdo ── */
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 52px 40px 48px 56px;
+    border-right: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .brand h1 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+  .brand .campus {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--color-muted);
+    letter-spacing: 0.5px;
+  }
+
+  .page-label {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    background: rgba(0,180,216,0.08);
+    border: 1px solid rgba(0,180,216,0.20);
+    border-radius: var(--radius-pill);
+    padding: 6px 16px;
+    width: fit-content;
+  }
+
+  .clock-block {
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+  .clock-block .time {
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -3px;
+    color: var(--color-text);
+  }
+  .clock-block .date-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--color-muted);
+    margin-top: 4px;
+  }
+
+  .left-footer {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .left-footer p {
+    font-size: 12px;
+    color: rgba(155,164,181,0.45);
+    line-height: 1.6;
+  }
+  .left-footer a {
+    color: var(--color-accent);
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  /* ── Panel derecho — Grid de anuncios ── */
+  .right-panel {
+    padding: 52px 56px 48px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .panel-header h2 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--color-text);
+  }
+  .panel-header .subtitle {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--color-muted);
+  }
+
+  /* Grid 3×2 */
+  .anuncios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 16px;
+    flex: 1;
+  }
+
+  .anuncio-card {
+    background: var(--color-surface);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius-card);
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    animation: cardEnter 0.6s cubic-bezier(0.16,1,0.3,1) both;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .anuncio-card:hover {
+    border-color: rgba(0,180,216,0.15);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  @keyframes cardEnter {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Accent line on top */
+  .anuncio-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 16px; right: 16px;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+    background: var(--card-color, var(--color-accent));
+    opacity: 0.6;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .card-title {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  .card-body {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--color-muted);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card-body strong {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .card-tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--card-color, var(--color-accent));
+    background: var(--card-color-bg, rgba(0,180,216,0.1));
+    border: 1px solid var(--card-color-border, rgba(0,180,216,0.2));
+    border-radius: var(--radius-pill);
+    padding: 4px 12px;
+    width: fit-content;
+    margin-top: auto;
+  }
+
+  /* Variantes de color por categoría */
+  .card-cyan   { --card-color: #00B4D8; --card-color-bg: rgba(0,180,216,0.08);  --card-color-border: rgba(0,180,216,0.20); }
+  .card-green  { --card-color: #2DD4A0; --card-color-bg: rgba(45,212,160,0.08); --card-color-border: rgba(45,212,160,0.20); }
+  .card-orange { --card-color: #F4A261; --card-color-bg: rgba(244,162,97,0.08); --card-color-border: rgba(244,162,97,0.20); }
+  .card-violet { --card-color: #E879F9; --card-color-bg: rgba(232,121,249,0.08); --card-color-border: rgba(232,121,249,0.20); }
+  .card-blue   { --card-color: #60A5FA; --card-color-bg: rgba(96,165,250,0.08); --card-color-border: rgba(96,165,250,0.20); }
+  .card-teal   { --card-color: #34D399; --card-color-bg: rgba(52,211,153,0.08); --card-color-border: rgba(52,211,153,0.20); }
+
+  /* Stagger */
+  .anuncio-card:nth-child(1) { animation-delay: 0s; }
+  .anuncio-card:nth-child(2) { animation-delay: 0.07s; }
+  .anuncio-card:nth-child(3) { animation-delay: 0.14s; }
+  .anuncio-card:nth-child(4) { animation-delay: 0.21s; }
+  .anuncio-card:nth-child(5) { animation-delay: 0.28s; }
+  .anuncio-card:nth-child(6) { animation-delay: 0.35s; }
+</style>
+</head>
+<body>
+
+<!-- Fondo -->
+<div class="ocean-bg">
+  <svg class="wave-layer w1" viewBox="0 0 2400 400" preserveAspectRatio="none">
+    <path d="M0,200 C150,280 350,120 600,200 C850,280 1050,120 1200,200 C1350,280 1550,120 1800,200 C2050,280 2250,120 2400,200" />
+    <path d="M0,260 C200,330 400,190 700,260 C1000,330 1200,190 1500,260 C1800,330 2000,190 2400,260" />
+  </svg>
+  <svg class="wave-layer w2" viewBox="0 0 2400 400" preserveAspectRatio="none">
+    <path d="M0,240 C250,310 500,170 750,240 C1000,310 1250,170 1500,240 C1750,310 2000,170 2400,240" />
+  </svg>
+</div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- Layout -->
+<div class="kiosk">
+
+  <!-- Izquierda -->
+  <div class="left-panel">
+    <div>
+      <div class="brand">
+        <h1>USFQ<br>Galápagos</h1>
+        <div class="campus">Campus San Cristóbal · Ecuador</div>
+      </div>
+      <div class="page-label">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+        </svg>
+        Información del Campus
+      </div>
+    </div>
+
+    <div class="clock-block">
+      <div class="time" id="clock">--:--</div>
+      <div class="date-text" id="dateText">cargando...</div>
+    </div>
+
+    <div class="left-footer">
+      <p>
+        Campus universitario en el corazón de San Cristóbal.<br>
+        Para eventos y actividades, ver pantalla de <strong style="color:var(--color-text)">Eventos</strong>.
+      </p>
+    </div>
+  </div>
+
+  <!-- Derecha -->
+  <div class="right-panel">
+    <div class="panel-header">
+      <h2>Información General</h2>
+      <span class="subtitle">Servicios y recursos del campus</span>
+    </div>
+
+    <!--
+      ══════════════════════════════════════════════════════════════════
+      EDITA AQUÍ el contenido de los anuncios.
+      Cada .anuncio-card es una tarjeta. Cambia el ícono, título,
+      cuerpo y etiqueta según lo que quieras comunicar.
+      Clases de color disponibles: card-cyan card-green card-orange
+                                   card-violet card-blue card-teal
+      ══════════════════════════════════════════════════════════════════
+    -->
+    <div class="anuncios-grid">
+
+      <div class="anuncio-card card-cyan">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Calendario Académico</div>
+        <div class="card-body">
+          Los eventos de la semana se actualizan automáticamente desde el calendario institucional.
+          <br><br>
+          <strong>Agrega tus eventos</strong> al calendario USFQ Galápagos para que aparezcan en este kiosko.
+        </div>
+        <span class="card-tag">Académico</span>
+      </div>
+
+      <div class="anuncio-card card-green">
+        <div class="card-icon">🌊</div>
+        <div class="card-title">Estado del Mar</div>
+        <div class="card-body">
+          La pantalla de <strong>Eventos</strong> muestra en tiempo real las condiciones marinas para San Cristóbal:<br><br>
+          Temperatura del agua · Oleaje · Viento · Recomendación de snorkel
+        </div>
+        <span class="card-tag">Galápagos</span>
+      </div>
+
+      <div class="anuncio-card card-orange">
+        <div class="card-icon">📶</div>
+        <div class="card-title">Red WiFi del Campus</div>
+        <div class="card-body">
+          Conéctate a la red institucional con tus credenciales USFQ:<br><br>
+          <strong>Red:</strong> USFQ-Campus<br>
+          <strong>Usuario:</strong> tu correo @usfq.edu.ec<br>
+          <strong>Contraseña:</strong> clave institucional
+        </div>
+        <span class="card-tag">Conectividad</span>
+      </div>
+
+      <div class="anuncio-card card-violet">
+        <div class="card-icon">🏥</div>
+        <div class="card-title">Enfermería</div>
+        <div class="card-body">
+          Servicio médico disponible en el campus para estudiantes, docentes y personal.<br><br>
+          <strong>Horario:</strong> Lun – Vie · 08:00 – 17:00<br>
+          <strong>Ubicación:</strong> Edificio principal, planta baja
+        </div>
+        <span class="card-tag">Bienestar</span>
+      </div>
+
+      <div class="anuncio-card card-blue">
+        <div class="card-icon">📚</div>
+        <div class="card-title">Biblioteca</div>
+        <div class="card-body">
+          Acceso a recursos bibliográficos físicos y digitales para la comunidad universitaria.<br><br>
+          <strong>Horario:</strong> Lun – Vie · 07:30 – 18:00<br>
+          <strong>Sáb:</strong> 09:00 – 13:00
+        </div>
+        <span class="card-tag">Recursos</span>
+      </div>
+
+      <div class="anuncio-card card-teal">
+        <div class="card-icon">🆘</div>
+        <div class="card-title">Contactos de Emergencia</div>
+        <div class="card-body">
+          <strong>Seguridad campus:</strong> ext. 100<br>
+          <strong>Enfermería:</strong> ext. 110<br>
+          <strong>Emergencias Ecuador:</strong> 911<br>
+          <strong>Bomberos San Cristóbal:</strong> 102<br>
+          <strong>Cruz Roja:</strong> 131
+        </div>
+        <span class="card-tag">Emergencias</span>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Reloj ────────────────────────────────────────────────────────────────
+const TZ = (typeof KIOSK_CONFIG !== 'undefined') ? KIOSK_CONFIG.TIMEZONE : 'Pacific/Galapagos';
+
+function updateClock() {
+  const now = new Date();
+  const opts = { timeZone: TZ };
+  document.getElementById('clock').textContent =
+    now.toLocaleString('es-EC', { ...opts, hour: '2-digit', minute: '2-digit', hour12: false });
+  const day = now.toLocaleString('es-EC', { ...opts, weekday: 'long' });
+  const d   = now.toLocaleString('es-EC', { ...opts, day: 'numeric' });
+  const m   = now.toLocaleString('es-EC', { ...opts, month: 'long' });
+  document.getElementById('dateText').textContent =
+    `${day.charAt(0).toUpperCase() + day.slice(1)}, ${d} de ${m}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+</body>
+</html>

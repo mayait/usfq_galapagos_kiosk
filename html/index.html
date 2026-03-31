@@ -149,25 +149,25 @@
     color: var(--color-muted);
   }
 
-  /* ===== SEA CONDITIONS ===== */
-  .sea-section {
+  /* ===== TIDES SECTION ===== */
+  .tides-section {
     border-top: 1px solid rgba(255,255,255,0.06);
     padding-top: 28px;
   }
 
-  .sea-header {
+  .tides-header {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
   }
-  .sea-header h2 {
+  .tides-header h2 {
     font-family: var(--font-serif);
     font-weight: 700;
     font-size: 22px;
     color: var(--color-text);
   }
-  .sea-header .sea-badge {
+  .tides-header .tide-badge {
     font-family: var(--font-sans);
     font-weight: 500;
     font-size: 12px;
@@ -175,72 +175,88 @@
     text-transform: uppercase;
     padding: 4px 12px;
     border-radius: var(--radius-pill);
-    animation: nowPulse 2.5s ease-in-out infinite;
   }
-  .sea-badge.optimal {
-    color: var(--color-green);
-    background: rgba(45, 212, 160, 0.1);
-    border: 1px solid rgba(45, 212, 160, 0.25);
+  .tide-badge.rising {
+    color: var(--color-accent);
+    background: rgba(0, 180, 216, 0.1);
+    border: 1px solid rgba(0, 180, 216, 0.25);
   }
-  .sea-badge.moderate {
+  .tide-badge.falling {
     color: var(--color-warning);
     background: rgba(244, 162, 97, 0.1);
     border: 1px solid rgba(244, 162, 97, 0.25);
   }
-  .sea-badge.rough {
-    color: #EF4444;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.25);
-  }
 
-  .sea-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .sea-card {
-    background: var(--color-surface);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 18px;
-    backdrop-filter: var(--blur-glass);
-    -webkit-backdrop-filter: var(--blur-glass);
-    padding: 16px 18px;
+  .tides-list {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    transition: border-color 0.4s ease;
-  }
-  .sea-card:hover {
-    border-color: rgba(0, 180, 216, 0.15);
-  }
-  .sea-card .sc-label {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--color-muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .sea-card .sc-label svg { opacity: 0.5; flex-shrink: 0; }
-  .sea-card .sc-value {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 28px;
-    color: var(--color-text);
-    line-height: 1.1;
-  }
-  .sea-card .sc-unit {
-    font-weight: 300;
-    font-size: 16px;
-    color: var(--color-muted);
-  }
-  .sea-card.highlight .sc-value {
-    color: var(--color-accent);
+    gap: 10px;
   }
 
-  .sea-loading {
+  .tide-entry {
+    background: var(--color-surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: border-color 0.4s ease;
+  }
+  .tide-entry:hover {
+    border-color: rgba(0, 180, 216, 0.15);
+  }
+  .tide-entry.is-next {
+    border-color: rgba(0, 180, 216, 0.25);
+    box-shadow: 0 4px 20px rgba(0, 180, 216, 0.10);
+  }
+
+  .tide-icon {
+    font-size: 22px;
+    width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .tide-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tide-info .tide-type {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--color-text);
+  }
+  .tide-info .tide-time {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  .tide-height {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+  .tide-height .th-unit {
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  .tide-entry.type-low .tide-height {
+    color: var(--color-warning);
+  }
+
+  .tides-loading {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -248,7 +264,7 @@
     color: var(--color-muted);
     font-size: 15px;
   }
-  .sea-loading .mini-ring {
+  .tides-loading .mini-ring {
     width: 20px; height: 20px;
     border: 2px solid rgba(0,180,216,0.15);
     border-top-color: var(--color-accent);
@@ -256,27 +272,12 @@
     animation: spin 1s linear infinite;
   }
 
-  .sea-snorkel {
-    margin-top: 14px;
-    background: var(--color-surface);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 18px;
-    backdrop-filter: var(--blur-glass);
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .sea-snorkel .snorkel-icon {
-    font-size: 24px;
-  }
-  .sea-snorkel .snorkel-text {
+  .tide-source {
+    margin-top: 10px;
     font-family: var(--font-sans);
-    font-size: 15px;
-    color: var(--color-muted);
-  }
-  .sea-snorkel .snorkel-text strong {
-    color: var(--color-text);
+    font-size: 11px;
+    color: rgba(155, 164, 181, 0.35);
+    letter-spacing: 0.5px;
     font-weight: 600;
   }
 
@@ -628,17 +629,18 @@
       </div>
     </div>
 
-    <div class="sea-section">
-      <div class="sea-header">
-        <h2>Estado del Mar</h2>
-        <span class="sea-badge" id="seaBadge" style="display:none;">—</span>
+    <div class="tides-section">
+      <div class="tides-header">
+        <h2>Mareas Hoy</h2>
+        <span class="tide-badge" id="tideBadge" style="display:none;">—</span>
       </div>
-      <div id="seaContent">
-        <div class="sea-loading">
+      <div id="tidesContent">
+        <div class="tides-loading">
           <div class="mini-ring"></div>
-          Consultando condiciones...
+          Consultando mareas...
         </div>
       </div>
+      <div class="tide-source">NOAA · Estación San Cristóbal #9992401</div>
     </div>
 
     <div class="week-label" id="weekLabel"></div>
@@ -668,11 +670,10 @@ const CORS_PROXIES = [
 const REFRESH_INTERVAL = 600000;
 const AUTO_SCROLL_SPEED = 0.4; // px per frame
 const AUTO_SCROLL_PAUSE = 8000; // pause at bottom before resetting
-const GALAPAGOS_TZ = 'America/Guayaquil';
+const GALAPAGOS_TZ = 'Pacific/Galapagos';
 
-const STORMGLASS_KEY = '34cdf64c-90e7-11f0-b07a-0242ac130006-34cdf700-90e7-11f0-b07a-0242ac130006';
-const STORMGLASS_LAT = -0.9024;
-const STORMGLASS_LNG = -89.6105;
+const NOAA_ENDPOINT = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter';
+const NOAA_STATION = '9992401'; // San Cristóbal, Galápagos
 
 let events = [];
 let autoScrolling = true;
@@ -1037,140 +1038,109 @@ function hideStatus() {
   document.getElementById('statusBadge').classList.remove('visible');
 }
 
-// ===== SEA CONDITIONS =====
-async function fetchSeaConditions() {
+// ===== TIDES — NOAA API =====
+async function fetchTides() {
   try {
-    const now = Math.floor(Date.now() / 1000);
-    const end = now + 7200;
-    const url = `https://api.stormglass.io/v2/weather/point?lat=${STORMGLASS_LAT}&lng=${STORMGLASS_LNG}&params=waterTemperature,waveHeight,wavePeriod,windSpeed,windDirection,visibility,swellHeight,swellPeriod&start=${now}&end=${end}`;
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-CA', { timeZone: GALAPAGOS_TZ }).replace(/-/g, '');
+    const url = `${NOAA_ENDPOINT}?begin_date=${dateStr}&end_date=${dateStr}&station=${NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst&interval=hilo&units=metric&format=json`;
 
-    const resp = await fetch(url, {
-      headers: { 'Authorization': STORMGLASS_KEY }
-    });
-
-    if (!resp.ok) throw new Error('API error ' + resp.status);
+    const resp = await fetch(url, { cache: 'no-cache' });
+    if (!resp.ok) throw new Error('NOAA API error ' + resp.status);
     const data = await resp.json();
 
-    if (data.hours && data.hours.length > 0) {
-      renderSeaData(data.hours[0]);
+    if (data.predictions && data.predictions.length > 0) {
+      renderTides(data.predictions);
     } else {
-      renderSeaFallback();
+      renderTidesFallback();
     }
   } catch (e) {
-    console.warn('Stormglass error:', e);
-    renderSeaFallback();
+    console.warn('NOAA tides error:', e);
+    renderTidesFallback();
   }
 }
 
-function renderSeaData(h) {
-  const waterTemp = h.waterTemperature?.sg ?? h.waterTemperature?.meto ?? '—';
-  const waveH = h.waveHeight?.sg ?? h.waveHeight?.ecmwf ?? '—';
-  const waveP = h.wavePeriod?.sg ?? h.wavePeriod?.ecmwf ?? '—';
-  const windS = h.windSpeed?.sg ?? h.windSpeed?.ecmwf ?? '—';
-  const windD = h.windDirection?.sg ?? h.windDirection?.ecmwf ?? 0;
-  const vis = h.visibility?.sg ?? h.visibility?.noaa ?? '—';
-  const swellH = h.swellHeight?.sg ?? h.swellHeight?.meteo ?? '—';
+function renderTides(predictions) {
+  const container = document.getElementById('tidesContent');
+  const badge = document.getElementById('tideBadge');
+  const now = new Date();
 
-  // Determine condition
-  const waveVal = typeof waveH === 'number' ? waveH : 1;
-  let condition, condClass, condLabel, snorkelText;
-  if (waveVal <= 1.0) {
-    condition = 'optimal'; condClass = 'optimal'; condLabel = 'Óptimo';
-    snorkelText = 'Condiciones <strong>excelentes</strong> para snorkel';
-  } else if (waveVal <= 1.8) {
-    condition = 'moderate'; condClass = 'moderate'; condLabel = 'Moderado';
-    snorkelText = 'Snorkel con <strong>precaución</strong> en zonas protegidas';
-  } else {
-    condition = 'rough'; condClass = 'rough'; condLabel = 'Agitado';
-    snorkelText = 'Snorkel <strong>no recomendado</strong> hoy';
+  // Determinar la próxima marea
+  let nextIdx = -1;
+  for (let i = 0; i < predictions.length; i++) {
+    const tideTime = parseTideTime(predictions[i].t);
+    if (tideTime > now) { nextIdx = i; break; }
   }
 
-  // Badge
-  const badge = document.getElementById('seaBadge');
-  badge.textContent = condLabel;
-  badge.className = 'sea-badge ' + condClass;
+  // Determinar si la marea está subiendo o bajando
+  let tidePhase = 'rising';
+  if (nextIdx >= 0) {
+    tidePhase = predictions[nextIdx].type === 'H' ? 'rising' : 'falling';
+  }
+
+  badge.textContent = tidePhase === 'rising' ? 'Subiendo' : 'Bajando';
+  badge.className = 'tide-badge ' + tidePhase;
   badge.style.display = 'inline-block';
 
-  // Wind direction to compass
-  const compass = ['N','NE','E','SE','S','SO','O','NO'];
-  const windDir = compass[Math.round((typeof windD === 'number' ? windD : 0) / 45) % 8];
+  let html = '<div class="tides-list">';
 
-  const container = document.getElementById('seaContent');
-  container.innerHTML = `
-    <div class="sea-grid">
-      <div class="sea-card highlight">
-        <span class="sc-label">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 4 3 8 10 8s10-4 10-8M2 12c0-4 3-8 10-8s10 4 10 8"/></svg>
-          Oleaje
-        </span>
-        <span class="sc-value">${typeof waveH === 'number' ? waveH.toFixed(1) : waveH} <span class="sc-unit">m</span></span>
-      </div>
-      <div class="sea-card">
-        <span class="sc-label">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 11-4 0V4a2 2 0 014 0z"/></svg>
-          Temp. agua
-        </span>
-        <span class="sc-value">${typeof waterTemp === 'number' ? waterTemp.toFixed(0) : waterTemp}<span class="sc-unit">°C</span></span>
-      </div>
-      <div class="sea-card">
-        <span class="sc-label">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
-          Viento
-        </span>
-        <span class="sc-value">${typeof windS === 'number' ? windS.toFixed(1) : windS} <span class="sc-unit">m/s ${windDir}</span></span>
-      </div>
-      <div class="sea-card">
-        <span class="sc-label">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 12h20M2 12c0 4 3 8 10 8s10-4 10-8"/></svg>
-          Período
-        </span>
-        <span class="sc-value">${typeof waveP === 'number' ? waveP.toFixed(0) : waveP} <span class="sc-unit">seg</span></span>
-      </div>
-    </div>
-    <div class="sea-snorkel">
-      <span class="snorkel-icon">🤿</span>
-      <span class="snorkel-text">${snorkelText}</span>
-    </div>`;
+  predictions.forEach((p, i) => {
+    const isHigh = p.type === 'H';
+    const isNext = i === nextIdx;
+    const height = parseFloat(p.v).toFixed(2);
+    const timeParts = p.t.split(' ');
+    const timeStr = timeParts[1]; // "HH:MM"
+    const tideTime = parseTideTime(p.t);
+    const isPast = tideTime < now;
+
+    html += `
+      <div class="tide-entry ${isHigh ? 'type-high' : 'type-low'}${isNext ? ' is-next' : ''}" style="${isPast && !isNext ? 'opacity: 0.45;' : ''}">
+        <div class="tide-icon">${isHigh ? '🌊' : '🏖️'}</div>
+        <div class="tide-info">
+          <span class="tide-type">${isHigh ? 'Pleamar' : 'Bajamar'}${isNext ? ' — próxima' : ''}</span>
+          <span class="tide-time">${timeStr} h</span>
+        </div>
+        <div class="tide-height">${height} <span class="th-unit">m</span></div>
+      </div>`;
+  });
+
+  html += '</div>';
+  container.innerHTML = html;
 }
 
-function renderSeaFallback() {
-  const container = document.getElementById('seaContent');
+function parseTideTime(tStr) {
+  // tStr = "2026-03-31 05:12"
+  const [datePart, timePart] = tStr.split(' ');
+  // NOAA lst = hora local de la estación (Galápagos = UTC-6)
+  return new Date(`${datePart}T${timePart}:00-06:00`);
+}
+
+function renderTidesFallback() {
+  const container = document.getElementById('tidesContent');
   container.innerHTML = `
-    <div class="sea-grid">
-      <div class="sea-card highlight">
-        <span class="sc-label">Oleaje</span>
-        <span class="sc-value">— <span class="sc-unit">m</span></span>
+    <div class="tides-list">
+      <div class="tide-entry type-high">
+        <div class="tide-icon">🌊</div>
+        <div class="tide-info">
+          <span class="tide-type">Sin datos de mareas</span>
+          <span class="tide-time">Se reintentará automáticamente</span>
+        </div>
+        <div class="tide-height">— <span class="th-unit">m</span></div>
       </div>
-      <div class="sea-card">
-        <span class="sc-label">Temp. agua</span>
-        <span class="sc-value">—<span class="sc-unit">°C</span></span>
-      </div>
-      <div class="sea-card">
-        <span class="sc-label">Viento</span>
-        <span class="sc-value">— <span class="sc-unit">m/s</span></span>
-      </div>
-      <div class="sea-card">
-        <span class="sc-label">Período</span>
-        <span class="sc-value">— <span class="sc-unit">seg</span></span>
-      </div>
-    </div>
-    <div class="sea-snorkel">
-      <span class="snorkel-icon">🤿</span>
-      <span class="snorkel-text">Sin datos disponibles — se reintentará</span>
     </div>`;
 
-  const badge = document.getElementById('seaBadge');
+  const badge = document.getElementById('tideBadge');
   badge.textContent = 'Sin datos';
-  badge.className = 'sea-badge moderate';
+  badge.className = 'tide-badge falling';
   badge.style.display = 'inline-block';
 }
 
 // ===== INIT =====
 async function init() {
   // Launch both fetches in parallel
-  const [_cal, _sea] = await Promise.allSettled([
+  const [_cal, _tides] = await Promise.allSettled([
     fetchCalendar(),
-    fetchSeaConditions()
+    fetchTides()
   ]);
 
   renderEvents();
@@ -1182,8 +1152,8 @@ async function init() {
     renderEvents();
   }, REFRESH_INTERVAL);
 
-  // Refresh sea data every 30 min
-  setInterval(fetchSeaConditions, 1800000);
+  // Refresh tides every hour
+  setInterval(fetchTides, 3600000);
 
   // Re-check "now" status every minute
   setInterval(() => {

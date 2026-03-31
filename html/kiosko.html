@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920,height=1080,initial-scale=1">
+<title>Kiosko USFQ Galápagos — Lanzador</title>
+<script src="config.js"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    background: #041C32;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* ── Iframe principal ── */
+  #screen {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    transition: opacity 0.6s ease;
+  }
+
+  #screen.fading {
+    opacity: 0;
+  }
+
+  /* ── Barra de estado inferior ── */
+  #statusBar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 36px;
+    background: rgba(4, 28, 50, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    z-index: 1000;
+  }
+
+  /* Indicadores de pantalla */
+  .screen-dots {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .screen-dot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: rgba(155, 164, 181, 0.5);
+    letter-spacing: 0.5px;
+    transition: color 0.4s ease;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+  }
+  .screen-dot.active {
+    color: #00B4D8;
+  }
+
+  .dot-circle {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(155, 164, 181, 0.3);
+    transition: all 0.4s ease;
+    flex-shrink: 0;
+  }
+  .screen-dot.active .dot-circle {
+    background: #00B4D8;
+    box-shadow: 0 0 8px rgba(0, 180, 216, 0.6);
+    width: 8px; height: 8px;
+  }
+
+  /* Barra de progreso */
+  .progress-wrap {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 32px;
+  }
+
+  .progress-track {
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0F4C81, #00B4D8);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s linear;
+  }
+
+  /* Reloj mini en el lanzador */
+  #miniClock {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: rgba(155, 164, 181, 0.6);
+    letter-spacing: 1px;
+    min-width: 50px;
+    text-align: right;
+  }
+
+  /* Overlay de transición */
+  #transitionOverlay {
+    position: fixed;
+    inset: 0;
+    background: #041C32;
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  #transitionOverlay.visible {
+    opacity: 1;
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="transitionOverlay"></div>
+
+<iframe id="screen" src="" allowfullscreen></iframe>
+
+<div id="statusBar">
+  <div class="screen-dots" id="screenDots"></div>
+
+  <div class="progress-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div id="miniClock">--:--</div>
+</div>
+
+<script>
+// ── Configuración ────────────────────────────────────────────────────────
+const SCREENS = KIOSK_CONFIG.SCREENS;
+const TZ = KIOSK_CONFIG.TIMEZONE;
+
+let currentIndex = 0;
+let progressInterval = null;
+let progressStart = null;
+let currentDuration = 0;
+
+// ── Construir indicadores de pantalla ────────────────────────────────────
+const dotsContainer = document.getElementById('screenDots');
+SCREENS.forEach((screen, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'screen-dot' + (i === 0 ? ' active' : '');
+  dot.id = `dot-${i}`;
+  dot.innerHTML = `<span class="dot-circle"></span><span>${screen.label}</span>`;
+  dotsContainer.appendChild(dot);
+});
+
+// ── Reloj mini ───────────────────────────────────────────────────────────
+function updateMiniClock() {
+  const now = new Date();
+  document.getElementById('miniClock').textContent =
+    now.toLocaleTimeString('es-EC', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+}
+setInterval(updateMiniClock, 1000);
+updateMiniClock();
+
+// ── Navegación entre pantallas ───────────────────────────────────────────
+const screenEl = document.getElementById('screen');
+const overlay = document.getElementById('transitionOverlay');
+const progressFill = document.getElementById('progressFill');
+
+function goToScreen(index) {
+  const screen = SCREENS[index];
+
+  // Fade out
+  overlay.classList.add('visible');
+
+  setTimeout(() => {
+    // Actualizar iframe
+    screenEl.src = screen.url;
+
+    // Actualizar dots
+    document.querySelectorAll('.screen-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === index);
+    });
+
+    // Iniciar barra de progreso
+    startProgress(screen.duration);
+
+    // Fade in
+    setTimeout(() => {
+      overlay.classList.remove('visible');
+    }, 300);
+
+    // Programar la siguiente pantalla
+    setTimeout(() => {
+      currentIndex = (index + 1) % SCREENS.length;
+      goToScreen(currentIndex);
+    }, screen.duration);
+
+  }, 500);
+}
+
+function startProgress(duration) {
+  clearInterval(progressInterval);
+  progressStart = Date.now();
+  currentDuration = duration;
+  progressFill.style.width = '0%';
+
+  progressInterval = setInterval(() => {
+    const elapsed = Date.now() - progressStart;
+    const pct = Math.min((elapsed / currentDuration) * 100, 100);
+    progressFill.style.width = pct + '%';
+    if (pct >= 100) clearInterval(progressInterval);
+  }, 200);
+}
+
+// ── Arrancar ─────────────────────────────────────────────────────────────
+goToScreen(0);
+</script>
+</body>
+</html>
