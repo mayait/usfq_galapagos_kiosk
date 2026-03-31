@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1920,height=1080,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Flujo Orgánico — USFQ Galápagos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -663,7 +666,7 @@
 // ===== CONFIG =====
 const ICS_URL = 'https://outlook.office365.com/owa/calendar/71a3663561a843bca1cccea1dffd9fa6@usfq.edu.ec/7755590ea9af4dcb84b49fb91d1b2a0f13028026135859137563/calendar.ics';
 const CORS_PROXIES = [
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
   url => url  // directo (funciona si se sirve desde servidor local)
@@ -868,11 +871,7 @@ async function fetchCalendar() {
   for (const proxy of CORS_PROXIES) {
     try {
       const url = bustCache(proxy(ICS_URL));
-      const resp = await fetch(url, {
-        cache: 'no-store',
-        headers: { 'Pragma': 'no-cache' }
-      });
-      if (!resp.ok) continue;
+      const resp = await fetch(url, { cache: 'no-store' });
       const text = await resp.text();
       if (!text.includes('BEGIN:VCALENDAR')) continue;
       const parsed = parseICS(text);
