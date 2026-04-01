@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>¿Qué pasa en la USFQ? — Galápagos (Móvil)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+  :root {
+    --verde-galapagos: #00A9A8;
+    --azul-pacifico:   #1672A3;
+    --verde-bright:    #00CCC9;
+    --azul-bright:     #2196D4;
+    --negro-corp:      #0B0F14;
+    --superficie-1:    #111820;
+    --superficie-2:    #19212C;
+    --superficie-3:    #212B38;
+    --borde:           rgba(255, 255, 255, 0.08);
+    --borde-hover:     rgba(255, 255, 255, 0.15);
+    --texto-primario:  #F0F2F5;
+    --texto-secundario:#8B95A5;
+    --texto-terciario: #5A6374;
+    --gradiente:       linear-gradient(135deg, #00A9A8 0%, #1672A3 100%);
+    
+    --type-academico:  #2196D4;
+    --type-club:       #00CCC9;
+    --type-deporte:    #F5A623;
+    --type-social:     #B07FE0;
+    --type-bienestar:  #34D399;
+    --type-evento:     #8B95A5;
+
+    --font: 'Jost', sans-serif;
+    --radius: 16px;
+    --radius-pill: 9999px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  html, body {
+    width: 100%; min-height: 100vh;
+    background: var(--negro-corp);
+    font-family: var(--font);
+    color: var(--texto-primario);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Fixed Glass Header */
+  .mobile-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11, 15, 20, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--borde);
+    padding: 16px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .header-brand img { height: 26px; }
+  .header-brand .subtitle { font-size: 11px; font-weight: 300; color: var(--texto-secundario); margin-top: 3px;}
+  .header-time { text-align: right; }
+  .header-time .clock { font-size: 22px; font-weight: 700; color: var(--texto-primario); letter-spacing: -0.5px; }
+  .header-time .date { font-size: 11px; font-weight: 400; color: var(--verde-bright); }
+
+  /* Main Scrollable Area */
+  .feed-container {
+    padding: 95px 16px 40px 16px;
+    max-width: 600px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+
+  /* Tide Premium Card (Rendered as First Event) */
+  .tide-card {
+    background: var(--superficie-1);
+    border: 1px solid rgba(0, 204, 201, 0.25);
+    border-radius: var(--radius); padding: 20px;
+    display: flex; flex-direction: column; gap: 16px;
+    box-shadow: 0 4px 24px rgba(0, 169, 168, 0.1);
+    position: relative; overflow: hidden;
+    animation: fadeIn 0.5s ease-out;
+  }
+  .tide-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradiente);
+  }
+  .tide-header { display: flex; justify-content: space-between; align-items: flex-start; }
+  .tide-title h2 { font-size: 18px; font-weight: 700; color: var(--texto-primario); }
+  .tide-title p { font-size: 11px; color: var(--texto-secundario); }
+  
+  .tide-badge {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 4px 10px; border-radius: var(--radius-pill);
+  }
+  .tide-badge.rising { color: var(--verde-bright); background: rgba(0, 204, 201, 0.1); border: 1px solid rgba(0,204,201,0.2); }
+  .tide-badge.falling { color: var(--azul-bright); background: rgba(33, 150, 212, 0.1); border: 1px solid rgba(33,150,212,0.2); }
+
+  .tidelist-mobile { display: flex; flex-direction: column; gap: 8px; }
+  .tide-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--superficie-2); border-radius: 8px; padding: 12px 14px;
+    border: 1px solid var(--borde);
+  }
+  .tide-row.is-next { border-color: rgba(0,204,201,0.4); background: rgba(0,169,168,0.08); }
+  .t-info { display: flex; flex-direction: column; }
+  .t-type { font-size: 14px; font-weight: 600; color: var(--texto-primario); }
+  .t-time { font-size: 12px; font-weight: 300; color: var(--texto-secundario); }
+  .t-height { font-size: 16px; font-weight: 700; }
+  .type-high .t-height { color: var(--verde-bright); }
+  .type-low .t-height { color: var(--azul-bright); }
+
+  /* Day Group */
+  .day-group { margin-bottom: 24px; }
+  .day-header {
+    position: sticky; top: 76px; z-index: 10;
+    background: rgba(11, 15, 20, 0.95); backdrop-filter: blur(8px);
+    padding: 10px 4px; margin-bottom: 12px; border-bottom: 1px solid var(--borde);
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .day-name { font-size: 18px; font-weight: 700; color: var(--texto-primario); }
+  .day-name.is-today { background: var(--gradiente); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .day-date { font-size: 13px; font-weight: 300; color: var(--texto-secundario); }
+
+  /* Event Cards */
+  .event-card {
+    background: var(--superficie-2); border: 1px solid var(--borde);
+    border-radius: 12px; padding: 16px 16px 16px 20px; margin-bottom: 12px;
+    display: flex; flex-direction: column; gap: 6px;
+    position: relative; overflow: hidden;
+    animation: fadeIn 0.4s ease-out backwards;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .event-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 4px 0 0 4px;
+  }
+  .event-card.type-academico::before { background: var(--type-academico); }
+  .event-card.type-club::before      { background: var(--type-club); }
+  .event-card.type-deporte::before   { background: var(--type-deporte); }
+  .event-card.type-social::before    { background: var(--type-social); }
+  .event-card.type-bienestar::before { background: var(--type-bienestar); }
+  .event-card.type-evento::before    { background: var(--type-evento); }
+  
+  .event-card.is-now { border-color: rgba(0, 204, 201, 0.4); box-shadow: 0 4px 16px rgba(0, 169, 168, 0.1); }
+  .is-now-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--gradiente); color: var(--negro-corp);
+    font-size: 9px; font-weight: 700; padding: 3px 8px;
+    border-radius: var(--radius-pill); letter-spacing: 1px;
+    animation: flash 2s infinite;
+  }
+  @keyframes flash { 0%, 100%{opacity:1;} 50%{opacity:0.7;} }
+
+  .ec-time { font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .ec-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .type-academico .ec-dot { background: var(--type-academico); }
+  .type-club .ec-dot      { background: var(--type-club); }
+  .type-deporte .ec-dot   { background: var(--type-deporte); }
+  .type-social .ec-dot    { background: var(--type-social); }
+  .type-bienestar .ec-dot { background: var(--type-bienestar); }
+  .type-evento .ec-dot    { background: var(--type-evento); }
+
+  .ec-title { font-size: 16px; font-weight: 600; color: var(--texto-primario); line-height: 1.25; }
+  .ec-location { font-size: 12px; font-weight: 300; color: var(--texto-secundario); display: flex; align-items: center; gap: 4px; margin-top: 2px;}
+  .ec-location svg { opacity: 0.6; }
+
+  .loading-msg { text-align: center; color: var(--texto-terciario); font-size: 14px; padding: 40px 0; }
+</style>
+</head>
+<body>
+
+  <!-- Fixed Header -->
+  <header class="mobile-header">
+    <div class="header-brand">
+      <img src="img/USGQG-LOGO-NUEVO-BLANCO.png" alt="USFQ">
+      <div class="subtitle">¿Qué pasa en la USFQ?</div>
+    </div>
+    <div class="header-time">
+      <div class="clock" id="mClock">--:--</div>
+      <div class="date" id="mDate">--</div>
+    </div>
+  </header>
+
+  <!-- Main Feed -->
+  <main class="feed-container">
+    
+    <!-- Tides Card (Pinned at top) -->
+    <section id="tidesContainer">
+      <div class="tide-card">
+        <div class="tide-header">
+          <div class="tide-title">
+            <h2>Mareas Hoy</h2>
+            <p>San Cristóbal</p>
+          </div>
+          <div id="m-tideBadge" class="tide-badge" style="display:none;">---</div>
+        </div>
+        <div id="m-tidesList" class="loading-msg">Consultando mareas...</div>
+      </div>
+    </section>
+
+    <!-- Events Feed -->
+    <section id="eventsContainer">
+      <div class="loading-msg">Sincronizando calendario...</div>
+    </section>
+
+  </main>
+
+<script>
+let events = [];
+const GALAPAGOS_TZ = KIOSK_CONFIG.TIMEZONE || 'America/Costa_Rica';
+
+// ====== REUSED LOGIC FROM INDEX.HTML ======
+const DAYS_ES = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const MONTHS_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+function updateMobileClock() {
+  const now = new Date();
+  const opts = { timeZone: GALAPAGOS_TZ };
+  document.getElementById('mClock').textContent = 
+    now.toLocaleString('es-EC', { ...opts, hour: '2-digit', minute: '2-digit', hour12: false });
+  const day = now.toLocaleString('es-EC', { ...opts, weekday: 'short' });
+  const d = now.toLocaleString('es-EC', { ...opts, day: 'numeric' });
+  const m = now.toLocaleString('es-EC', { ...opts, month: 'long' });
+  document.getElementById('mDate').textContent = `${day}, ${d} de ${m}`;
+}
+setInterval(updateMobileClock, 1000);
+updateMobileClock();
+
+// ====== TIDES ======
+async function fetchTides() {
+  try {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-CA', { timeZone: GALAPAGOS_TZ }).replace(/-/g, '');
+    const url = `${KIOSK_CONFIG.NOAA_ENDPOINT}?begin_date=${dateStr}&end_date=${dateStr}&station=${KIOSK_CONFIG.NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst&interval=hilo&units=metric&format=json`;
+    const resp = await fetch(url, { cache: 'no-store' });
+    if (!resp.ok) throw new Error('NOAA API error');
+    const data = await resp.json();
+    if (data.predictions && data.predictions.length > 0) {
+      renderMobileTides(data.predictions);
+    } else {
+      document.getElementById('m-tidesList').innerHTML = '<div class="loading-msg">No hay datos de mareas hoy.</div>';
+    }
+  } catch (e) {
+    document.getElementById('m-tidesList').innerHTML = '<div class="loading-msg">Error al cargar mareas.</div>';
+  }
+}
+
+function parseTideTime(str) {
+  const [datePart, timePart] = str.split(' ');
+  const [y, m, d] = datePart.split('-');
+  const [H, M] = timePart.split(':');
+  const dObj = new Date(str.replace(' ', 'T') + '-06:00'); // Approximating TZ
+  return dObj;
+}
+
+function renderMobileTides(predictions) {
+  const list = document.getElementById('m-tidesList');
+  const badge = document.getElementById('m-tideBadge');
+  const now = new Date();
+  let nextIdx = -1;
+
+  for (let i = 0; i < predictions.length; i++) {
+    const tideTime = parseTideTime(predictions[i].t);
+    if (tideTime > now) { nextIdx = i; break; }
+  }
+
+  let tidePhase = 'rising';
+  if (nextIdx >= 0) { tidePhase = predictions[nextIdx].type === 'H' ? 'rising' : 'falling'; }
+  badge.textContent = tidePhase === 'rising' ? 'Subiendo' : 'Bajando';
+  badge.className = 'tide-badge ' + tidePhase;
+  badge.style.display = 'inline-block';
+
+  let html = '<div class="tidelist-mobile">';
+  predictions.forEach((p, i) => {
+    const isHigh = p.type === 'H';
+    const isNext = i === nextIdx;
+    const height = parseFloat(p.v).toFixed(2);
+    const timeStr = p.t.split(' ')[1].substring(0, 5);
+    const tideTime = parseTideTime(p.t);
+    const isPast = tideTime < now;
+    
+    html += `
+      <div class="tide-row ${isHigh ? 'type-high' : 'type-low'} ${isNext ? 'is-next' : ''}" style="${isPast && !isNext ? 'opacity:0.5;' : ''}">
+        <div class="t-info">
+          <span class="t-type">${isHigh ? 'Pleamar' : 'Bajamar'}</span>
+          <span class="t-time">${timeStr}</span>
+        </div>
+        <div class="t-height">${height} <span style="font-size:10px;font-weight:400;color:var(--texto-terciario)">m</span></div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  list.innerHTML = html;
+}
+
+// ====== ICS EVENTS ======
+function parseICSDate(value, keyPart) {
+  const isDate = keyPart.includes('VALUE=DATE') || (value.length === 8 && !value.includes('T'));
+  const clean = value.replace('Z', '');
+  if (isDate) return new Date(clean.slice(0,4)+'-'+clean.slice(4,6)+'-'+clean.slice(6,8)+'T00:00:00-06:00');
+  const y=clean.slice(0,4), mo=clean.slice(4,6), d=clean.slice(6,8);
+  const h=clean.slice(9,11), mi=clean.slice(11,13), s=clean.slice(13,15)||'00';
+  if (value.endsWith('Z')) return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}Z`);
+  return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}-06:00`); 
+}
+
+function getWeekBounds() {
+  const now = new Date();
+  const day = now.getDay();
+  const diffToMon = day === 0 ? -6 : 1 - day;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diffToMon);
+  monday.setHours(0,0,0,0);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 14); // Extended view for mobile (2 weeks)
+  sunday.setHours(23,59,59,999);
+  return { monday, sunday };
+}
+
+function expandRRule(ev, from, to) {
+  const rule = {};
+  ev.rrule.split(';').forEach(p => { const [k,v] = p.split('='); rule[k] = v; });
+  const instances = [];
+  const freq = rule.FREQ;
+  const until = rule.UNTIL ? parseICSDate(rule.UNTIL, '') : to;
+  const count = rule.COUNT ? parseInt(rule.COUNT) : 200;
+  const interval = rule.INTERVAL ? parseInt(rule.INTERVAL) : 1;
+  const byDay = rule.BYDAY ? rule.BYDAY.split(',') : null;
+  const dayMap = { SU:0, MO:1, TU:2, WE:3, TH:4, FR:5, SA:6 };
+  let cursor = new Date(ev.dtstart);
+  let gen = 0;
+  const dur = ev.dtend ? (ev.dtend - ev.dtstart) : 3600000;
+  
+  while (cursor <= until && cursor <= to && gen < count) {
+    if (cursor >= from) {
+      let inc = true;
+      if (byDay) inc = byDay.some(d => dayMap[d] === cursor.getDay());
+      if (inc) {
+        instances.push({ ...ev, dtstart: new Date(cursor), dtend: new Date(cursor.getTime()+dur), rrule: undefined });
+        gen++;
+      }
+    }
+    if (freq === 'DAILY') cursor.setDate(cursor.getDate() + 1);
+    else if (freq === 'WEEKLY') cursor.setDate(cursor.getDate() + (byDay && byDay.length > 1 ? 1 : 7 * interval));
+    else if (freq === 'MONTHLY') cursor.setMonth(cursor.getMonth() + interval);
+    else cursor.setDate(cursor.getDate() + 1);
+  }
+  return instances;
+}
+
+function parseICS(text) {
+  const vevents = [];
+  const blocks = text.split('BEGIN:VEVENT');
+  blocks.shift();
+  for (const block of blocks) {
+    const raw = block.split('END:VEVENT')[0];
+    const unfolded = raw.replace(/\r?\n[ \t]/g, '');
+    const lines = unfolded.split(/\r?\n/);
+    const ev = {};
+    for (const line of lines) {
+      const ci = line.indexOf(':');
+      if (ci < 0) continue;
+      const keyPart = line.substring(0, ci);
+      const value = line.substring(ci + 1);
+      const key = keyPart.split(';')[0].trim();
+      if (key === 'SUMMARY') ev.summary = value.replace(/\\n/g, ' ').replace(/\\,/g, ',').trim();
+      if (key === 'DTSTART') ev.dtstart = parseICSDate(value, keyPart);
+      if (key === 'DTEND') ev.dtend = parseICSDate(value, keyPart);
+      if (key === 'LOCATION') ev.location = value.replace(/\\n/g, ' ').replace(/\\,/g, ',').trim();
+      if (key === 'RRULE') ev.rrule = value;
+    }
+    if (ev.summary && ev.dtstart) vevents.push(ev);
+  }
+  
+  const { monday, sunday } = getWeekBounds();
+  let expanded = [];
+  for (const ev of vevents) {
+    if (ev.rrule) expanded.push(...expandRRule(ev, monday, sunday));
+    else if (ev.dtstart >= monday && ev.dtstart <= sunday) expanded.push({ ...ev });
+  }
+  
+  const seen = new Set();
+  expanded = expanded.filter(ev => {
+    const key = ev.summary + '|' + ev.dtstart.toISOString().slice(0,16);
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+  return expanded.sort((a, b) => a.dtstart - b.dtstart);
+}
+
+function detectType(summary) {
+  const s = summary.toLowerCase();
+  if (s.includes('coloquio') || s.includes('taller') || s.includes('charla') || s.includes('seminario')) return 'academico';
+  if (s.includes('club') || s.includes('training') || s.includes('creative')) return 'club';
+  if (s.includes('basket') || s.includes('peloteo') || s.includes('jiu') || s.includes('alfa') || s.includes('deporte')) return 'deporte';
+  if (s.includes('pelis') || s.includes('pizza') || s.includes('celebra') || s.includes('almuerzo')) return 'social';
+  if (s.includes('mental') || s.includes('salud') || s.includes('bienestar') || s.includes('yoga')) return 'bienestar';
+  return 'evento';
+}
+
+function isHappeningNow(ev, now) { return ev.dtstart <= now && ev.dtend && ev.dtend >= now; }
+function formatTime(d) { return d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: GALAPAGOS_TZ }).toUpperCase(); }
+
+function useFallbackData() {
+  const nxt = (dow, h, m) => {
+    const now = new Date(), d = new Date(now);
+    const diff = (dow - d.getDay() + 7) % 7;
+    d.setDate(d.getDate() + (diff === 0 && d.getHours() >= h ? 7 : diff));
+    d.setHours(h, m, 0, 0); return d;
+  };
+  events = [
+    { summary: 'Club de Jiu-Jitsu', dtstart: nxt(1,7,0), dtend: nxt(1,8,0), location: 'Tatamis' },
+    { summary: 'Coloquio: ADN para la Conservación', dtstart: nxt(2,17,30), dtend: nxt(2,19,0), location: 'Salón de la Comunidad' },
+    { summary: 'Club de Yoga', dtstart: nxt(3,18,0), dtend: nxt(3,19,30), location: 'Terraza USFQ' },
+    { summary: 'TardeDePelis', dtstart: nxt(4,17,30), dtend: nxt(4,19,30), location: 'Salón de la Comunidad' }
+  ].sort((a,b) => a.dtstart - b.dtstart);
+}
+
+async function fetchCalendar() {
+  for (const proxy of KIOSK_CONFIG.CORS_PROXIES) {
+    try {
+      const resp = await fetch(proxy(KIOSK_CONFIG.ICS_URL) + '?_t=' + Date.now(), { cache: 'no-store' });
+      const text = await resp.text();
+      if (text.includes('BEGIN:VCALENDAR')) {
+        events = parseICS(text);
+        if (events.length > 0) return true;
+      }
+    } catch(e) {}
+  }
+  useFallbackData();
+  return false;
+}
+
+function renderMobileEvents() {
+  const container = document.getElementById('eventsContainer');
+  container.innerHTML = '';
+  
+  if (events.length === 0) {
+    container.innerHTML = '<div class="loading-msg">No hay próximos eventos.</div>';
+    return;
+  }
+
+  const groups = new Map();
+  const now = new Date();
+  // Solo mostramos eventos de hoy en adelante (filtramos pasados)
+  events.forEach(ev => {
+    // Si terminó, no lo mostramos (opcional, o mostrar todo si es de hoy)
+    if(ev.dtend && ev.dtend < now && now.toDateString() !== ev.dtstart.toDateString()) return;
+
+    const key = ev.dtstart.toDateString();
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(ev);
+  });
+
+  let delayIdx = 1;
+  groups.forEach((dayEvents, dateKey) => {
+    const d = dayEvents[0].dtstart;
+    const isToday = now.toDateString() === d.toDateString();
+    let dayName = isToday ? 'Hoy' : DAYS_ES[d.getDay()];
+    // Si es mañana
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    if(tomorrow.toDateString() === d.toDateString()) dayName = 'Mañana';
+    
+    const dateStr = `${d.getDate()} de ${MONTHS_ES[d.getMonth()]}`;
+
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'day-group';
+    groupDiv.innerHTML = `
+      <div class="day-header" style="animation: fadeIn 0.4s ease-out backwards; animation-delay: ${delayIdx * 0.05}s">
+        <span class="day-name ${isToday ? 'is-today' : ''}">${dayName}</span>
+        <span class="day-date">${dateStr}</span>
+      </div>
+    `;
+    delayIdx++;
+
+    dayEvents.forEach(ev => {
+      const typeClass = 'type-' + detectType(ev.summary);
+      const isNow = isHappeningNow(ev, now);
+      const card = document.createElement('div');
+      card.className = `event-card ${typeClass} ${isNow ? 'is-now' : ''}`;
+      card.style.animationDelay = (delayIdx * 0.05) + 's';
+      card.innerHTML = `
+        ${isNow ? '<div class="is-now-badge">EN CURSO</div>' : ''}
+        <div class="ec-time">
+          <div class="ec-dot"></div>
+          ${formatTime(ev.dtstart)}${ev.dtend ? ' – ' + formatTime(ev.dtend) : ''}
+        </div>
+        <div class="ec-title">${(ev.summary || '').trim()}</div>
+        ${ev.location ? `
+        <div class="ec-location">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${ev.location}
+        </div>` : ''}
+      `;
+      groupDiv.appendChild(card);
+      delayIdx++;
+    });
+
+    container.appendChild(groupDiv);
+  });
+}
+
+// ====== INIT ======
+async function initMobile() {
+  fetchTides();
+  await fetchCalendar();
+  renderMobileEvents();
+}
+initMobile();
+</script>
+</body>
+</html>
