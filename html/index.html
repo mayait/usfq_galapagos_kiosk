@@ -6,129 +6,116 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Flujo Orgánico — USFQ Galápagos</title>
+<title>¿Qué pasa en la USFQ? — Galápagos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --color-primary: #0F4C81;
-    --color-bg: #041C32;
-    --color-surface: rgba(4, 41, 58, 0.55);
-    --color-text: #F1F6F9;
-    --color-muted: #9BA4B5;
-    --color-accent: #00B4D8;
-    --color-warning: #F4A261;
-    --color-green: #2DD4A0;
-    --font-serif: 'Playfair Display', serif;
-    --font-sans: 'Outfit', sans-serif;
-    --radius-card: 24px;
+    /* Cromática USFQ Galápagos */
+    --verde-galapagos: #00A9A8;
+    --azul-pacifico:   #1672A3;
+    --negro-corp:      #1A1A1A;
+    --blanco:          #FFFFFF;
+    --gris-100:        #F7F8FA;
+    --gris-200:        #EEF0F4;
+    --gris-300:        #D5D9E0;
+    --gris-400:        #A0A7B4;
+    --gris-500:        #6B7280;
+    --gradiente:       linear-gradient(135deg, #00A9A8 0%, #1672A3 100%);
+
+    /* Colores de tipo de evento */
+    --type-academico:  #1672A3;
+    --type-club:       #00A9A8;
+    --type-deporte:    #E6820E;
+    --type-social:     #9333EA;
+    --type-bienestar:  #059669;
+    --type-evento:     #6B7280;
+
+    /* Tipografía */
+    --font: 'Jost', sans-serif;
+    --radius: 16px;
     --radius-pill: 9999px;
-    --shadow-float: 0 8px 32px rgba(0, 0, 0, 0.35);
-    --blur-glass: blur(16px);
   }
 
   html, body {
     width: 100vw; height: 100vh;
     overflow: hidden;
-    background: var(--color-bg);
-    font-family: var(--font-sans);
-    color: var(--color-text);
+    background: var(--blanco);
+    font-family: var(--font);
+    color: var(--negro-corp);
   }
 
-  /* ===== BACKGROUND ===== */
-  .ocean-bg {
+  /* ===== BACKGROUND SUTIL ===== */
+  .bg-pattern {
     position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
     overflow: hidden;
-    background: linear-gradient(170deg, #041C32 0%, #062a44 35%, #0a3a5c 70%, #062640 100%);
   }
 
-  .wave-layer {
-    position: absolute; bottom: -10%; left: -50%; width: 200%; height: 50%;
-    opacity: 0.25;
-  }
-  .wave-layer path { fill: none; stroke-width: 2; }
-  .wave-layer.w1 { animation: waveSlide 40s linear infinite; }
-  .wave-layer.w1 path { stroke: var(--color-primary); stroke-width: 3; }
-  .wave-layer.w2 { animation: waveSlide 55s linear infinite reverse; bottom: -6%; opacity: 0.15; }
-  .wave-layer.w2 path { stroke: var(--color-accent); stroke-width: 2; }
-
-  @keyframes waveSlide {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+  .bg-gradient-strip {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gradiente);
   }
 
-  .orb {
-    position: fixed; border-radius: 50%;
-    filter: blur(100px); opacity: 0.10; z-index: 0; pointer-events: none;
+  .bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.04;
+    pointer-events: none;
   }
-  .orb-1 { width: 600px; height: 600px; background: var(--color-accent); top: -15%; right: -5%; animation: orbPulse 14s ease-in-out infinite; }
-  .orb-2 { width: 500px; height: 500px; background: var(--color-primary); bottom: 5%; left: -10%; animation: orbPulse 18s ease-in-out infinite reverse; }
-
-  @keyframes orbPulse {
-    0%, 100% { transform: scale(1); opacity: 0.08; }
-    50%      { transform: scale(1.2); opacity: 0.15; }
-  }
-
-  /* Particles */
-  .particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-  .particle {
-    position: absolute; border-radius: 50%;
-    background: var(--color-accent); opacity: 0;
-    animation: floatUp linear infinite;
-  }
-  @keyframes floatUp {
-    0%   { opacity: 0; transform: translateY(0) translateX(0); }
-    10%  { opacity: 0.5; }
-    90%  { opacity: 0.5; }
-    100% { opacity: 0; transform: translateY(-100vh) translateX(30px); }
-  }
+  .bg-orb-1 { width: 800px; height: 800px; background: var(--verde-galapagos); top: -20%; right: -10%; }
+  .bg-orb-2 { width: 600px; height: 600px; background: var(--azul-pacifico);   bottom: -15%; left: -5%; }
 
   /* ===== LAYOUT ===== */
   .kiosk {
     position: relative; z-index: 10;
     width: 100vw; height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
+    grid-template-columns: 420px 1fr;
   }
 
-  /* ===== LEFT PANEL — Info ===== */
+  /* ===== LEFT PANEL ===== */
   .left-panel {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 52px 48px 48px 64px;
+    padding: 48px 40px 40px 56px;
+    border-right: 1px solid var(--gris-200);
+    background: var(--blanco);
   }
 
   .top-section {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 32px;
   }
 
   .brand {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 20px;
   }
-  .brand h1 {
-    font-family: var(--font-serif);
+  .brand-logo {
+    width: 220px;
+    height: auto;
+  }
+  .brand-title {
     font-weight: 700;
-    font-size: 44px;
+    font-size: 36px;
     line-height: 1.1;
-    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+    color: var(--negro-corp);
+  }
+  .brand-title span {
+    background: var(--gradiente);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-  .brand .campus {
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 16px;
-    color: var(--color-muted);
   }
 
   .clock-block {
@@ -137,289 +124,223 @@
     gap: 2px;
   }
   .clock-block .time {
-    font-family: var(--font-sans);
     font-weight: 700;
-    font-size: 80px;
+    font-size: 76px;
     line-height: 1;
-    color: var(--color-text);
-    letter-spacing: -4px;
+    color: var(--negro-corp);
+    letter-spacing: -3px;
   }
   .clock-block .date-text {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
-    font-size: 22px;
-    color: var(--color-muted);
+    font-weight: 300;
+    font-size: 20px;
+    color: var(--gris-500);
   }
 
-  /* ===== TIDES SECTION ===== */
+  /* ===== TIDES ===== */
   .tides-section {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 28px;
+    border-top: 1px solid var(--gris-200);
+    padding-top: 24px;
   }
 
   .tides-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
   .tides-header h2 {
-    font-family: var(--font-serif);
     font-weight: 700;
-    font-size: 22px;
-    color: var(--color-text);
+    font-size: 20px;
+    color: var(--negro-corp);
   }
-  .tides-header .tide-badge {
-    font-family: var(--font-sans);
+  .tide-badge {
     font-weight: 500;
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 4px 12px;
+    padding: 3px 12px;
     border-radius: var(--radius-pill);
   }
   .tide-badge.rising {
-    color: var(--color-accent);
-    background: rgba(0, 180, 216, 0.1);
-    border: 1px solid rgba(0, 180, 216, 0.25);
+    color: var(--verde-galapagos);
+    background: rgba(0, 169, 168, 0.08);
+    border: 1px solid rgba(0, 169, 168, 0.25);
   }
   .tide-badge.falling {
-    color: var(--color-warning);
-    background: rgba(244, 162, 97, 0.1);
-    border: 1px solid rgba(244, 162, 97, 0.25);
+    color: var(--azul-pacifico);
+    background: rgba(22, 114, 163, 0.08);
+    border: 1px solid rgba(22, 114, 163, 0.25);
   }
 
   .tides-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
 
   .tide-entry {
-    background: var(--color-surface);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    backdrop-filter: var(--blur-glass);
-    -webkit-backdrop-filter: var(--blur-glass);
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    transition: border-color 0.4s ease;
-  }
-  .tide-entry:hover {
-    border-color: rgba(0, 180, 216, 0.15);
-  }
-  .tide-entry.is-next {
-    border-color: rgba(0, 180, 216, 0.25);
-    box-shadow: 0 4px 20px rgba(0, 180, 216, 0.10);
-  }
-
-  .tide-icon {
-    font-size: 22px;
-    width: 36px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  .tide-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .tide-info .tide-type {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 15px;
-    color: var(--color-text);
-  }
-  .tide-info .tide-time {
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 13px;
-    color: var(--color-muted);
-  }
-
-  .tide-height {
-    font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: 22px;
-    color: var(--color-accent);
-    line-height: 1;
-  }
-  .tide-height .th-unit {
-    font-weight: 300;
-    font-size: 13px;
-    color: var(--color-muted);
-  }
-
-  .tide-entry.type-low .tide-height {
-    color: var(--color-warning);
-  }
-
-  .tides-loading {
+    background: var(--gris-100);
+    border: 1px solid var(--gris-200);
+    border-radius: 12px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 20px 0;
-    color: var(--color-muted);
-    font-size: 15px;
+    transition: border-color 0.3s ease;
   }
+  .tide-entry.is-next {
+    border-color: var(--verde-galapagos);
+    background: rgba(0, 169, 168, 0.04);
+    box-shadow: 0 2px 12px rgba(0, 169, 168, 0.08);
+  }
+
+  .tide-icon { font-size: 20px; width: 32px; text-align: center; flex-shrink: 0; }
+  .tide-info { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+  .tide-info .tide-type { font-weight: 600; font-size: 14px; color: var(--negro-corp); }
+  .tide-info .tide-time { font-weight: 300; font-size: 12px; color: var(--gris-500); }
+  .tide-height { font-weight: 700; font-size: 20px; color: var(--verde-galapagos); }
+  .tide-entry.type-low .tide-height { color: var(--azul-pacifico); }
+  .tide-height .th-unit { font-weight: 300; font-size: 12px; color: var(--gris-400); }
+
+  .tides-loading { display: flex; align-items: center; gap: 10px; padding: 16px 0; color: var(--gris-500); font-size: 14px; }
   .tides-loading .mini-ring {
-    width: 20px; height: 20px;
-    border: 2px solid rgba(0,180,216,0.15);
-    border-top-color: var(--color-accent);
+    width: 18px; height: 18px;
+    border: 2px solid var(--gris-200);
+    border-top-color: var(--verde-galapagos);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
 
   .tide-source {
-    margin-top: 10px;
-    font-family: var(--font-sans);
-    font-size: 11px;
-    color: rgba(155, 164, 181, 0.35);
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--gris-400);
     letter-spacing: 0.5px;
-    font-weight: 600;
   }
 
   .week-label {
-    font-family: var(--font-sans);
     font-weight: 400;
-    font-size: 14px;
-    color: rgba(155, 164, 181, 0.45);
-    border-top: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+    color: var(--gris-400);
+    border-top: 1px solid var(--gris-200);
     padding-top: 16px;
   }
 
-  /* ===== RIGHT PANEL — Event List ===== */
+  /* ===== RIGHT PANEL ===== */
   .right-panel {
     position: relative;
     overflow: hidden;
+    background: var(--gris-100);
   }
 
-  /* Fade masks top/bottom */
   .right-panel::before,
   .right-panel::after {
     content: '';
     position: absolute;
     left: 0; right: 0;
-    height: 80px;
+    height: 72px;
     z-index: 20;
     pointer-events: none;
   }
   .right-panel::before {
     top: 0;
-    background: linear-gradient(180deg, var(--color-bg) 0%, transparent 100%);
+    background: linear-gradient(180deg, var(--gris-100) 0%, transparent 100%);
   }
   .right-panel::after {
     bottom: 0;
-    background: linear-gradient(0deg, var(--color-bg) 0%, transparent 100%);
+    background: linear-gradient(0deg, var(--gris-100) 0%, transparent 100%);
   }
 
   .scroll-container {
     height: 100%;
     overflow-y: auto;
-    padding: 80px 56px 80px 24px;
+    padding: 72px 56px 72px 40px;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    -ms-overflow-style: none;
   }
   .scroll-container::-webkit-scrollbar { display: none; }
 
-  /* Day section */
-  .day-section {
-    margin-bottom: 36px;
-  }
+  /* ===== DAY SECTION ===== */
+  .day-section { margin-bottom: 32px; }
 
   .day-header {
     display: flex;
     align-items: baseline;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     padding-left: 4px;
   }
   .day-header .day-name {
-    font-family: var(--font-serif);
     font-weight: 700;
-    font-size: 28px;
-    color: var(--color-text);
+    font-size: 26px;
+    color: var(--negro-corp);
+    letter-spacing: -0.5px;
   }
   .day-header .day-name.is-today {
-    color: var(--color-warning);
+    background: var(--gradiente);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   .day-header .day-date {
-    font-family: var(--font-sans);
     font-weight: 300;
-    font-size: 16px;
-    color: var(--color-muted);
+    font-size: 15px;
+    color: var(--gris-500);
   }
   .day-header .day-count {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--color-accent);
-    background: rgba(0, 180, 216, 0.08);
-    border: 1px solid rgba(0, 180, 216, 0.15);
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--verde-galapagos);
+    background: rgba(0, 169, 168, 0.08);
+    border: 1px solid rgba(0, 169, 168, 0.2);
     border-radius: var(--radius-pill);
     padding: 3px 12px;
   }
 
-  /* Event card */
+  /* ===== EVENT CARD ===== */
   .event-item {
-    background: var(--color-surface);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: var(--radius-card);
-    backdrop-filter: var(--blur-glass);
-    -webkit-backdrop-filter: var(--blur-glass);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    padding: 24px 28px;
-    margin-bottom: 14px;
+    background: var(--blanco);
+    border: 1px solid var(--gris-200);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    padding: 22px 26px;
+    margin-bottom: 12px;
     position: relative;
     overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.4s ease,
-                border-color 0.4s ease;
-    animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    animation: cardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   .event-item:hover {
-    transform: translateY(-2px) scale(1.01);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border-color: rgba(0, 180, 216, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: var(--gris-300);
   }
 
   @keyframes cardEnter {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Glow line on left */
+  /* Left accent bar */
   .event-item::before {
     content: '';
     position: absolute;
-    top: 12px; bottom: 12px; left: 0;
+    top: 10px; bottom: 10px; left: 0;
     width: 3px;
     border-radius: 0 3px 3px 0;
   }
-  .event-item.type-academico::before { background: var(--color-accent); }
-  .event-item.type-club::before { background: var(--color-green); }
-  .event-item.type-deporte::before { background: var(--color-warning); }
-  .event-item.type-social::before { background: #E879F9; }
-  .event-item.type-bienestar::before { background: #34D399; }
-  .event-item.type-evento::before { background: var(--color-muted); }
+  .event-item.type-academico::before { background: var(--type-academico); }
+  .event-item.type-club::before      { background: var(--type-club); }
+  .event-item.type-deporte::before   { background: var(--type-deporte); }
+  .event-item.type-social::before    { background: var(--type-social); }
+  .event-item.type-bienestar::before { background: var(--type-bienestar); }
+  .event-item.type-evento::before    { background: var(--type-evento); }
 
-  .event-item .ev-top {
+  .ev-top {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .ev-dot {
@@ -427,204 +348,140 @@
     border-radius: 50%;
     flex-shrink: 0;
   }
-  .type-academico .ev-dot { background: var(--color-accent); box-shadow: 0 0 8px rgba(0,180,216,0.4); }
-  .type-club .ev-dot { background: var(--color-green); box-shadow: 0 0 8px rgba(45,212,160,0.4); }
-  .type-deporte .ev-dot { background: var(--color-warning); box-shadow: 0 0 8px rgba(244,162,97,0.4); }
-  .type-social .ev-dot { background: #E879F9; box-shadow: 0 0 8px rgba(232,121,249,0.4); }
-  .type-bienestar .ev-dot { background: #34D399; box-shadow: 0 0 8px rgba(52,211,153,0.4); }
-  .type-evento .ev-dot { background: var(--color-muted); }
+  .type-academico .ev-dot { background: var(--type-academico); }
+  .type-club .ev-dot      { background: var(--type-club); }
+  .type-deporte .ev-dot   { background: var(--type-deporte); }
+  .type-social .ev-dot    { background: var(--type-social); }
+  .type-bienestar .ev-dot { background: var(--type-bienestar); }
+  .type-evento .ev-dot    { background: var(--type-evento); }
 
   .ev-time {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: 0.5px;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.3px;
   }
-  .type-academico .ev-time { color: var(--color-accent); }
-  .type-club .ev-time { color: var(--color-green); }
-  .type-deporte .ev-time { color: var(--color-warning); }
-  .type-social .ev-time { color: #E879F9; }
-  .type-bienestar .ev-time { color: #34D399; }
-  .type-evento .ev-time { color: var(--color-muted); }
+  .type-academico .ev-time { color: var(--type-academico); }
+  .type-club .ev-time      { color: var(--type-club); }
+  .type-deporte .ev-time   { color: var(--type-deporte); }
+  .type-social .ev-time    { color: var(--type-social); }
+  .type-bienestar .ev-time { color: var(--type-bienestar); }
+  .type-evento .ev-time    { color: var(--type-evento); }
 
   .ev-title {
-    font-family: var(--font-serif);
     font-weight: 700;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1.2;
-    color: var(--color-text);
-    margin-bottom: 6px;
+    color: var(--negro-corp);
+    margin-bottom: 4px;
   }
 
   .ev-location {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-family: var(--font-sans);
+    gap: 5px;
     font-weight: 300;
-    font-size: 15px;
-    color: var(--color-muted);
+    font-size: 14px;
+    color: var(--gris-500);
   }
-  .ev-location svg { flex-shrink: 0; opacity: 0.6; }
+  .ev-location svg { flex-shrink: 0; opacity: 0.5; }
 
-  /* Happening now pulse */
+  /* Happening now */
   .event-item.is-now {
-    border-color: rgba(0, 180, 216, 0.3);
-    box-shadow: 0 4px 24px rgba(0, 180, 216, 0.12);
+    border-color: var(--verde-galapagos);
+    box-shadow: 0 2px 16px rgba(0, 169, 168, 0.10);
   }
   .event-item.is-now::after {
     content: 'AHORA';
     position: absolute;
-    top: 12px; right: 16px;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    color: var(--color-accent);
-    background: rgba(0, 180, 216, 0.12);
-    border: 1px solid rgba(0, 180, 216, 0.25);
+    top: 10px; right: 14px;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--blanco);
+    background: var(--gradiente);
     border-radius: var(--radius-pill);
-    padding: 4px 12px;
+    padding: 4px 14px;
     animation: nowPulse 2s ease-in-out infinite;
   }
   @keyframes nowPulse {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    50% { opacity: 0.6; }
   }
 
-  /* Empty state */
+  /* Empty & Loading */
   .empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-    padding: 60px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100%; text-align: center; padding: 60px;
   }
-  .empty-state h2 {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
-    font-size: 32px;
-    color: var(--color-muted);
-  }
-  .empty-state p {
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 16px;
-    color: rgba(155, 164, 181, 0.5);
-    margin-top: 12px;
-  }
+  .empty-state h2 { font-weight: 300; font-size: 28px; color: var(--gris-400); }
+  .empty-state p { font-weight: 300; font-size: 15px; color: var(--gris-400); margin-top: 10px; }
 
-  /* Loading */
   .loading-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 20px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100%; gap: 18px;
   }
   .loading-ring {
-    width: 48px; height: 48px;
-    border: 3px solid rgba(0, 180, 216, 0.12);
-    border-top-color: var(--color-accent);
+    width: 44px; height: 44px;
+    border: 3px solid var(--gris-200);
+    border-top-color: var(--verde-galapagos);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-state p {
-    font-family: var(--font-sans);
-    font-weight: 300;
-    font-size: 16px;
-    color: var(--color-muted);
-  }
+  .loading-state p { font-weight: 300; font-size: 15px; color: var(--gris-500); }
 
   /* Status badge */
   .status-badge {
     position: fixed;
-    top: 20px; left: 50%;
-    transform: translateX(-50%) translateY(-60px);
-    background: rgba(0, 180, 216, 0.12);
-    border: 1px solid rgba(0, 180, 216, 0.25);
+    top: 16px; left: 50%;
+    transform: translateX(-50%) translateY(-50px);
+    background: var(--blanco);
+    border: 1px solid var(--gris-200);
     border-radius: var(--radius-pill);
     padding: 8px 24px;
-    font-family: var(--font-sans);
     font-weight: 400;
-    font-size: 14px;
-    color: var(--color-accent);
+    font-size: 13px;
+    color: var(--verde-galapagos);
     z-index: 200;
     opacity: 0;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .status-badge.visible {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
 
-  /* Stagger animation delays */
+  /* Stagger */
   .event-item:nth-child(1) { animation-delay: 0s; }
-  .event-item:nth-child(2) { animation-delay: 0.08s; }
-  .event-item:nth-child(3) { animation-delay: 0.16s; }
-  .event-item:nth-child(4) { animation-delay: 0.24s; }
-  .event-item:nth-child(5) { animation-delay: 0.32s; }
-  .event-item:nth-child(6) { animation-delay: 0.4s; }
-
-  /* Auto-scroll indicator */
-  .scroll-hint {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 25;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    opacity: 0.4;
-    animation: hintBounce 2s ease-in-out infinite;
-    pointer-events: none;
-  }
-  .scroll-hint span {
-    font-family: var(--font-sans);
-    font-size: 12px;
-    color: var(--color-muted);
-  }
-  @keyframes hintBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(6px); }
-  }
+  .event-item:nth-child(2) { animation-delay: 0.06s; }
+  .event-item:nth-child(3) { animation-delay: 0.12s; }
+  .event-item:nth-child(4) { animation-delay: 0.18s; }
+  .event-item:nth-child(5) { animation-delay: 0.24s; }
+  .event-item:nth-child(6) { animation-delay: 0.30s; }
 </style>
 </head>
 <body>
 
 <!-- Background -->
-<div class="ocean-bg">
-  <svg class="wave-layer w1" viewBox="0 0 2400 400" preserveAspectRatio="none">
-    <path d="M0,200 C150,280 350,120 600,200 C850,280 1050,120 1200,200 C1350,280 1550,120 1800,200 C2050,280 2250,120 2400,200" />
-    <path d="M0,240 C200,310 400,170 600,240 C800,310 1000,170 1200,240 C1400,310 1600,170 1800,240 C2000,310 2200,170 2400,240" />
-    <path d="M0,280 C180,340 380,220 600,280 C820,340 1020,220 1200,280 C1380,340 1580,220 1800,280 C2020,340 2220,220 2400,280" />
-  </svg>
-  <svg class="wave-layer w2" viewBox="0 0 2400 400" preserveAspectRatio="none">
-    <path d="M0,220 C200,300 400,140 700,220 C1000,300 1200,140 1500,220 C1800,300 2000,140 2400,220" />
-    <path d="M0,260 C250,330 500,190 750,260 C1000,330 1250,190 1500,260 C1750,330 2000,190 2400,260" />
-  </svg>
+<div class="bg-pattern">
+  <div class="bg-gradient-strip"></div>
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
 </div>
 
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="particles" id="particles"></div>
 <div class="status-badge" id="statusBadge"></div>
 
 <!-- Main layout -->
 <div class="kiosk">
-  <!-- Left: Title + Clock + Sea Conditions -->
+  <!-- Left -->
   <div class="left-panel">
     <div class="top-section">
       <div class="brand">
-        <h1>¿Qué pasa<br>en la USFQ?</h1>
-        <div class="campus">Galápagos · San Cristóbal</div>
+        <img src="img/LOGO-USFQG-2025.png" alt="USFQ Galápagos" class="brand-logo">
+        <div class="brand-title"><span>¿Qué pasa</span><br><span>en la USFQ?</span></div>
       </div>
       <div class="clock-block">
         <div class="time" id="clock">--:--</div>
@@ -649,7 +506,7 @@
     <div class="week-label" id="weekLabel"></div>
   </div>
 
-  <!-- Right: Event list -->
+  <!-- Right -->
   <div class="right-panel">
     <div class="scroll-container" id="scrollContainer">
       <div id="eventList">
@@ -669,15 +526,15 @@ const CORS_PROXIES = [
   url => `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => url  // directo (funciona si se sirve desde servidor local)
+  url => url
 ];
-const REFRESH_INTERVAL = 120000; // 2 minutos
-const AUTO_SCROLL_SPEED = 0.4; // px per frame
-const AUTO_SCROLL_PAUSE = 8000; // pause at bottom before resetting
-const GALAPAGOS_TZ = 'America/Costa_Rica'; // UTC-6, equivalente a Galápagos
+const REFRESH_INTERVAL = 120000;
+const AUTO_SCROLL_SPEED = 0.4;
+const AUTO_SCROLL_PAUSE = 8000;
+const GALAPAGOS_TZ = 'America/Costa_Rica';
 
 const NOAA_ENDPOINT = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter';
-const NOAA_STATION = '9992401'; // San Cristóbal, Galápagos
+const NOAA_STATION = '9992401';
 
 let events = [];
 let autoScrolling = true;
@@ -691,7 +548,6 @@ function updateClock() {
   const opts = { timeZone: GALAPAGOS_TZ };
   document.getElementById('clock').textContent =
     now.toLocaleString('es-EC', { ...opts, hour: '2-digit', minute: '2-digit', hour12: false });
-
   const day = now.toLocaleString('es-EC', { ...opts, weekday: 'long' });
   const d = now.toLocaleString('es-EC', { ...opts, day: 'numeric' });
   const m = now.toLocaleString('es-EC', { ...opts, month: 'long' });
@@ -701,41 +557,22 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// ===== PARTICLES =====
-(function createParticles() {
-  const c = document.getElementById('particles');
-  for (let i = 0; i < 18; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.bottom = '-10px';
-    const size = (2 + Math.random() * 3) + 'px';
-    p.style.width = size; p.style.height = size;
-    p.style.animationDuration = (18 + Math.random() * 25) + 's';
-    p.style.animationDelay = (-Math.random() * 30) + 's';
-    c.appendChild(p);
-  }
-})();
-
 // ===== ICS PARSER =====
 function parseICS(text) {
   const vevents = [];
   const blocks = text.split('BEGIN:VEVENT');
   blocks.shift();
-
   for (const block of blocks) {
     const raw = block.split('END:VEVENT')[0];
     const unfolded = raw.replace(/\r?\n[ \t]/g, '');
     const lines = unfolded.split(/\r?\n/);
     const ev = {};
-
     for (const line of lines) {
       const ci = line.indexOf(':');
       if (ci < 0) continue;
       const keyPart = line.substring(0, ci);
       const value = line.substring(ci + 1);
       const key = keyPart.split(';')[0].trim();
-
       if (key === 'SUMMARY') ev.summary = value.replace(/\\n/g, ' ').replace(/\\,/g, ',').trim();
       if (key === 'DTSTART') ev.dtstart = parseICSDate(value, keyPart);
       if (key === 'DTEND') ev.dtend = parseICSDate(value, keyPart);
@@ -751,48 +588,23 @@ function parseICS(text) {
 function parseICSDate(value, keyPart) {
   const isDate = keyPart.includes('VALUE=DATE') || (value.length === 8 && !value.includes('T'));
   const clean = value.replace('Z', '');
-
-  // Eventos de día completo: anclar a Galápagos UTC-6
   if (isDate) return new Date(clean.slice(0,4)+'-'+clean.slice(4,6)+'-'+clean.slice(6,8)+'T00:00:00-06:00');
-
   const y=clean.slice(0,4), mo=clean.slice(4,6), d=clean.slice(6,8);
   const h=clean.slice(9,11), mi=clean.slice(11,13), s=clean.slice(13,15)||'00';
-
-  // Si termina en Z → UTC explícito
   if (value.endsWith('Z')) return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}Z`);
-
-  // Resolver offset según TZID de Microsoft
   const offset = resolveMicrosoftTZID(keyPart);
   return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}${offset}`);
 }
 
 function resolveMicrosoftTZID(keyPart) {
   const tzMatch = keyPart.match(/TZID="([^"]+)"/) || keyPart.match(/TZID=([^;:]+)/);
-  if (!tzMatch) return '-06:00'; // sin TZID → asumir Galápagos
-
+  if (!tzMatch) return '-06:00';
   const tz = tzMatch[1].toLowerCase();
-
-  // UTC variants
-  if (tz.includes('utc') || tz.includes('greenwich') || tz.includes('gmt standard'))
-    return '+00:00';
-
-  // UTC-6 sin DST (Galápagos, Centro América, Saskatchewan)
-  if (tz.includes('central america') || tz.includes('canada central'))
-    return '-06:00';
-
-  // US Central (con DST, pero para Galápagos tratamos como -06:00)
-  if (tz.includes('central standard') || tz.includes('central time'))
-    return '-06:00';
-
-  // Ecuador continental / Colombia / Perú = UTC-5
-  if (tz.includes('sa pacific') || tz.includes('colombia') || tz.includes('lima') || tz.includes('bogota') || tz.includes('guayaquil'))
-    return '-05:00';
-
-  // US Eastern = UTC-5 (sin considerar DST para simplicidad)
-  if (tz.includes('eastern'))
-    return '-05:00';
-
-  // Fallback: Galápagos UTC-6
+  if (tz.includes('utc') || tz.includes('greenwich') || tz.includes('gmt standard')) return '+00:00';
+  if (tz.includes('central america') || tz.includes('canada central')) return '-06:00';
+  if (tz.includes('central standard') || tz.includes('central time')) return '-06:00';
+  if (tz.includes('sa pacific') || tz.includes('colombia') || tz.includes('lima') || tz.includes('bogota') || tz.includes('guayaquil')) return '-05:00';
+  if (tz.includes('eastern')) return '-05:00';
   return '-06:00';
 }
 
@@ -861,7 +673,6 @@ function expandRRule(ev, from, to) {
 
 // ===== FETCH =====
 function bustCache(url) {
-  // Agregar timestamp para evitar caché de proxies
   const sep = url.includes('?') ? '&' : '?';
   return url + sep + '_t=' + Date.now();
 }
@@ -912,13 +723,10 @@ function useFallbackData() {
 function renderEvents() {
   const list = document.getElementById('eventList');
   list.innerHTML = '';
-
   if (events.length === 0) {
     list.innerHTML = `<div class="empty-state"><h2>No hay eventos esta semana</h2><p>El calendario se actualiza automáticamente</p></div>`;
     return;
   }
-
-  // Group by day
   const groups = new Map();
   const now = new Date();
   events.forEach(ev => {
@@ -926,31 +734,26 @@ function renderEvents() {
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(ev);
   });
-
   let cardIndex = 0;
   groups.forEach((dayEvents, dateKey) => {
     const section = document.createElement('div');
     section.className = 'day-section';
-
     const d = dayEvents[0].dtstart;
     const dayLabel = getRelativeDay(d);
     const isToday = isSameDay(d, now);
     const dateStr = d.toLocaleDateString('es-EC', { day: 'numeric', month: 'long', timeZone: GALAPAGOS_TZ });
-
     section.innerHTML = `
       <div class="day-header">
         <span class="day-name ${isToday ? 'is-today' : ''}">${dayLabel}</span>
         <span class="day-date">${dateStr}</span>
         <span class="day-count">${dayEvents.length} evento${dayEvents.length > 1 ? 's' : ''}</span>
       </div>`;
-
     dayEvents.forEach(ev => {
       const typeClass = 'type-' + detectType(ev.summary);
       const isNow = isHappeningNow(ev, now);
       const card = document.createElement('div');
       card.className = `event-item ${typeClass}${isNow ? ' is-now' : ''}`;
       card.style.animationDelay = (cardIndex * 0.07) + 's';
-
       card.innerHTML = `
         <div class="ev-top">
           <div class="ev-dot"></div>
@@ -967,11 +770,8 @@ function renderEvents() {
       section.appendChild(card);
       cardIndex++;
     });
-
     list.appendChild(section);
   });
-
-  // Update week label
   const { monday, sunday } = getWeekBounds();
   const mFmt = monday.toLocaleDateString('es-EC', { day: 'numeric', month: 'short' });
   const sFmt = sunday.toLocaleDateString('es-EC', { day: 'numeric', month: 'short' });
@@ -984,56 +784,33 @@ function setupAutoScroll() {
   const container = document.getElementById('scrollContainer');
   let direction = 1;
   let pauseTimeout = null;
-
-  // Pause auto-scroll on user interaction
   container.addEventListener('wheel', onUserInteract, { passive: true });
   container.addEventListener('touchstart', onUserInteract, { passive: true });
   container.addEventListener('mousedown', onUserInteract);
-
   function onUserInteract() {
     userInteracted = true;
     clearTimeout(userInteractTimer);
     userInteractTimer = setTimeout(() => { userInteracted = false; }, 15000);
   }
-
   function scrollStep() {
-    if (userInteracted) {
-      requestAnimationFrame(scrollStep);
-      return;
-    }
-
+    if (userInteracted) { requestAnimationFrame(scrollStep); return; }
     const maxScroll = container.scrollHeight - container.clientHeight;
-    if (maxScroll <= 0) {
-      requestAnimationFrame(scrollStep);
-      return;
-    }
-
+    if (maxScroll <= 0) { requestAnimationFrame(scrollStep); return; }
     if (!scrollPaused) {
       container.scrollTop += AUTO_SCROLL_SPEED * direction;
-
-      // Hit bottom
       if (container.scrollTop >= maxScroll - 1) {
         scrollPaused = true;
         clearTimeout(pauseTimeout);
-        pauseTimeout = setTimeout(() => {
-          direction = -1;
-          scrollPaused = false;
-        }, AUTO_SCROLL_PAUSE);
+        pauseTimeout = setTimeout(() => { direction = -1; scrollPaused = false; }, AUTO_SCROLL_PAUSE);
       }
-      // Hit top
       if (container.scrollTop <= 1 && direction === -1) {
         scrollPaused = true;
         clearTimeout(pauseTimeout);
-        pauseTimeout = setTimeout(() => {
-          direction = 1;
-          scrollPaused = false;
-        }, AUTO_SCROLL_PAUSE);
+        pauseTimeout = setTimeout(() => { direction = 1; scrollPaused = false; }, AUTO_SCROLL_PAUSE);
       }
     }
-
     requestAnimationFrame(scrollStep);
   }
-
   requestAnimationFrame(scrollStep);
 }
 
@@ -1041,11 +818,7 @@ function setupAutoScroll() {
 function formatTime(d) {
   return d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: GALAPAGOS_TZ }).toUpperCase();
 }
-
-function isSameDay(a, b) {
-  return a.toDateString() === b.toDateString();
-}
-
+function isSameDay(a, b) { return a.toDateString() === b.toDateString(); }
 function getRelativeDay(d) {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -1057,15 +830,8 @@ function getRelativeDay(d) {
   const name = d.toLocaleDateString('es-EC', { weekday: 'long', timeZone: GALAPAGOS_TZ });
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
-
-function isHappeningNow(ev, now) {
-  return ev.dtstart <= now && ev.dtend && ev.dtend >= now;
-}
-
-function cleanTitle(s) {
-  return (s || 'Evento').trim();
-}
-
+function isHappeningNow(ev, now) { return ev.dtstart <= now && ev.dtend && ev.dtend >= now; }
+function cleanTitle(s) { return (s || 'Evento').trim(); }
 function detectType(summary) {
   const s = summary.toLowerCase();
   if (s.includes('coloquio') || s.includes('taller') || s.includes('charla') || s.includes('seminario')) return 'academico';
@@ -1075,15 +841,12 @@ function detectType(summary) {
   if (s.includes('mental') || s.includes('salud') || s.includes('bienestar') || s.includes('yoga')) return 'bienestar';
   return 'evento';
 }
-
 function showStatus(msg) {
   const el = document.getElementById('statusBadge');
   el.textContent = msg;
   el.classList.add('visible');
 }
-function hideStatus() {
-  document.getElementById('statusBadge').classList.remove('visible');
-}
+function hideStatus() { document.getElementById('statusBadge').classList.remove('visible'); }
 
 // ===== TIDES — NOAA API =====
 async function fetchTides() {
@@ -1091,16 +854,12 @@ async function fetchTides() {
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-CA', { timeZone: GALAPAGOS_TZ }).replace(/-/g, '');
     const url = `${NOAA_ENDPOINT}?begin_date=${dateStr}&end_date=${dateStr}&station=${NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst&interval=hilo&units=metric&format=json`;
-
-    const resp = await fetch(url, { cache: 'no-cache' });
+    const resp = await fetch(url, { cache: 'no-store' });
     if (!resp.ok) throw new Error('NOAA API error ' + resp.status);
     const data = await resp.json();
-
     if (data.predictions && data.predictions.length > 0) {
       renderTides(data.predictions);
-    } else {
-      renderTidesFallback();
-    }
+    } else { renderTidesFallback(); }
   } catch (e) {
     console.warn('NOAA tides error:', e);
     renderTidesFallback();
@@ -1111,35 +870,25 @@ function renderTides(predictions) {
   const container = document.getElementById('tidesContent');
   const badge = document.getElementById('tideBadge');
   const now = new Date();
-
-  // Determinar la próxima marea
   let nextIdx = -1;
   for (let i = 0; i < predictions.length; i++) {
     const tideTime = parseTideTime(predictions[i].t);
     if (tideTime > now) { nextIdx = i; break; }
   }
-
-  // Determinar si la marea está subiendo o bajando
   let tidePhase = 'rising';
-  if (nextIdx >= 0) {
-    tidePhase = predictions[nextIdx].type === 'H' ? 'rising' : 'falling';
-  }
-
+  if (nextIdx >= 0) { tidePhase = predictions[nextIdx].type === 'H' ? 'rising' : 'falling'; }
   badge.textContent = tidePhase === 'rising' ? 'Subiendo' : 'Bajando';
   badge.className = 'tide-badge ' + tidePhase;
   badge.style.display = 'inline-block';
-
   let html = '<div class="tides-list">';
-
   predictions.forEach((p, i) => {
     const isHigh = p.type === 'H';
     const isNext = i === nextIdx;
     const height = parseFloat(p.v).toFixed(2);
     const timeParts = p.t.split(' ');
-    const timeStr = timeParts[1]; // "HH:MM"
+    const timeStr = timeParts[1];
     const tideTime = parseTideTime(p.t);
     const isPast = tideTime < now;
-
     html += `
       <div class="tide-entry ${isHigh ? 'type-high' : 'type-low'}${isNext ? ' is-next' : ''}" style="${isPast && !isNext ? 'opacity: 0.45;' : ''}">
         <div class="tide-icon">${isHigh ? '🌊' : '🏖️'}</div>
@@ -1150,15 +899,12 @@ function renderTides(predictions) {
         <div class="tide-height">${height} <span class="th-unit">m</span></div>
       </div>`;
   });
-
   html += '</div>';
   container.innerHTML = html;
 }
 
 function parseTideTime(tStr) {
-  // tStr = "2026-03-31 05:12"
   const [datePart, timePart] = tStr.split(' ');
-  // NOAA lst = hora local de la estación (Galápagos = UTC-6)
   return new Date(`${datePart}T${timePart}:00-06:00`);
 }
 
@@ -1175,7 +921,6 @@ function renderTidesFallback() {
         <div class="tide-height">— <span class="th-unit">m</span></div>
       </div>
     </div>`;
-
   const badge = document.getElementById('tideBadge');
   badge.textContent = 'Sin datos';
   badge.className = 'tide-badge falling';
@@ -1184,30 +929,13 @@ function renderTidesFallback() {
 
 // ===== INIT =====
 async function init() {
-  // Launch both fetches in parallel
-  const [_cal, _tides] = await Promise.allSettled([
-    fetchCalendar(),
-    fetchTides()
-  ]);
-
+  const [_cal, _tides] = await Promise.allSettled([fetchCalendar(), fetchTides()]);
   renderEvents();
   setupAutoScroll();
-
-  // Refresh calendar every 10 min
-  setInterval(async () => {
-    await fetchCalendar();
-    renderEvents();
-  }, REFRESH_INTERVAL);
-
-  // Refresh tides every hour
+  setInterval(async () => { await fetchCalendar(); renderEvents(); }, REFRESH_INTERVAL);
   setInterval(fetchTides, 3600000);
-
-  // Re-check "now" status every minute
-  setInterval(() => {
-    renderEvents();
-  }, 60000);
+  setInterval(() => { renderEvents(); }, 60000);
 }
-
 init();
 </script>
 </body>
