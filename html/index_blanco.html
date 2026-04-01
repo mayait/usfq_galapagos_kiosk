@@ -14,30 +14,25 @@
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    /* Cromática USFQ Galápagos — Dark */
+    /* Cromática USFQ Galápagos */
     --verde-galapagos: #00A9A8;
     --azul-pacifico:   #1672A3;
-    --verde-bright:    #00CCC9;
-    --azul-bright:     #2196D4;
-    --negro-corp:      #0B0F14;
-    --superficie-1:    #111820;
-    --superficie-2:    #19212C;
-    --superficie-3:    #212B38;
-    --borde:           rgba(255, 255, 255, 0.06);
-    --borde-hover:     rgba(255, 255, 255, 0.12);
-    --texto-primario:  #F0F2F5;
-    --texto-secundario:#8B95A5;
-    --texto-terciario: #5A6374;
+    --negro-corp:      #1A1A1A;
+    --blanco:          #FFFFFF;
+    --gris-100:        #F7F8FA;
+    --gris-200:        #EEF0F4;
+    --gris-300:        #D5D9E0;
+    --gris-400:        #A0A7B4;
+    --gris-500:        #6B7280;
     --gradiente:       linear-gradient(135deg, #00A9A8 0%, #1672A3 100%);
-    --gradiente-sutil: linear-gradient(135deg, rgba(0,169,168,0.15) 0%, rgba(22,114,163,0.15) 100%);
 
     /* Colores de tipo de evento */
-    --type-academico:  #2196D4;
-    --type-club:       #00CCC9;
-    --type-deporte:    #F5A623;
-    --type-social:     #B07FE0;
-    --type-bienestar:  #34D399;
-    --type-evento:     #8B95A5;
+    --type-academico:  #1672A3;
+    --type-club:       #00A9A8;
+    --type-deporte:    #E6820E;
+    --type-social:     #9333EA;
+    --type-bienestar:  #059669;
+    --type-evento:     #6B7280;
 
     /* Tipografía */
     --font: 'Jost', sans-serif;
@@ -48,30 +43,34 @@
   html, body {
     width: 100vw; height: 100vh;
     overflow: hidden;
-    background: var(--negro-corp);
+    background: var(--blanco);
     font-family: var(--font);
-    color: var(--texto-primario);
+    color: var(--negro-corp);
   }
 
-  /* ===== BACKGROUND ===== */
+  /* ===== BACKGROUND SUTIL ===== */
   .bg-pattern {
     position: fixed; inset: 0; z-index: 0;
-    pointer-events: none; overflow: hidden;
+    pointer-events: none;
+    overflow: hidden;
   }
+
   .bg-gradient-strip {
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
+    height: 4px;
     background: var(--gradiente);
   }
+
   .bg-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(140px);
+    filter: blur(120px);
+    opacity: 0.04;
     pointer-events: none;
   }
-  .bg-orb-1 { width: 900px; height: 900px; background: var(--verde-galapagos); opacity: 0.05; top: -25%; right: -10%; }
-  .bg-orb-2 { width: 700px; height: 700px; background: var(--azul-pacifico);   opacity: 0.05; bottom: -20%; left: -8%; }
+  .bg-orb-1 { width: 800px; height: 800px; background: var(--verde-galapagos); top: -20%; right: -10%; }
+  .bg-orb-2 { width: 600px; height: 600px; background: var(--azul-pacifico);   bottom: -15%; left: -5%; }
 
   /* ===== LAYOUT ===== */
   .kiosk {
@@ -87,159 +86,236 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 48px 40px 40px 56px;
-    border-right: 1px solid var(--borde);
-    background: var(--superficie-1);
+    border-right: 1px solid var(--gris-200);
+    background: var(--blanco);
   }
 
-  .top-section { display: flex; flex-direction: column; gap: 32px; }
+  .top-section {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
 
-  .brand { display: flex; flex-direction: column; gap: 20px; }
-  .brand-logo { width: 220px; height: auto; }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .brand-logo {
+    width: 220px;
+    height: auto;
+  }
   .brand-title {
-    font-weight: 700; font-size: 34px; line-height: 1.15;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.1;
+    color: var(--negro-corp);
   }
-  .brand-title .es { color: var(--texto-primario); }
-  .brand-title .en {
-    display: block;
-    font-weight: 300; font-size: 18px;
-    color: var(--texto-terciario);
-    margin-top: 2px;
-  }
-  .brand-title span.grad {
+  .brand-title span {
     background: var(--gradiente);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .clock-block { display: flex; flex-direction: column; gap: 2px; }
+  .clock-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
   .clock-block .time {
-    font-weight: 700; font-size: 76px; line-height: 1;
-    color: var(--texto-primario); letter-spacing: -3px;
+    font-weight: 700;
+    font-size: 76px;
+    line-height: 1;
+    color: var(--negro-corp);
+    letter-spacing: -3px;
   }
   .clock-block .date-text {
-    font-weight: 300; font-size: 20px; color: var(--texto-secundario);
-  }
-  .clock-block .date-en {
-    font-weight: 300; font-size: 14px; color: var(--texto-terciario);
+    font-weight: 300;
+    font-size: 20px;
+    color: var(--gris-500);
   }
 
   /* ===== TIDES ===== */
   .tides-section {
-    border-top: 1px solid var(--borde);
+    border-top: 1px solid var(--gris-200);
     padding-top: 24px;
   }
-  .tides-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-  .tides-header h2 { font-weight: 700; font-size: 20px; color: var(--texto-primario); }
-  .tides-header .tides-en { font-weight: 300; font-size: 13px; color: var(--texto-terciario); margin-left: 2px; }
 
+  .tides-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .tides-header h2 {
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--negro-corp);
+  }
   .tide-badge {
-    font-weight: 500; font-size: 11px; letter-spacing: 1px;
-    text-transform: uppercase; padding: 3px 12px;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 12px;
     border-radius: var(--radius-pill);
   }
   .tide-badge.rising {
-    color: var(--verde-bright);
-    background: rgba(0, 204, 201, 0.1);
-    border: 1px solid rgba(0, 204, 201, 0.25);
+    color: var(--verde-galapagos);
+    background: rgba(0, 169, 168, 0.08);
+    border: 1px solid rgba(0, 169, 168, 0.25);
   }
   .tide-badge.falling {
-    color: var(--azul-bright);
-    background: rgba(33, 150, 212, 0.1);
-    border: 1px solid rgba(33, 150, 212, 0.25);
+    color: var(--azul-pacifico);
+    background: rgba(22, 114, 163, 0.08);
+    border: 1px solid rgba(22, 114, 163, 0.25);
   }
 
-  .tides-list { display: flex; flex-direction: column; gap: 8px; }
+  .tides-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
   .tide-entry {
-    background: var(--superficie-2);
-    border: 1px solid var(--borde);
+    background: var(--gris-100);
+    border: 1px solid var(--gris-200);
     border-radius: 12px;
     padding: 12px 16px;
-    display: flex; align-items: center; gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     transition: border-color 0.3s ease;
   }
   .tide-entry.is-next {
-    border-color: rgba(0, 204, 201, 0.4);
-    background: rgba(0, 169, 168, 0.06);
-    box-shadow: 0 2px 16px rgba(0, 169, 168, 0.1);
+    border-color: var(--verde-galapagos);
+    background: rgba(0, 169, 168, 0.04);
+    box-shadow: 0 2px 12px rgba(0, 169, 168, 0.08);
   }
+
   .tide-icon { font-size: 20px; width: 32px; text-align: center; flex-shrink: 0; }
   .tide-info { flex: 1; display: flex; flex-direction: column; gap: 1px; }
-  .tide-info .tide-type { font-weight: 600; font-size: 14px; color: var(--texto-primario); }
-  .tide-info .tide-type-en { font-weight: 300; font-size: 11px; color: var(--texto-terciario); }
-  .tide-info .tide-time { font-weight: 300; font-size: 12px; color: var(--texto-secundario); }
-  .tide-height { font-weight: 700; font-size: 20px; color: var(--verde-bright); }
-  .tide-entry.type-low .tide-height { color: var(--azul-bright); }
-  .tide-height .th-unit { font-weight: 300; font-size: 12px; color: var(--texto-terciario); }
+  .tide-info .tide-type { font-weight: 600; font-size: 14px; color: var(--negro-corp); }
+  .tide-info .tide-time { font-weight: 300; font-size: 12px; color: var(--gris-500); }
+  .tide-height { font-weight: 700; font-size: 20px; color: var(--verde-galapagos); }
+  .tide-entry.type-low .tide-height { color: var(--azul-pacifico); }
+  .tide-height .th-unit { font-weight: 300; font-size: 12px; color: var(--gris-400); }
 
-  .tides-loading { display: flex; align-items: center; gap: 10px; padding: 16px 0; color: var(--texto-secundario); font-size: 14px; }
+  .tides-loading { display: flex; align-items: center; gap: 10px; padding: 16px 0; color: var(--gris-500); font-size: 14px; }
   .tides-loading .mini-ring {
     width: 18px; height: 18px;
-    border: 2px solid var(--superficie-3);
+    border: 2px solid var(--gris-200);
     border-top-color: var(--verde-galapagos);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
-  .tide-source { margin-top: 8px; font-size: 10px; color: var(--texto-terciario); letter-spacing: 0.5px; }
-  .week-label { font-weight: 400; font-size: 13px; color: var(--texto-terciario); border-top: 1px solid var(--borde); padding-top: 16px; }
+
+  .tide-source {
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--gris-400);
+    letter-spacing: 0.5px;
+  }
+
+  .week-label {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--gris-400);
+    border-top: 1px solid var(--gris-200);
+    padding-top: 16px;
+  }
 
   /* ===== RIGHT PANEL ===== */
   .right-panel {
-    position: relative; overflow: hidden;
-    background: var(--negro-corp);
+    position: relative;
+    overflow: hidden;
+    background: var(--gris-100);
   }
-  .right-panel::before, .right-panel::after {
-    content: ''; position: absolute;
-    left: 0; right: 0; height: 72px;
-    z-index: 20; pointer-events: none;
+
+  .right-panel::before,
+  .right-panel::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 72px;
+    z-index: 20;
+    pointer-events: none;
   }
-  .right-panel::before { top: 0; background: linear-gradient(180deg, var(--negro-corp) 0%, transparent 100%); }
-  .right-panel::after  { bottom: 0; background: linear-gradient(0deg, var(--negro-corp) 0%, transparent 100%); }
+  .right-panel::before {
+    top: 0;
+    background: linear-gradient(180deg, var(--gris-100) 0%, transparent 100%);
+  }
+  .right-panel::after {
+    bottom: 0;
+    background: linear-gradient(0deg, var(--gris-100) 0%, transparent 100%);
+  }
 
   .scroll-container {
-    height: 100%; overflow-y: auto;
+    height: 100%;
+    overflow-y: auto;
     padding: 72px 56px 72px 40px;
-    scroll-behavior: smooth; scrollbar-width: none;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
   }
   .scroll-container::-webkit-scrollbar { display: none; }
 
   /* ===== DAY SECTION ===== */
   .day-section { margin-bottom: 32px; }
-  .day-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; padding-left: 4px; }
-  .day-header .day-name { font-weight: 700; font-size: 26px; color: var(--texto-primario); letter-spacing: -0.5px; }
+
+  .day-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-left: 4px;
+  }
+  .day-header .day-name {
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--negro-corp);
+    letter-spacing: -0.5px;
+  }
   .day-header .day-name.is-today {
     background: var(--gradiente);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .day-header .day-name-en { font-weight: 300; font-size: 15px; color: var(--texto-terciario); }
-  .day-header .day-date { font-weight: 300; font-size: 15px; color: var(--texto-secundario); }
+  .day-header .day-date {
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--gris-500);
+  }
   .day-header .day-count {
-    font-weight: 500; font-size: 12px;
-    color: var(--verde-bright);
-    background: rgba(0, 204, 201, 0.1);
-    border: 1px solid rgba(0, 204, 201, 0.2);
-    border-radius: var(--radius-pill); padding: 3px 12px;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--verde-galapagos);
+    background: rgba(0, 169, 168, 0.08);
+    border: 1px solid rgba(0, 169, 168, 0.2);
+    border-radius: var(--radius-pill);
+    padding: 3px 12px;
   }
 
   /* ===== EVENT CARD ===== */
   .event-item {
-    background: var(--superficie-2);
-    border: 1px solid var(--borde);
+    background: var(--blanco);
+    border: 1px solid var(--gris-200);
     border-radius: var(--radius);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    padding: 22px 26px; margin-bottom: 12px;
-    position: relative; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    padding: 22px 26px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     animation: cardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   .event-item:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    border-color: var(--borde-hover);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: var(--gris-300);
   }
+
   @keyframes cardEnter {
     from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -247,9 +323,11 @@
 
   /* Left accent bar */
   .event-item::before {
-    content: ''; position: absolute;
+    content: '';
+    position: absolute;
     top: 10px; bottom: 10px; left: 0;
-    width: 3px; border-radius: 0 3px 3px 0;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
   }
   .event-item.type-academico::before { background: var(--type-academico); }
   .event-item.type-club::before      { background: var(--type-club); }
@@ -258,8 +336,18 @@
   .event-item.type-bienestar::before { background: var(--type-bienestar); }
   .event-item.type-evento::before    { background: var(--type-evento); }
 
-  .ev-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .ev-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .ev-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .ev-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
   .type-academico .ev-dot { background: var(--type-academico); }
   .type-club .ev-dot      { background: var(--type-club); }
   .type-deporte .ev-dot   { background: var(--type-deporte); }
@@ -267,7 +355,11 @@
   .type-bienestar .ev-dot { background: var(--type-bienestar); }
   .type-evento .ev-dot    { background: var(--type-evento); }
 
-  .ev-time { font-weight: 500; font-size: 14px; letter-spacing: 0.3px; }
+  .ev-time {
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+  }
   .type-academico .ev-time { color: var(--type-academico); }
   .type-club .ev-time      { color: var(--type-club); }
   .type-deporte .ev-time   { color: var(--type-deporte); }
@@ -275,30 +367,46 @@
   .type-bienestar .ev-time { color: var(--type-bienestar); }
   .type-evento .ev-time    { color: var(--type-evento); }
 
-  .ev-title { font-weight: 700; font-size: 22px; line-height: 1.2; color: var(--texto-primario); margin-bottom: 4px; }
-  .ev-location {
-    display: flex; align-items: center; gap: 5px;
-    font-weight: 300; font-size: 14px; color: var(--texto-secundario);
+  .ev-title {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--negro-corp);
+    margin-bottom: 4px;
   }
-  .ev-location svg { flex-shrink: 0; opacity: 0.4; }
+
+  .ev-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--gris-500);
+  }
+  .ev-location svg { flex-shrink: 0; opacity: 0.5; }
 
   /* Happening now */
   .event-item.is-now {
-    border-color: rgba(0, 204, 201, 0.4);
-    box-shadow: 0 2px 20px rgba(0, 169, 168, 0.12);
+    border-color: var(--verde-galapagos);
+    box-shadow: 0 2px 16px rgba(0, 169, 168, 0.10);
   }
   .event-item.is-now::after {
-    content: 'AHORA / NOW';
+    content: 'AHORA';
     position: absolute;
     top: 10px; right: 14px;
-    font-weight: 700; font-size: 10px; letter-spacing: 2px;
-    color: var(--negro-corp);
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--blanco);
     background: var(--gradiente);
     border-radius: var(--radius-pill);
     padding: 4px 14px;
     animation: nowPulse 2s ease-in-out infinite;
   }
-  @keyframes nowPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+  @keyframes nowPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
 
   /* Empty & Loading */
   .empty-state {
@@ -306,8 +414,8 @@
     align-items: center; justify-content: center;
     height: 100%; text-align: center; padding: 60px;
   }
-  .empty-state h2 { font-weight: 300; font-size: 28px; color: var(--texto-secundario); }
-  .empty-state p { font-weight: 300; font-size: 15px; color: var(--texto-terciario); margin-top: 10px; }
+  .empty-state h2 { font-weight: 300; font-size: 28px; color: var(--gris-400); }
+  .empty-state p { font-weight: 300; font-size: 15px; color: var(--gris-400); margin-top: 10px; }
 
   .loading-state {
     display: flex; flex-direction: column;
@@ -316,30 +424,35 @@
   }
   .loading-ring {
     width: 44px; height: 44px;
-    border: 3px solid var(--superficie-3);
+    border: 3px solid var(--gris-200);
     border-top-color: var(--verde-galapagos);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-state p { font-weight: 300; font-size: 15px; color: var(--texto-secundario); }
+  .loading-state p { font-weight: 300; font-size: 15px; color: var(--gris-500); }
 
   /* Status badge */
   .status-badge {
     position: fixed;
     top: 16px; left: 50%;
     transform: translateX(-50%) translateY(-50px);
-    background: var(--superficie-2);
-    border: 1px solid var(--borde);
+    background: var(--blanco);
+    border: 1px solid var(--gris-200);
     border-radius: var(--radius-pill);
     padding: 8px 24px;
-    font-weight: 400; font-size: 13px;
-    color: var(--verde-bright);
-    z-index: 200; opacity: 0;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--verde-galapagos);
+    z-index: 200;
+    opacity: 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .status-badge.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .status-badge.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 
   /* Stagger */
   .event-item:nth-child(1) { animation-delay: 0s; }
@@ -367,29 +480,24 @@
   <div class="left-panel">
     <div class="top-section">
       <div class="brand">
-        <img src="img/USGQG-LOGO-NUEVO-BLANCO.png" alt="USFQ Galápagos" class="brand-logo">
-        <div class="brand-title">
-          <span class="es"><span class="grad">¿Qué pasa en la USFQ?</span></span>
-          <span class="en">What's happening at USFQ?</span>
-        </div>
+        <img src="img/LOGO-USFQG-2025.png" alt="USFQ Galápagos" class="brand-logo">
+        <div class="brand-title"><span>¿Qué pasa</span><br><span>en la USFQ?</span></div>
       </div>
       <div class="clock-block">
         <div class="time" id="clock">--:--</div>
         <div class="date-text" id="dateText">cargando...</div>
-        <div class="date-en" id="dateTextEn"></div>
       </div>
     </div>
 
     <div class="tides-section">
       <div class="tides-header">
         <h2>Mareas Hoy</h2>
-        <span class="tides-en">Today's Tides</span>
         <span class="tide-badge" id="tideBadge" style="display:none;">—</span>
       </div>
       <div id="tidesContent">
         <div class="tides-loading">
           <div class="mini-ring"></div>
-          Consultando mareas... / Fetching tides...
+          Consultando mareas...
         </div>
       </div>
       <div class="tide-source">NOAA · Estación San Cristóbal #9992401</div>
@@ -404,7 +512,7 @@
       <div id="eventList">
         <div class="loading-state" id="loadingState">
           <div class="loading-ring"></div>
-          <p>Conectando con el calendario... / Connecting to calendar...</p>
+          <p>Conectando con el calendario...</p>
         </div>
       </div>
     </div>
@@ -424,6 +532,7 @@ const REFRESH_INTERVAL = 120000;
 const AUTO_SCROLL_SPEED = 0.4;
 const AUTO_SCROLL_PAUSE = 8000;
 const GALAPAGOS_TZ = 'America/Costa_Rica';
+
 const NOAA_ENDPOINT = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter';
 const NOAA_STATION = '9992401';
 
@@ -432,24 +541,6 @@ let autoScrolling = true;
 let scrollPaused = false;
 let userInteracted = false;
 let userInteractTimer = null;
-
-// ===== BILINGUAL HELPERS =====
-const DAYS_EN = { 'lunes':'Monday','martes':'Tuesday','miércoles':'Wednesday','jueves':'Thursday','viernes':'Friday','sábado':'Saturday','domingo':'Sunday' };
-const MONTHS_EN = { 'enero':'January','febrero':'February','marzo':'March','abril':'April','mayo':'May','junio':'June','julio':'July','agosto':'August','septiembre':'September','octubre':'October','noviembre':'November','diciembre':'December' };
-
-function getRelativeDayBilingual(d) {
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const target = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const diff = Math.round((target - today) / 86400000);
-  if (diff === 0) return { es: 'Hoy', en: 'Today' };
-  if (diff === 1) return { es: 'Mañana', en: 'Tomorrow' };
-  if (diff === -1) return { es: 'Ayer', en: 'Yesterday' };
-  const esName = d.toLocaleDateString('es-EC', { weekday: 'long', timeZone: GALAPAGOS_TZ });
-  const esCapital = esName.charAt(0).toUpperCase() + esName.slice(1);
-  const enName = DAYS_EN[esName.toLowerCase()] || d.toLocaleDateString('en-US', { weekday: 'long', timeZone: GALAPAGOS_TZ });
-  return { es: esCapital, en: enName };
-}
 
 // ===== CLOCK =====
 function updateClock() {
@@ -460,12 +551,8 @@ function updateClock() {
   const day = now.toLocaleString('es-EC', { ...opts, weekday: 'long' });
   const d = now.toLocaleString('es-EC', { ...opts, day: 'numeric' });
   const m = now.toLocaleString('es-EC', { ...opts, month: 'long' });
-  const y = now.toLocaleString('es-EC', { ...opts, year: 'numeric' });
   document.getElementById('dateText').textContent =
     `${day.charAt(0).toUpperCase() + day.slice(1)}, ${d} de ${m}`;
-  const dayEn = DAYS_EN[day.toLowerCase()] || day;
-  const mEn = MONTHS_EN[m.toLowerCase()] || m;
-  document.getElementById('dateTextEn').textContent = `${dayEn}, ${mEn} ${d}`;
 }
 setInterval(updateClock, 1000);
 updateClock();
@@ -591,7 +678,7 @@ function bustCache(url) {
 }
 
 async function fetchCalendar() {
-  showStatus('Actualizando... / Updating...');
+  showStatus('Actualizando...');
   for (const proxy of CORS_PROXIES) {
     try {
       const url = bustCache(proxy(ICS_URL));
@@ -601,13 +688,13 @@ async function fetchCalendar() {
       const parsed = parseICS(text);
       if (parsed.length > 0) {
         events = parsed;
-        showStatus(`${events.length} eventos esta semana / events this week`);
+        showStatus(`${events.length} eventos esta semana`);
         setTimeout(hideStatus, 3000);
         return true;
       }
     } catch(e) { continue; }
   }
-  showStatus('Usando datos de respaldo / Using fallback data');
+  showStatus('Usando datos de respaldo');
   setTimeout(hideStatus, 3000);
   useFallbackData();
   return false;
@@ -637,7 +724,7 @@ function renderEvents() {
   const list = document.getElementById('eventList');
   list.innerHTML = '';
   if (events.length === 0) {
-    list.innerHTML = `<div class="empty-state"><h2>No hay eventos esta semana</h2><p>No events this week · El calendario se actualiza automáticamente</p></div>`;
+    list.innerHTML = `<div class="empty-state"><h2>No hay eventos esta semana</h2><p>El calendario se actualiza automáticamente</p></div>`;
     return;
   }
   const groups = new Map();
@@ -652,13 +739,12 @@ function renderEvents() {
     const section = document.createElement('div');
     section.className = 'day-section';
     const d = dayEvents[0].dtstart;
-    const dayLabel = getRelativeDayBilingual(d);
+    const dayLabel = getRelativeDay(d);
     const isToday = isSameDay(d, now);
     const dateStr = d.toLocaleDateString('es-EC', { day: 'numeric', month: 'long', timeZone: GALAPAGOS_TZ });
     section.innerHTML = `
       <div class="day-header">
-        <span class="day-name ${isToday ? 'is-today' : ''}">${dayLabel.es}</span>
-        <span class="day-name-en">${dayLabel.en}</span>
+        <span class="day-name ${isToday ? 'is-today' : ''}">${dayLabel}</span>
         <span class="day-date">${dateStr}</span>
         <span class="day-count">${dayEvents.length} evento${dayEvents.length > 1 ? 's' : ''}</span>
       </div>`;
@@ -690,7 +776,7 @@ function renderEvents() {
   const mFmt = monday.toLocaleDateString('es-EC', { day: 'numeric', month: 'short' });
   const sFmt = sunday.toLocaleDateString('es-EC', { day: 'numeric', month: 'short' });
   document.getElementById('weekLabel').textContent =
-    `Semana del ${mFmt} al ${sFmt} · Week of ${mFmt}–${sFmt} · ${events.length} eventos`;
+    `Semana del ${mFmt} al ${sFmt} · ${events.length} eventos`;
 }
 
 // ===== AUTO-SCROLL =====
@@ -733,6 +819,17 @@ function formatTime(d) {
   return d.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: GALAPAGOS_TZ }).toUpperCase();
 }
 function isSameDay(a, b) { return a.toDateString() === b.toDateString(); }
+function getRelativeDay(d) {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const target = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const diff = Math.round((target - today) / 86400000);
+  if (diff === 0) return 'Hoy';
+  if (diff === 1) return 'Mañana';
+  if (diff === -1) return 'Ayer';
+  const name = d.toLocaleDateString('es-EC', { weekday: 'long', timeZone: GALAPAGOS_TZ });
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}
 function isHappeningNow(ev, now) { return ev.dtstart <= now && ev.dtend && ev.dtend >= now; }
 function cleanTitle(s) { return (s || 'Evento').trim(); }
 function detectType(summary) {
@@ -780,7 +877,7 @@ function renderTides(predictions) {
   }
   let tidePhase = 'rising';
   if (nextIdx >= 0) { tidePhase = predictions[nextIdx].type === 'H' ? 'rising' : 'falling'; }
-  badge.textContent = tidePhase === 'rising' ? 'Subiendo / Rising' : 'Bajando / Falling';
+  badge.textContent = tidePhase === 'rising' ? 'Subiendo' : 'Bajando';
   badge.className = 'tide-badge ' + tidePhase;
   badge.style.display = 'inline-block';
   let html = '<div class="tides-list">';
@@ -792,16 +889,11 @@ function renderTides(predictions) {
     const timeStr = timeParts[1];
     const tideTime = parseTideTime(p.t);
     const isPast = tideTime < now;
-    const labelEs = isHigh ? 'Pleamar' : 'Bajamar';
-    const labelEn = isHigh ? 'High Tide' : 'Low Tide';
-    const nextEs = isNext ? ' — próxima' : '';
-    const nextEn = isNext ? ' — next' : '';
     html += `
       <div class="tide-entry ${isHigh ? 'type-high' : 'type-low'}${isNext ? ' is-next' : ''}" style="${isPast && !isNext ? 'opacity: 0.45;' : ''}">
         <div class="tide-icon">${isHigh ? '🌊' : '🏖️'}</div>
         <div class="tide-info">
-          <span class="tide-type">${labelEs}${nextEs}</span>
-          <span class="tide-type-en">${labelEn}${nextEn}</span>
+          <span class="tide-type">${isHigh ? 'Pleamar' : 'Bajamar'}${isNext ? ' — próxima' : ''}</span>
           <span class="tide-time">${timeStr} h</span>
         </div>
         <div class="tide-height">${height} <span class="th-unit">m</span></div>
@@ -824,14 +916,13 @@ function renderTidesFallback() {
         <div class="tide-icon">🌊</div>
         <div class="tide-info">
           <span class="tide-type">Sin datos de mareas</span>
-          <span class="tide-type-en">No tide data available</span>
-          <span class="tide-time">Se reintentará automáticamente / Will retry automatically</span>
+          <span class="tide-time">Se reintentará automáticamente</span>
         </div>
         <div class="tide-height">— <span class="th-unit">m</span></div>
       </div>
     </div>`;
   const badge = document.getElementById('tideBadge');
-  badge.textContent = 'Sin datos / No data';
+  badge.textContent = 'Sin datos';
   badge.className = 'tide-badge falling';
   badge.style.display = 'inline-block';
 }
