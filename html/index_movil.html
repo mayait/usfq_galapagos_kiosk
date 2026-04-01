@@ -7,6 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>¿Qué pasa en la USFQ? — Galápagos (Móvil)</title>
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -167,6 +168,18 @@
   .ec-location { font-size: 12px; font-weight: 300; color: var(--texto-secundario); display: flex; align-items: center; gap: 4px; margin-top: 2px;}
   .ec-location svg { opacity: 0.6; }
 
+  /* Add to Calendar Button */
+  .add-calendar-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--gradiente); color: var(--negro-corp);
+    font-weight: 700; font-size: 15px; text-decoration: none;
+    padding: 14px 20px; border-radius: var(--radius);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 24px; box-shadow: 0 4px 16px rgba(0, 169, 168, 0.2);
+    transition: transform 0.2s;
+  }
+  .add-calendar-btn:active { transform: scale(0.98); }
+
   .loading-msg { text-align: center; color: var(--texto-terciario); font-size: 14px; padding: 40px 0; }
 </style>
 </head>
@@ -187,6 +200,12 @@
   <!-- Main Feed -->
   <main class="feed-container">
     
+    <!-- Add to Calendar Button -->
+    <a href="#" id="addCalBtn" class="add-calendar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+      Añadir a mi calendario
+    </a>
+
     <!-- Tides Card (Pinned at top) -->
     <section id="tidesContainer">
       <div class="tide-card">
@@ -215,6 +234,8 @@ const GALAPAGOS_TZ = KIOSK_CONFIG.TIMEZONE || 'America/Costa_Rica';
 // ====== REUSED LOGIC FROM INDEX.HTML ======
 const DAYS_ES = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const MONTHS_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+document.getElementById('addCalBtn').href = KIOSK_CONFIG.ICS_URL;
 
 function updateMobileClock() {
   const now = new Date();
