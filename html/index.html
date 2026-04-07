@@ -19,10 +19,10 @@
     --verde-bright:    #00E5E0;
     --azul-bright:     #3BB5F0;
     --negro-corp:      #0B0F14;
-    --superficie-1:    rgba(11, 15, 20, 0.85);
-    --superficie-glass: rgba(15, 20, 28, 0.20);
-    --glass-border:    rgba(255, 255, 255, 0.08);
-    --glass-border-hover: rgba(255, 255, 255, 0.15);
+    --superficie-1:    rgba(11, 15, 20, 0.92);
+    --superficie-glass: rgba(11, 15, 20, 0.92);
+    --glass-border:    rgba(255, 255, 255, 0.15);
+    --glass-border-hover: rgba(255, 255, 255, 0.25);
     --texto-primario:  #F0F2F5;
     --texto-secundario:#B0B8C8;
     --texto-terciario: #6B7585;
@@ -79,61 +79,59 @@
   .top-section { display: flex; flex-direction: column; gap: 28px; }
   .brand { display: flex; flex-direction: column; gap: 18px; }
   .brand-logo { width: 200px; height: auto; }
-  .brand-title { font-weight: 700; font-size: 32px; line-height: 1.15; }
+  .brand-title { font-weight: 700; font-size: 38px; line-height: 1.15; }
   .brand-title span {
-    background: var(--gradiente);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--verde-galapagos);
   }
 
   .clock-block { display: flex; flex-direction: column; gap: 2px; }
   .clock-block .time {
-    font-weight: 700; font-size: 72px; line-height: 1;
+    font-weight: 700; font-size: 80px; line-height: 1;
     color: var(--texto-primario); letter-spacing: -3px;
   }
-  .clock-block .date-text { font-weight: 300; font-size: 19px; color: var(--texto-secundario); }
+  .clock-block .date-text { font-weight: 300; font-size: 22px; color: var(--texto-secundario); }
 
   /* ===== TIDES ===== */
-  .tides-section { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 22px; }
+  .tides-section { border-top: 1px solid rgba(255,255,255,0.10); padding-top: 22px; }
   .tides-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .tides-header h2 { font-weight: 700; font-size: 19px; color: var(--texto-primario); }
+  .tides-header h2 { font-weight: 700; font-size: 22px; color: var(--texto-primario); }
   .tide-badge {
-    font-weight: 500; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
-    padding: 3px 12px; border-radius: var(--radius-pill);
+    font-weight: 500; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 4px 14px; border-radius: var(--radius-pill);
   }
   .tide-badge.rising {
-    color: var(--verde-bright); background: rgba(0,229,224,0.1); border: 1px solid rgba(0,229,224,0.25);
+    color: var(--verde-bright); background: rgba(0,80,78,0.6); border: 1px solid rgba(0,229,224,0.4);
   }
   .tide-badge.falling {
-    color: var(--azul-bright); background: rgba(59,181,240,0.1); border: 1px solid rgba(59,181,240,0.25);
+    color: var(--azul-bright); background: rgba(22,70,110,0.6); border: 1px solid rgba(59,181,240,0.4);
   }
   .tides-list { display: flex; flex-direction: column; gap: 7px; }
   .tide-entry {
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
     border-radius: 12px; padding: 10px 14px;
     display: flex; align-items: center; gap: 10px;
     transition: border-color 0.3s ease;
   }
   .tide-entry.is-next {
-    border-color: rgba(0,229,224,0.35); background: rgba(0,169,168,0.06);
-    box-shadow: 0 2px 14px rgba(0,169,168,0.1);
+    border-color: rgba(0,229,224,0.5); background: rgba(0,169,168,0.15);
+    box-shadow: 0 2px 14px rgba(0,169,168,0.2);
   }
-  .tide-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
+  .tide-icon { width: 28px; height: 22px; text-align: center; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .tide-icon svg { width: 24px; height: 20px; }
   .tide-info { flex: 1; display: flex; flex-direction: column; gap: 1px; }
-  .tide-info .tide-type { font-weight: 600; font-size: 13px; color: var(--texto-primario); }
-  .tide-info .tide-time { font-weight: 300; font-size: 11px; color: var(--texto-secundario); }
-  .tide-height { font-weight: 700; font-size: 18px; color: var(--verde-bright); }
+  .tide-info .tide-type { font-weight: 600; font-size: 16px; color: var(--texto-primario); }
+  .tide-info .tide-time { font-weight: 300; font-size: 14px; color: var(--texto-secundario); }
+  .tide-height { font-weight: 700; font-size: 22px; color: var(--verde-bright); }
   .tide-entry.type-low .tide-height { color: var(--azul-bright); }
-  .tide-height .th-unit { font-weight: 300; font-size: 11px; color: var(--texto-terciario); }
-  .tides-loading { display: flex; align-items: center; gap: 10px; padding: 14px 0; color: var(--texto-secundario); font-size: 13px; }
+  .tide-height .th-unit { font-weight: 300; font-size: 13px; color: var(--texto-terciario); }
+  .tides-loading { display: flex; align-items: center; gap: 10px; padding: 14px 0; color: var(--texto-secundario); font-size: 15px; }
   .tides-loading .mini-ring {
     width: 16px; height: 16px;
     border: 2px solid rgba(255,255,255,0.08); border-top-color: var(--verde-galapagos);
     border-radius: 50%; animation: spin 1s linear infinite;
   }
-  .tide-source { margin-top: 6px; font-size: 9px; color: var(--texto-terciario); letter-spacing: 0.5px; }
-  .week-label { font-weight: 400; font-size: 12px; color: var(--texto-terciario); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; }
+  .tide-source { margin-top: 6px; font-size: 12px; color: var(--texto-terciario); letter-spacing: 0.5px; }
+  .week-label { font-weight: 400; font-size: 15px; color: var(--texto-terciario); border-top: 1px solid rgba(255,255,255,0.10); padding-top: 14px; }
 
   /* ===== RIGHT PANEL — PHOTO BACKGROUND ===== */
   .right-panel {
@@ -143,10 +141,10 @@
 
   /* Photo slideshow layer */
   .photo-slideshow {
-    position: absolute; inset: 0; z-index: 0;
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 0;
   }
   .photo-slideshow img {
-    position: absolute; inset: 0;
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     opacity: 0;
@@ -158,13 +156,13 @@
 
   /* Dark overlay on top of photos for contrast */
   .photo-overlay {
-    position: absolute; inset: 0; z-index: 1;
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1;
     background: linear-gradient(
       180deg,
-      rgba(8, 12, 18, 0.50) 0%,
-      rgba(8, 12, 18, 0.25) 30%,
-      rgba(8, 12, 18, 0.20) 60%,
-      rgba(8, 12, 18, 0.55) 100%
+      rgba(8, 12, 18, 0.70) 0%,
+      rgba(8, 12, 18, 0.50) 30%,
+      rgba(8, 12, 18, 0.45) 60%,
+      rgba(8, 12, 18, 0.75) 100%
     );
     pointer-events: none;
   }
@@ -189,11 +187,11 @@
   }
   .scroll-fade-top {
     top: 3px;
-    background: linear-gradient(180deg, rgba(8,12,18,0.85) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(8,12,18,0.95) 0%, transparent 100%);
   }
   .scroll-fade-bottom {
     bottom: 0;
-    background: linear-gradient(0deg, rgba(8,12,18,0.9) 0%, transparent 100%);
+    background: linear-gradient(0deg, rgba(8,12,18,0.95) 0%, transparent 100%);
   }
 
   .scroll-container {
@@ -213,39 +211,32 @@
     margin-bottom: 12px; padding-left: 4px;
   }
   .day-header .day-name {
-    font-weight: 700; font-size: 28px; letter-spacing: -0.5px;
+    font-weight: 700; font-size: 38px; letter-spacing: -0.5px;
     color: var(--texto-primario);
     text-shadow: 0 2px 12px rgba(0,0,0,0.5);
   }
   .day-header .day-name.is-today {
-    background: var(--gradiente);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 2px 8px rgba(0,169,168,0.3));
+    color: var(--verde-galapagos);
   }
   .day-header .day-date {
-    font-weight: 300; font-size: 15px;
+    font-weight: 300; font-size: 20px;
     color: var(--texto-secundario);
     text-shadow: 0 1px 6px rgba(0,0,0,0.5);
   }
   .day-header .day-count {
-    font-weight: 500; font-size: 12px;
+    font-weight: 500; font-size: 15px;
     color: var(--verde-bright);
-    background: rgba(0,229,224,0.12);
-    border: 1px solid rgba(0,229,224,0.2);
-    border-radius: var(--radius-pill); padding: 3px 12px;
-    backdrop-filter: blur(8px);
+    background: rgba(0,80,78,0.7);
+    border: 1px solid rgba(0,229,224,0.35);
+    border-radius: var(--radius-pill); padding: 4px 14px;
   }
 
   /* ===== EVENT CARD — GLASS ===== */
   .event-item {
     background: var(--superficie-glass);
-    backdrop-filter: blur(20px) saturate(1.2);
-    -webkit-backdrop-filter: blur(20px) saturate(1.2);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.04);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
     padding: 20px 24px;
     margin-bottom: 12px;
     position: relative;
@@ -281,7 +272,7 @@
   .type-bienestar .ev-dot { background: var(--type-bienestar); box-shadow: 0 0 6px rgba(52,211,153,0.4); }
   .type-evento .ev-dot    { background: var(--type-evento); }
 
-  .ev-time { font-weight: 500; font-size: 14px; letter-spacing: 0.3px; }
+  .ev-time { font-weight: 500; font-size: 18px; letter-spacing: 0.3px; }
   .type-academico .ev-time { color: var(--type-academico); }
   .type-club .ev-time      { color: var(--type-club); }
   .type-deporte .ev-time   { color: var(--type-deporte); }
@@ -290,27 +281,27 @@
   .type-evento .ev-time    { color: var(--type-evento); }
 
   .ev-title {
-    font-weight: 700; font-size: 21px; line-height: 1.2;
+    font-weight: 700; font-size: 28px; line-height: 1.2;
     color: var(--texto-primario);
     margin-bottom: 4px;
     text-shadow: 0 1px 4px rgba(0,0,0,0.3);
   }
   .ev-location {
     display: flex; align-items: center; gap: 5px;
-    font-weight: 300; font-size: 14px; color: var(--texto-secundario);
+    font-weight: 300; font-size: 17px; color: var(--texto-secundario);
   }
   .ev-location svg { flex-shrink: 0; opacity: 0.4; }
 
   /* Happening now */
   .event-item.is-now {
-    border-color: rgba(0,229,224,0.35);
-    box-shadow: 0 4px 28px rgba(0,169,168,0.15), inset 0 1px 0 rgba(255,255,255,0.06);
-    background: rgba(0,169,168,0.08);
+    border-color: rgba(0,229,224,0.5);
+    box-shadow: 0 4px 28px rgba(0,169,168,0.3);
+    background: rgba(0,169,168,0.2);
   }
   .event-item.is-now::after {
     content: 'AHORA';
     position: absolute; top: 10px; right: 14px;
-    font-weight: 700; font-size: 10px; letter-spacing: 2px;
+    font-weight: 700; font-size: 13px; letter-spacing: 2px;
     color: #0B0F14;
     background: var(--gradiente);
     border-radius: var(--radius-pill);
@@ -326,8 +317,8 @@
     align-items: center; justify-content: center;
     height: 100%; text-align: center; padding: 60px;
   }
-  .empty-state h2 { font-weight: 300; font-size: 28px; color: var(--texto-secundario); text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
-  .empty-state p { font-weight: 300; font-size: 15px; color: var(--texto-terciario); margin-top: 10px; }
+  .empty-state h2 { font-weight: 300; font-size: 32px; color: var(--texto-secundario); text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+  .empty-state p { font-weight: 300; font-size: 18px; color: var(--texto-terciario); margin-top: 10px; }
 
   .loading-state {
     display: flex; flex-direction: column;
@@ -342,25 +333,38 @@
     animation: spin 1s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-state p { font-weight: 300; font-size: 15px; color: var(--texto-secundario); }
+  .loading-state p { font-weight: 300; font-size: 18px; color: var(--texto-secundario); }
 
   /* Status badge */
   .status-badge {
     position: fixed;
     top: 16px; left: 50%;
     transform: translateX(-50%) translateY(-50px);
-    background: rgba(15,20,28,0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(11,15,20,0.95);
+    border: 1px solid rgba(255,255,255,0.15);
     border-radius: var(--radius-pill);
     padding: 8px 24px;
-    font-weight: 400; font-size: 13px;
+    font-weight: 400; font-size: 15px;
     color: var(--verde-bright);
     z-index: 200; opacity: 0;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .status-badge.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Recurring schedule line */
+  .ev-schedule {
+    display: flex; align-items: center; gap: 6px;
+    font-weight: 500; font-size: 15px; color: var(--texto-secundario);
+    margin-top: 4px;
+  }
+  .ev-schedule svg { flex-shrink: 0; opacity: 0.5; }
+  .ev-schedule .recurring-badge {
+    font-weight: 600; font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--verde-bright); background: rgba(0,80,78,0.5);
+    border: 1px solid rgba(0,229,224,0.3);
+    border-radius: var(--radius-pill); padding: 2px 10px; margin-left: 6px;
+  }
 
   /* Stagger */
   .event-item:nth-child(1) { animation-delay: 0s; }
@@ -584,7 +588,9 @@ function expandAndSort(vevents) {
   let expanded = [];
   for (const ev of vevents) {
     if (ev.rrule) {
-      expanded.push(...expandRRule(ev, monday, sunday));
+      const instances = expandRRule(ev, monday, sunday);
+      instances.forEach(inst => { inst._recurring = true; inst._rrule = ev.rrule; });
+      expanded.push(...instances);
     } else if (ev.dtstart >= monday && ev.dtstart <= sunday) {
       expanded.push({ ...ev });
     }
@@ -596,6 +602,54 @@ function expandAndSort(vevents) {
     seen.add(key); return true;
   });
   return expanded.sort((a, b) => a.dtstart - b.dtstart);
+}
+
+// Group recurring events: same summary + same time-of-day + 3+ occurrences → single card
+function groupRecurringEvents(evts) {
+  const DAY_NAMES_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+  const singles = [];
+  const recurringMap = new Map();
+
+  for (const ev of evts) {
+    if (!ev._recurring) { singles.push(ev); continue; }
+    const timeKey = ev.summary + '|' + formatTime(ev.dtstart) + '|' + (ev.dtend ? formatTime(ev.dtend) : '');
+    if (!recurringMap.has(timeKey)) recurringMap.set(timeKey, []);
+    recurringMap.get(timeKey).push(ev);
+  }
+
+  const grouped = [];
+  recurringMap.forEach((instances, key) => {
+    if (instances.length < 3) {
+      singles.push(...instances);
+      return;
+    }
+    const days = [...new Set(instances.map(e => e.dtstart.getDay()))].sort();
+    const rep = instances[0];
+    let schedule;
+    if (days.length >= 5 && days.every(d => d >= 1 && d <= 5)) {
+      schedule = 'Lun a Vie';
+    } else if (days.length === 7) {
+      schedule = 'Todos los días';
+    } else {
+      schedule = days.map(d => DAY_NAMES_SHORT[d]).join(', ');
+    }
+    // Check if any instance is happening now
+    const now = new Date();
+    const anyNow = instances.some(e => isHappeningNow(e, now));
+    // Use earliest future instance, or first instance
+    const nextInstance = instances.find(e => e.dtstart >= now) || instances[0];
+    grouped.push({
+      ...rep,
+      dtstart: nextInstance.dtstart,
+      dtend: nextInstance.dtend,
+      _grouped: true,
+      _schedule: schedule,
+      _instanceCount: instances.length,
+      _isNowGrouped: anyNow
+    });
+  });
+
+  return singles.concat(grouped).sort((a, b) => a.dtstart - b.dtstart);
 }
 
 function expandRRule(ev, from, to) {
@@ -685,14 +739,63 @@ function renderEvents() {
     list.innerHTML = `<div class="empty-state"><h2>No hay eventos esta semana</h2><p>El calendario se actualiza automáticamente</p></div>`;
     return;
   }
-  const groups = new Map();
   const now = new Date();
-  events.forEach(ev => {
+  const displayEvents = groupRecurringEvents(events);
+
+  // Separate grouped recurring from normal
+  const recurring = displayEvents.filter(ev => ev._grouped);
+  const normal = displayEvents.filter(ev => !ev._grouped);
+
+  // Render recurring section first if any
+  if (recurring.length > 0) {
+    const section = document.createElement('div');
+    section.className = 'day-section';
+    section.innerHTML = `
+      <div class="day-header">
+        <span class="day-name">Cada semana</span>
+        <span class="day-count">${recurring.length} recurrente${recurring.length > 1 ? 's' : ''}</span>
+      </div>`;
+    let cardIndex = 0;
+    recurring.forEach(ev => {
+      const typeClass = 'type-' + detectType(ev.summary);
+      const isNow = ev._isNowGrouped;
+      const card = document.createElement('div');
+      card.className = `event-item ${typeClass}${isNow ? ' is-now' : ''}`;
+      card.style.animationDelay = (cardIndex * 0.07) + 's';
+      card.innerHTML = `
+        <div class="ev-top">
+          <div class="ev-dot"></div>
+          <span class="ev-time">${formatTime(ev.dtstart)}${ev.dtend ? ' – ' + formatTime(ev.dtend) : ''}</span>
+        </div>
+        <div class="ev-title">${cleanTitle(ev.summary)}</div>
+        <div class="ev-schedule">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M4 7h16M4 12h16M4 17h10"/><circle cx="19" cy="17" r="2"/>
+          </svg>
+          ${ev._schedule}
+          <span class="recurring-badge">Semanal</span>
+        </div>
+        ${ev.location ? `
+        <div class="ev-location">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          ${stripEmojis(ev.location)}
+        </div>` : ''}`;
+      section.appendChild(card);
+      cardIndex++;
+    });
+    list.appendChild(section);
+  }
+
+  // Render normal events grouped by day
+  const groups = new Map();
+  normal.forEach(ev => {
     const key = ev.dtstart.toDateString();
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(ev);
   });
-  let cardIndex = 0;
+  let cardIdx = 0;
   groups.forEach((dayEvents, dateKey) => {
     const section = document.createElement('div');
     section.className = 'day-section';
@@ -711,7 +814,7 @@ function renderEvents() {
       const isNow = isHappeningNow(ev, now);
       const card = document.createElement('div');
       card.className = `event-item ${typeClass}${isNow ? ' is-now' : ''}`;
-      card.style.animationDelay = (cardIndex * 0.07) + 's';
+      card.style.animationDelay = (cardIdx * 0.07) + 's';
       card.innerHTML = `
         <div class="ev-top">
           <div class="ev-dot"></div>
@@ -723,10 +826,10 @@ function renderEvents() {
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
           </svg>
-          ${ev.location.replace(/📍\s?/, '')}
+          ${stripEmojis(ev.location)}
         </div>` : ''}`;
       section.appendChild(card);
-      cardIndex++;
+      cardIdx++;
     });
     list.appendChild(section);
   });
@@ -789,7 +892,11 @@ function getRelativeDay(d) {
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
 function isHappeningNow(ev, now) { return ev.dtstart <= now && ev.dtend && ev.dtend >= now; }
-function cleanTitle(s) { return (s || 'Evento').trim(); }
+function stripEmojis(s) {
+  if (!s) return s;
+  return s.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{200D}\u{20E3}\u{E0020}-\u{E007F}]/gu, '').replace(/\s{2,}/g, ' ').trim();
+}
+function cleanTitle(s) { return stripEmojis(s) || 'Evento'; }
 function detectType(summary) {
   const s = summary.toLowerCase();
   if (s.includes('coloquio') || s.includes('taller') || s.includes('charla') || s.includes('seminario')) return 'academico';
@@ -849,7 +956,10 @@ function renderTides(predictions) {
     const isPast = tideTime < now;
     html += `
       <div class="tide-entry ${isHigh ? 'type-high' : 'type-low'}${isNext ? ' is-next' : ''}" style="${isPast && !isNext ? 'opacity: 0.4;' : ''}">
-        <div class="tide-icon">${isHigh ? '🌊' : '🏖️'}</div>
+        <div class="tide-icon">${isHigh
+          ? '<svg viewBox="0 0 24 20" fill="none"><path d="M2 10c2-3 4-5 6-5s4 2 6 5 4 5 6 5" stroke="#00E5E0" stroke-width="2" stroke-linecap="round"/><path d="M2 16c2-2 4-4 6-4s4 2 6 4 4 4 6 4" stroke="#00E5E0" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M10 2l2-2 2 2" stroke="#00E5E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="1" x2="12" y2="8" stroke="#00E5E0" stroke-width="2" stroke-linecap="round"/></svg>'
+          : '<svg viewBox="0 0 24 20" fill="none"><path d="M2 6c2-2 4-3 6-3s4 1 6 3 4 3 6 3" stroke="#3BB5F0" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><path d="M2 12c2-2 4-3 6-3s4 1 6 3 4 3 6 3" stroke="#3BB5F0" stroke-width="2" stroke-linecap="round"/><path d="M10 19l2 2 2-2" stroke="#3BB5F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="20" x2="12" y2="13" stroke="#3BB5F0" stroke-width="2" stroke-linecap="round"/></svg>'
+        }</div>
         <div class="tide-info">
           <span class="tide-type">${isHigh ? 'Pleamar' : 'Bajamar'}${isNext ? ' — próxima' : ''}</span>
           <span class="tide-time">${timeStr} h</span>
@@ -871,7 +981,7 @@ function renderTidesFallback() {
   container.innerHTML = `
     <div class="tides-list">
       <div class="tide-entry type-high">
-        <div class="tide-icon">🌊</div>
+        <div class="tide-icon"><svg viewBox="0 0 24 20" fill="none"><path d="M2 10c2-3 4-5 6-5s4 2 6 5 4 5 6 5" stroke="#6B7585" stroke-width="2" stroke-linecap="round"/><path d="M2 16c2-2 4-4 6-4s4 2 6 4 4 4 6 4" stroke="#6B7585" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg></div>
         <div class="tide-info">
           <span class="tide-type">Sin datos de mareas</span>
           <span class="tide-time">Se reintentará automáticamente</span>
