@@ -53,7 +53,7 @@
     position: relative; z-index: 10;
     width: 100vw; height: 100vh;
     display: grid;
-    grid-template-columns: 400px 1fr;
+    grid-template-columns: 620px 1fr;
   }
 
   /* ===== LEFT PANEL ===== */
@@ -91,8 +91,61 @@
   }
   .clock-block .date-text { font-weight: 300; font-size: 22px; color: var(--texto-secundario); }
 
+  /* ===== BOTTOM CAROUSEL (tides ↔ CMS posters) ===== */
+  .bottom-carousel {
+    border-top: 1px solid rgba(255,255,255,0.10);
+    padding-top: 22px;
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .carousel-slide {
+    position: absolute; top: 22px; left: 0; right: 0; bottom: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+  }
+  .carousel-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* CMS event poster slide */
+  .cms-poster {
+    display: flex; flex-direction: column; height: 100%;
+  }
+  .cms-poster-img {
+    width: 100%; flex: 1; min-height: 0;
+    object-fit: contain; object-position: top center;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.10);
+  }
+  .cms-poster-title {
+    font-weight: 600; font-size: 16px; color: var(--texto-primario);
+    margin-top: 10px; line-height: 1.2;
+  }
+  .cms-poster-date {
+    font-weight: 300; font-size: 13px; color: var(--texto-secundario);
+    margin-top: 2px;
+  }
+
+  /* Carousel dots */
+  .carousel-dots {
+    display: flex; gap: 6px; justify-content: center;
+    position: absolute; bottom: 0; left: 0; right: 0;
+  }
+  .carousel-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transition: background 0.3s;
+  }
+  .carousel-dot.active {
+    background: var(--verde-galapagos);
+  }
+
   /* ===== TIDES ===== */
-  .tides-section { border-top: 1px solid rgba(255,255,255,0.10); padding-top: 22px; }
+  .tides-section { padding-top: 0; }
   .tides-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
   .tides-header h2 { font-weight: 700; font-size: 22px; color: var(--texto-primario); }
   .tide-badge {
@@ -396,18 +449,25 @@
       </div>
     </div>
 
-    <div class="tides-section">
-      <div class="tides-header">
-        <h2>Mareas Hoy</h2>
-        <span class="tide-badge" id="tideBadge" style="display:none;">—</span>
-      </div>
-      <div id="tidesContent">
-        <div class="tides-loading">
-          <div class="mini-ring"></div>
-          Consultando mareas...
+    <div class="bottom-carousel" id="bottomCarousel">
+      <!-- Slide 0: Tides -->
+      <div class="carousel-slide active" id="slideTides">
+        <div class="tides-section">
+          <div class="tides-header">
+            <h2>Mareas Hoy</h2>
+            <span class="tide-badge" id="tideBadge" style="display:none;">—</span>
+          </div>
+          <div id="tidesContent">
+            <div class="tides-loading">
+              <div class="mini-ring"></div>
+              Consultando mareas...
+            </div>
+          </div>
+          <div class="tide-source">NOAA · Estación San Cristóbal #9992401</div>
         </div>
       </div>
-      <div class="tide-source">NOAA · Estación San Cristóbal #9992401</div>
+      <!-- CMS poster slides injected dynamically -->
+      <div class="carousel-dots" id="carouselDots"></div>
     </div>
 
     <div class="week-label" id="weekLabel"></div>
@@ -455,7 +515,13 @@ const PHOTO_COUNT = 61;
 const PHOTO_INTERVAL = 12000; // 12 seconds per photo
 const PHOTO_PATH = 'img/photos/';
 
+// CMS Events API (posters for left panel carousel)
+const CMS_API = 'https://usfq.juli.wiki/carteleras/events-cms/api/events.php';
+const CMS_REFRESH_MS = 300000; // 5 minutes
+const CAROUSEL_INTERVAL = 10000; // 10 seconds per slide
+
 let events = [];
+let cmsPosters = [];
 let autoScrolling = true;
 let scrollPaused = false;
 let userInteracted = false;
@@ -995,14 +1061,89 @@ function renderTidesFallback() {
   badge.style.display = 'inline-block';
 }
 
+// ===== CMS EVENTS API (posters) =====
+async function fetchCMSPosters() {
+  try {
+    const now = new Date();
+    const from = now.toLocaleDateString('en-CA', { timeZone: GALAPAGOS_TZ });
+    const until = new Date(now.getTime() + 7 * 86400000).toLocaleDateString('en-CA', { timeZone: GALAPAGOS_TZ });
+    const url = `${CMS_API}?from=${from}&until=${until}&_t=${Date.now()}`;
+    const resp = await fetch(url, { cache: 'no-store' });
+    if (!resp.ok) throw new Error('CMS API error ' + resp.status);
+    const data = await resp.json();
+    if (data.ok && data.events && data.events.length > 0) {
+      cmsPosters = data.events;
+      buildCarouselSlides();
+    }
+  } catch (e) {
+    console.warn('CMS posters error:', e);
+  }
+}
+
+function buildCarouselSlides() {
+  const carousel = document.getElementById('bottomCarousel');
+  const dotsContainer = document.getElementById('carouselDots');
+
+  // Remove old CMS slides
+  carousel.querySelectorAll('.carousel-slide.cms-slide').forEach(el => el.remove());
+
+  // Add CMS poster slides
+  cmsPosters.forEach((poster, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide cms-slide';
+    const eventDate = new Date(poster.event_date + 'T12:00:00-06:00');
+    const dateStr = eventDate.toLocaleDateString('es-EC', { day: 'numeric', month: 'long', timeZone: GALAPAGOS_TZ });
+    slide.innerHTML = `
+      <div class="cms-poster">
+        <img class="cms-poster-img" src="${poster.image_url}" alt="${stripEmojis(poster.title) || ''}" loading="lazy">
+        <div class="cms-poster-title">${stripEmojis(poster.title)}</div>
+        <div class="cms-poster-date">${dateStr}</div>
+      </div>`;
+    carousel.insertBefore(slide, dotsContainer);
+  });
+
+  initCarousel();
+}
+
+let carouselTimer = null;
+function initCarousel() {
+  const carousel = document.getElementById('bottomCarousel');
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const dotsContainer = document.getElementById('carouselDots');
+
+  if (slides.length <= 1) {
+    dotsContainer.innerHTML = '';
+    return;
+  }
+
+  // Build dots
+  dotsContainer.innerHTML = '';
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dotsContainer.appendChild(dot);
+  });
+
+  let current = 0;
+  if (carouselTimer) clearInterval(carouselTimer);
+  carouselTimer = setInterval(() => {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+  }, CAROUSEL_INTERVAL);
+}
+
 // ===== INIT =====
 async function init() {
   initPhotoSlideshow();
-  const [_cal, _tides] = await Promise.allSettled([fetchCalendar(), fetchTides()]);
+  const [_cal, _tides, _cms] = await Promise.allSettled([fetchCalendar(), fetchTides(), fetchCMSPosters()]);
   renderEvents();
   setupAutoScroll();
   setInterval(async () => { await fetchCalendar(); renderEvents(); }, REFRESH_INTERVAL);
   setInterval(fetchTides, 3600000);
+  setInterval(fetchCMSPosters, CMS_REFRESH_MS);
   setInterval(() => { renderEvents(); }, 60000);
 }
 init();
