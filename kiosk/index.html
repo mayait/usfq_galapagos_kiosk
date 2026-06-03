@@ -161,8 +161,18 @@
   const REFRESH_MS = 120000;         // re-leer el feed cada 2 min
   let timers = [];                   // intervalos de rotación a limpiar entre renders
 
-  function fit(){ const s=Math.min(innerWidth/1920, innerHeight/1080); document.getElementById('kiosk').style.transform=`scale(${s})`; }
-  addEventListener('resize', fit); fit();
+  function fit(){
+    const vw = document.documentElement.clientWidth  || innerWidth;
+    const vh = document.documentElement.clientHeight || innerHeight;
+    const s  = Math.min(vw / 1920, vh / 1080);
+    document.getElementById('kiosk').style.transform = `scale(${s})`;
+  }
+  ['resize','orientationchange','load','pageshow'].forEach(ev => addEventListener(ev, fit));
+  if (window.visualViewport) visualViewport.addEventListener('resize', fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(document.documentElement);
+  fit();
+  requestAnimationFrame(fit);
+  [150, 600, 1500].forEach(t => setTimeout(fit, t));   // recalcula tras barras/fuentes/zoom
 
   // ---- Reloj (hora de Galápagos) -----------------------------------------
   const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
