@@ -151,7 +151,23 @@ Los profesores siguen creando eventos en **Outlook** como siempre: el API los in
 
 ## 7. Despliegue
 
-Desde el repo, por **SFTP** (Namecheap, ver [hosting](../README.md) / memoria del proyecto):
+**Dos destinos** (frontend y backend van por separado):
+
+### Frontend → GitHub Pages (lo que ven las pantallas)
+- Pages sirve la rama **`main`** (raíz) en `https://mayait.github.io/usfq_galapagos_kiosk/`.
+- Las pantallas del campus cargan esa URL. El kiosko vive en **`/kiosk/`**; la raíz `/` y la
+  ruta legada `/html/` **redirigen** a `/kiosk/` (así cualquier pantalla sigue funcionando).
+- Hay un `.nojekyll` en la raíz para servir los archivos tal cual (sin Jekyll).
+- El kiosko lee el API por HTTPS (CORS abierto), así que funciona desde el origen de Pages.
+- Publicar = hacer merge a `main`; Pages reconstruye solo.
+
+### Backend (PHP) → Namecheap cPanel, **subido manualmente por SFTP**
+- ⚠️ **Los secretos NO están en el repo** (es público). `cms/config.php` versionado lleva
+  `__CAMBIAR_EN_SERVIDOR__` como placeholder. Los valores reales (contraseña admin, API key de
+  Stormglass, token del cron) viven **solo** en el `config.php` del servidor, que se edita/sube
+  por SFTP a mano.
+
+Conexión SFTP (Namecheap, ver [hosting](../README.md) / memoria del proyecto):
 
 ```
 host server346.web-hosting.com  ·  puerto 21098  ·  user humaiyld

@@ -1,14 +1,16 @@
 <?php
 // ============================================================
 //  KIOSKO USFQ GALÁPAGOS — API + CMS · CONFIGURACIÓN PRINCIPAL
-//  Edita solo este archivo para credenciales, claves y ajustes.
-//  Este archivo se ejecuta como PHP: su contenido NUNCA se sirve
-//  como texto, por eso las claves viven aquí de forma segura.
+//
+//  ⚠️  SECRETOS: este repositorio es PÚBLICO. NO pongas aquí valores
+//      reales. Los marcados con __CAMBIAR__ se configuran SOLO en el
+//      archivo config.php del servidor (api.julianmaya.com), nunca en git.
+//      En el servidor, edita este archivo por SFTP con los valores reales.
 // ============================================================
 
 // ── Credenciales del panel admin ────────────────────────────
 define('ADMIN_USER',     'admin');
-define('ADMIN_PASSWORD', 'n9gV4nmM2HTdiV');  // ← generada en el deploy; cámbiala cuando quieras
+define('ADMIN_PASSWORD', '__CAMBIAR_EN_SERVIDOR__');  // contraseña real solo en el servidor
 
 // ── URLs base ───────────────────────────────────────────────
 define('SITE_URL',       'https://api.julianmaya.com');          // raíz del API/CMS
@@ -42,11 +44,11 @@ define('NOAA_ENDPOINT',  'https://api.tidesandcurrents.noaa.gov/api/prod/dataget
 define('NOAA_STATION',   '9992401');             // San Cristóbal
 
 // ── Stormglass (estado del mar) — la key NUNCA va al cliente ─
-define('STORMGLASS_KEY', '2b1b264c-8ce6-11f0-b41a-0242ac130006-2b1b26e2-8ce6-11f0-b41a-0242ac130006');
+define('STORMGLASS_KEY', '__CAMBIAR_EN_SERVIDOR__');   // API key real solo en el servidor
 define('STORMGLASS_ENDPOINT', 'https://api.stormglass.io/v2/weather/point');
 
 // ── Token para disparar el cron por URL ─────────────────────
-define('CRON_TOKEN',     'x47ayo1iwhdxv8dqe97lj549');  // token del cron por URL
+define('CRON_TOKEN',     '__CAMBIAR_EN_SERVIDOR__');  // token real solo en el servidor
 
 // ── Calendarios ICS por defecto (si calendars.json no existe) ─
 //  "gestión de calendarios": se administran desde admin/calendars.php
