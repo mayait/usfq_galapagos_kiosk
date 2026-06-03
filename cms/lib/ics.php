@@ -214,6 +214,26 @@ function detectEventType(array $ev): string {
     return 'evento';
 }
 
+/** Normaliza un nombre para comparar club ↔ evento (sin acentos, sin "club/de", etc.). */
+function normalizeClubName(string $s): string {
+    $s = mb_strtolower(stripEmojis($s));
+    $s = strtr($s, ['á'=>'a','é'=>'e','í'=>'i','ó'=>'o','ú'=>'u','ü'=>'u','ñ'=>'n']);
+    $s = preg_replace('/[^a-z0-9]+/', ' ', $s);
+    $stop = ['club'=>1,'de'=>1,'del'=>1,'la'=>1,'el'=>1,'los'=>1,'las'=>1];
+    $words = array_filter(explode(' ', $s), fn($w) => $w !== '' && !isset($stop[$w]));
+    return trim(implode(' ', $words));
+}
+
+/** ¿El título del evento corresponde a alguno de los clubes (ya listados en el CMS)? */
+function matchesClubName(string $title, array $clubNorms): bool {
+    $n = normalizeClubName($title);
+    if ($n === '') return false;
+    foreach ($clubNorms as $cn) {
+        if ($cn !== '' && ($n === $cn || str_contains($n, $cn) || str_contains($cn, $n))) return true;
+    }
+    return false;
+}
+
 function stripEmojis(?string $s): string {
     if (!$s) return '';
     $s = preg_replace('/[\x{1F600}-\x{1F64F}\x{1F300}-\x{1F5FF}\x{1F680}-\x{1F6FF}\x{1F1E0}-\x{1F1FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{FE00}-\x{FE0F}\x{1F900}-\x{1F9FF}\x{1FA00}-\x{1FA6F}\x{1FA70}-\x{1FAFF}\x{200D}\x{20E3}]/u', '', $s);

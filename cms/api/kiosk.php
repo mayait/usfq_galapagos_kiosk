@@ -83,11 +83,19 @@ foreach ($cmsEvents as $e) {
     }
 }
 
+// ── Clubes (se usan también para NO duplicarlos en la agenda) ────────────────
+$clubs = array_values(array_filter(loadClubs(), fn($c) => ($c['enabled'] ?? true)));
+$clubNorms = array_values(array_filter(array_map(fn($c) => normalizeClubName($c['name'] ?? ''), $clubs)));
+
 // ── 2) Agenda semanal (days[]) = ICS de Outlook + eventos del CMS de la semana
 $dayBuckets = [];
 
-// 2a) Eventos del calendario Outlook (con horas)
+// 2a) Eventos del calendario Outlook (con horas).
+//     Se excluyen los que son clubes (#CLUB ya se filtró al ingerir; aquí además
+//     se omiten los que coinciden con un club del CMS) → los clubes solo van en
+//     el panel izquierdo, no duplicados en la agenda.
 foreach (fetchWeekEvents() as $ev) {
+    if (matchesClubName($ev['summary'] ?? '', $clubNorms)) continue;
     $d   = $ev['dtstart']->setTimezone(gtz());
     $key = $d->format('Y-m-d');
     $dayBuckets[$key][] = [
@@ -145,8 +153,7 @@ foreach ($dayBuckets as $key => $items) {
     $count += count($items);
 }
 
-// ── 3) Clubes ────────────────────────────────────────────────────────────────
-$clubs = array_values(array_filter(loadClubs(), fn($c) => ($c['enabled'] ?? true)));
+// ── 3) Clubes — ya cargados arriba ($clubs) ──────────────────────────────────
 
 // ── 4) Convenios / promociones ───────────────────────────────────────────────
 $promos = [];

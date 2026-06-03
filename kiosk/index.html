@@ -38,22 +38,22 @@
   .ctile .dy { font-size: 12px; color: var(--color-mist); }
   .ctile .tm { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-  /* tides + sea */
-  .tides { margin-top: auto; padding-top: 16px; }
-  .tides .h { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-mist); margin-bottom: 8px; }
-  .tides .pill { font-size: 11px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); background: rgba(0,169,168,0.14); padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(0,169,168,0.3); }
-  .tstrip { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
-  .tc { padding: 7px 9px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); }
-  .tc.next { background: rgba(0,169,168,0.12); border: 1px solid rgba(0,169,168,0.3); }
-  .tc .k { font-size: 11px; color: var(--color-stone); } .tc.next .k { color: var(--color-turq-300); }
-  .tc .v { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; } .tc .v span { font-size: 10px; font-weight: 400; color: var(--color-stone); }
-  .tc .x { font-size: 10.5px; color: var(--color-slate); }
-  .sea { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px; margin-top: 8px; }
-  .sea .m { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); }
-  .sea .m .ic { font-size: 16px; width: 20px; text-align: center; opacity: 0.95; }
-  .sea .m .lb { font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-stone); }
-  .sea .m .vl { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
-  .station { font-size: 11px; color: var(--color-slate); margin-top: 8px; }
+  /* ===== El mar hoy (enfoque snorkel) ===== */
+  .mar { margin-top: auto; padding-top: 18px; }
+  .mar-head { font-size: 13px; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-stone); margin-bottom: 12px; }
+  .snk { display: inline-flex; align-items: center; gap: 9px; font-size: 21px; font-weight: 600; padding: 10px 20px; border-radius: var(--radius-pill); letter-spacing: -0.01em; }
+  .snk.good { color: #04222a; background: var(--color-turq-400); }
+  .snk.mid  { color: #2a1d04; background: #e6b652; }
+  .snk.bad  { color: #2a0c06; background: var(--color-coral); }
+  .snk.none { color: var(--color-stone); background: rgba(255,255,255,0.06); }
+  .mar-why { font-size: 16px; color: var(--color-mist); margin-top: 13px; line-height: 1.4; }
+  .mar-why::first-letter { text-transform: uppercase; }
+  .tide-line { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; font-size: 16px; color: var(--color-paper); margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-default); }
+  .tide-line .tarrow { color: var(--color-turq-400); font-weight: 600; }
+  .tide-line b { color: var(--color-turq-300); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .tide-line .tip { color: var(--color-stone); font-size: 14px; }
+  .sun-line { font-size: 13.5px; color: var(--color-slate); margin-top: 9px; }
+  .station { font-size: 11px; color: var(--color-slate); margin-top: 9px; }
 
   /* ===== RIGHT (bento) ===== */
   #main { position: relative; padding: 40px 44px 38px; display: flex; flex-direction: column; min-width: 0; }
@@ -133,11 +133,12 @@
       <div class="title">¿Qué pasa<br>en la USFQ?</div>
       <div class="clubs-head"><h2>Clubes activos</h2><span class="n" id="club-n">—</span></div>
       <div class="club-grid" id="clubs"></div>
-      <div class="tides">
-        <div class="h">Mareas hoy <span class="pill" id="tstate">—</span></div>
-        <div class="tstrip" id="tides"></div>
-        <div class="h" style="margin-top:14px">Estado del mar <span class="pill" id="seastate">—</span></div>
-        <div class="sea" id="sea"></div>
+      <div class="mar">
+        <div class="mar-head">El mar hoy</div>
+        <span class="snk none" id="snk">🤿 Snorkel: —</span>
+        <div class="mar-why" id="marWhy"></div>
+        <div class="tide-line" id="tideLine"></div>
+        <div class="sun-line" id="sunLine"></div>
         <div class="station" id="station"></div>
       </div>
     </aside>
@@ -201,15 +202,8 @@
         <div class="rw"><span class="dy">${c.days||''}</span><span class="tm">${c.time||''}</span></div>
       </div>`; }).join('');
 
-    // Mareas
-    document.getElementById('tstate').textContent = K.tides.state || '—';
-    document.getElementById('station').textContent = K.tides.station || '';
-    document.getElementById('tides').innerHTML = (K.tides.points||[]).map(p=>`<div class="tc ${p.next?'next':''}">
-      <div class="k">${p.kind}</div><div class="v">${p.h}<span> m</span></div><div class="x">${p.time} h</div></div>`).join('')
-      || `<div class="tc"><div class="k">Sin datos</div><div class="v">—</div></div>`;
-
-    // Estado del mar
-    renderSea(K.marine);
+    // El mar hoy (veredicto snorkel + mareas, simple y explicativo)
+    renderMar(K);
 
     // Cabecera de semana
     document.getElementById('wk').textContent = `${K.week.label||''}${K.week.count?` · ${K.week.count} eventos`:''}`;
@@ -218,21 +212,59 @@
     renderGrid(K);
   }
 
-  function renderSea(m){
-    const seastate=document.getElementById('seastate'), sea=document.getElementById('sea');
-    if(!m){ seastate.textContent='—'; sea.innerHTML=''; return; }
-    seastate.textContent = m.seaState || '—';
-    const wave = m.waveHeight!=null ? `${m.waveHeight} m${m.swellPeriod?` · ${m.swellPeriod}s`:''}` : '—';
-    const water = m.waterTemp!=null ? `${m.waterTemp}°C` : '—';
-    const wind = (m.wind && m.wind.speed!=null) ? `${m.wind.speed} km/h ${m.wind.dir||''}`.trim() : '—';
-    const sun = (m.sunrise && m.sunset) ? `${m.sunrise}–${m.sunset}` : '—';
-    const chips=[
-      {ic:'🌊', lb:'Oleaje', vl:wave},
-      {ic:'🌡', lb:'Agua', vl:water},
-      {ic:'💨', lb:'Viento', vl:wind},
-      {ic:'☀', lb:'Sol', vl:sun},
-    ];
-    sea.innerHTML = chips.map(c=>`<div class="m"><span class="ic">${c.ic}</span><div><div class="lb">${c.lb}</div><div class="vl">${c.vl}</div></div></div>`).join('');
+  // "El mar hoy" pensado como snorkel: un veredicto claro + una línea en palabras
+  // + la marea simplificada (estado + próxima). Todo derivado de los datos del feed.
+  function renderMar(K){
+    const m = K.marine || null, t = K.tides || {};
+    const snk = document.getElementById('snk');
+    const why = document.getElementById('marWhy');
+    const tideLine = document.getElementById('tideLine');
+    const sunLine = document.getElementById('sunLine');
+
+    if (m) {
+      const wave = m.waveHeight, water = m.waterTemp;
+      const wind = (m.wind && m.wind.speed != null) ? m.wind.speed : null;
+      // Veredicto de snorkel a partir del oleaje (y viento como matiz)
+      let rating = '—', cls = 'none';
+      if (wave != null) {
+        if (wave < 0.8 && (wind == null || wind < 25))      { rating = 'Ideal';   cls = 'good'; }
+        else if (wave < 1.5 && (wind == null || wind < 35)) { rating = 'Bueno';   cls = 'good'; }
+        else if (wave < 2.5)                                { rating = 'Regular'; cls = 'mid';  }
+        else                                                { rating = 'Evitar';  cls = 'bad';  }
+      }
+      snk.textContent = '🤿 Snorkel: ' + rating;
+      snk.className = 'snk ' + cls;
+
+      // Línea explicativa en palabras
+      const aguaW   = water == null ? '' : water >= 26 ? 'tibia' : water >= 23 ? 'templada' : 'fresca';
+      const vientoW = wind  == null ? '' : wind < 12 ? 'flojo' : wind < 25 ? 'moderado' : 'fuerte';
+      const parts = [];
+      if (m.seaState)    parts.push(`oleaje ${m.seaState.toLowerCase()}`);
+      if (water != null) parts.push(`agua ${aguaW} ${water}°`);
+      if (wind != null)  parts.push(`viento ${vientoW}${m.wind.dir ? ' del ' + m.wind.dir : ''}`);
+      why.textContent = parts.join(' · ');
+
+      sunLine.textContent = (m.sunrise && m.sunset) ? `Amanece ${m.sunrise} · Atardece ${m.sunset}` : '';
+    } else {
+      snk.textContent = '🤿 Snorkel: —'; snk.className = 'snk none'; why.textContent = ''; sunLine.textContent = '';
+    }
+
+    // Marea: estado + próxima (lo justo y explicativo)
+    const pts = t.points || [];
+    const next = pts.find(p => p.next);
+    const state = (t.state || '').toLowerCase();
+    const arrow = state.includes('sub') ? '▲' : state.includes('baj') ? '▼' : '·';
+    if (next) {
+      const tip = state.includes('sub') ? 'mejor con marea alta' : '';
+      tideLine.innerHTML = `<span class="tarrow">${arrow} Marea ${t.state || ''}</span>`
+        + ` · próxima <b>${next.kind} ${next.time}</b> (${next.h} m)`
+        + (tip ? ` <span class="tip">— ${tip}</span>` : '');
+    } else if (pts.length) {
+      tideLine.innerHTML = pts.map(p => `${p.kind} ${p.time}`).join(' · ');
+    } else {
+      tideLine.textContent = 'Mareas: sin datos';
+    }
+    document.getElementById('station').textContent = t.station || '';
   }
 
   // ---- Destacado rotativo: eventos importantes + convenios/promos ---------
