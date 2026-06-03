@@ -1,0 +1,14 @@
+# OS
+.DS_Store
+**/.DS_Store
+
+# Python (scripts de imágenes)
+.venv/
+__pycache__/
+
+# Claude / worktrees locales
+.claude/
+
+# Datos en runtime del CMS (no versionar contenido dinámico)
+cms/data/ics_cache.txt
+cms/data/marine.json

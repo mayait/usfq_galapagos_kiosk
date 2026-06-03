@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Kiosko USFQ — estilos compartidos del panel admin
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --teal:  #00A9A8;
+  --blue:  #1672A3;
+  --ink:   #0f1923;
+  --mist:  #f0f4f7;
+  --green: #059669;
+  --amber: #d97706;
+  --coral: #e07a5f;
+  --gray:  #6b7280;
+}
+
+body { font-family: 'DM Sans', sans-serif; background: var(--mist); color: var(--ink); }
+
+/* ── Header + nav ── */
+header {
+  background: #fff; border-bottom: 1px solid #e5e7eb;
+  padding: 0 32px; display: flex; align-items: center;
+  justify-content: space-between; height: 60px;
+  position: sticky; top: 0; z-index: 10;
+}
+.brand { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal); letter-spacing: .1em; }
+.brand span { color: var(--gray); }
+nav { display: flex; gap: 6px; align-items: center; }
+
+.navlink {
+  font-size: 13px; font-weight: 600; color: var(--gray);
+  text-decoration: none; padding: 8px 12px; border-radius: 8px; transition: all .15s;
+}
+.navlink:hover { color: var(--teal); background: #f0f9f9; }
+.navlink.active { color: var(--teal); background: #e4f7f7; }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px; font-size: 13px;
+  font-weight: 600; cursor: pointer; text-decoration: none;
+  border: none; font-family: 'DM Sans', sans-serif; transition: all .15s;
+}
+.btn-primary { background: var(--teal); color: #fff; }
+.btn-primary:hover { background: var(--blue); }
+.btn-ghost { background: transparent; color: var(--gray); border: 1.5px solid #d1d5db; }
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+.btn-danger { background: #fef2f2; color: #dc2626; border: 1.5px solid #fca5a5; }
+.btn-danger:hover { background: #dc2626; color: #fff; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+/* ── Layout ── */
+main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+.page-title { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+.page-sub { font-size: 14px; color: var(--gray); margin-bottom: 28px; }
+
+/* ── Cards / forms ── */
+.card { background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 28px; }
+.card h2 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+
+.field { margin-bottom: 18px; }
+label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--gray); margin-bottom: 8px; }
+.hint { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+
+input[type=text], input[type=date], input[type=time], input[type=url], textarea, select {
+  width: 100%; border: 1.5px solid #d1d5db; border-radius: 8px;
+  padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+  color: var(--ink); outline: none; transition: border-color .2s; background: #fff;
+}
+textarea { resize: vertical; min-height: 70px; }
+input:focus, textarea:focus, select:focus { border-color: var(--teal); }
+
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ── Table ── */
+.table-wrap { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+table { width: 100%; border-collapse: collapse; }
+thead { background: var(--ink); }
+thead th { padding: 12px 16px; text-align: left; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.7); font-weight: 500; }
+tbody tr { border-bottom: 1px solid #f3f4f6; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #f9fafb; }
+td { padding: 12px 16px; font-size: 14px; vertical-align: middle; }
+.mono { font-family: 'DM Mono', monospace; font-size: 13px; }
+
+.thumb { width: 60px; height: 40px; object-fit: cover; border-radius: 6px; display: block; }
+.actions { display: flex; gap: 8px; }
+
+/* ── Badges / chips ── */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: .04em; }
+.badge-active  { background: #d1fae5; color: #065f46; }
+.badge-future  { background: #dbeafe; color: #1e40af; }
+.badge-expired { background: #f3f4f6; color: var(--gray); }
+.badge-imp     { background: #ccfbf1; color: #0f766e; }
+.badge-evt     { background: #f3f4f6; color: var(--gray); }
+.badge-off     { background: #fee2e2; color: #991b1b; }
+
+.cat-chip { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; }
+.cat-deportes  { background: rgba(0,169,168,.16);  color:#0f766e; }
+.cat-bienestar { background: rgba(17,130,197,.16); color:#1e40af; }
+.cat-mar       { background: rgba(22,114,163,.18); color:#155e75; }
+.cat-arte      { background: rgba(224,122,95,.18); color:#9a3412; }
+.cat-letras    { background: rgba(180,150,90,.18); color:#854d0e; }
+
+/* ── Messages ── */
+.errors { background: #fef2f2; border: 1px solid #fca5a5; color: #dc2626; border-radius: 10px; padding: 14px 16px; margin-bottom: 24px; font-size: 14px; }
+.errors ul { margin-left: 18px; }
+.success-box { background: #f0fdf4; border: 1px solid #86efac; color: #166534; border-radius: 10px; padding: 14px 16px; margin-bottom: 24px; font-size: 14px; }
+
+.empty { text-align: center; padding: 48px 24px; color: var(--gray); }
+.divider { border: none; border-top: 1px solid #f3f4f6; margin: 24px 0; }

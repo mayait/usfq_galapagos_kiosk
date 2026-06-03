@@ -1,0 +1,7 @@
+# Protege TODOS los datos JSON de acceso directo por URL
+Require all denied
+# Compatibilidad Apache 2.2
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

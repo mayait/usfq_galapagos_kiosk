@@ -1,0 +1,32 @@
+[
+    {
+        "kind": "convenio",
+        "label": "Convenio",
+        "audience": "Comunidad USFQ",
+        "name": "Midori Sushi Pub",
+        "tagline": "Sushi, café y postres — Sabores Urbanos",
+        "discount": "7%",
+        "discountNote": "de\ndescuento",
+        "category": "Gastronomía",
+        "place": "Av. Charles Darwin · Pto. Baquerizo Moreno",
+        "terms": "Presenta tu credencial USFQ vigente al pagar",
+        "image": "promos/midori.jpg",
+        "accent": "var(--color-coral)",
+        "enabled": true
+    },
+    {
+        "kind": "promo",
+        "label": "Promoción",
+        "audience": "Estudiantes USFQ",
+        "name": "Hora del café",
+        "tagline": "2 × 1 en bebidas calientes en la cafetería del campus",
+        "discount": "2×1",
+        "discountNote": "esta\nsemana",
+        "category": "Campus",
+        "place": "Cafetería · USFQ Galápagos",
+        "terms": "Lunes a viernes, 15:00 – 17:00 h",
+        "image": "promos/terraza.jpg",
+        "accent": "var(--color-turquesa)",
+        "enabled": true
+    }
+]
