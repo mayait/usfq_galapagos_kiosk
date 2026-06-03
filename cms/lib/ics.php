@@ -278,5 +278,16 @@ function fetchWeekEvents(): array {
     }
 
     if ($combined === '') return [];
-    return expandWeekEvents(parseICS($combined));
+
+    $vevents = parseICS($combined);
+    // Excluir eventos marcados como club en Outlook (#CLUB en la descripción):
+    // los clubes se gestionan en el CMS y se muestran aparte en el kiosko.
+    $vevents = array_values(array_filter($vevents, fn($ev) => !isClubTagged($ev)));
+    return expandWeekEvents($vevents);
+}
+
+/** ¿El evento trae el hashtag #CLUB (en descripción o título)? → se ignora en la agenda. */
+function isClubTagged(array $ev): bool {
+    $haystack = ($ev['description'] ?? '') . ' ' . ($ev['summary'] ?? '');
+    return stripos($haystack, '#club') !== false;
 }
