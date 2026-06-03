@@ -1,0 +1,14 @@
+# Índice: raíz → panel admin; subcarpetas (ej. /kiosk/) → su index.html
+DirectoryIndex admin/index.php index.html
+
+# Protege archivos sensibles
+<FilesMatch "\.(json|md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Permite acceso a la carpeta api y uploads
+<FilesMatch "\.(php|jpg|jpeg|png|webp|gif)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>

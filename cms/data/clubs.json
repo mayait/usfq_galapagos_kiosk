@@ -1,0 +1,10 @@
+[
+    { "name": "Alfa Training Club", "cat": "deportes",  "days": "Lun · Vie",  "time": "06:30", "place": "Banderas – Lobería – Playa Mann", "enabled": true },
+    { "name": "Club de Jiu-Jitsu",  "cat": "deportes",  "days": "Lun a Jue",  "time": "06:30", "place": "Tatamis",                          "enabled": true },
+    { "name": "Halterofilia",       "cat": "deportes",  "days": "Lun a Vie",  "time": "07:00", "place": "Coliseo",                          "enabled": true },
+    { "name": "Club de Basketball", "cat": "deportes",  "days": "Mar a Vie",  "time": "20:00", "place": "Gualacata",                        "enabled": true },
+    { "name": "Club de Peloteo",    "cat": "deportes",  "days": "Domingo",    "time": "14:30", "place": "Cancha Divino Niño",               "enabled": true },
+    { "name": "Club de Yoga",       "cat": "bienestar", "days": "Miércoles",  "time": "18:00", "place": "Terraza USFQ",                     "enabled": true },
+    { "name": "Creative Lab",       "cat": "arte",      "days": "Viernes",    "time": "16:00", "place": "Pérgola",                          "enabled": true },
+    { "name": "Night Writes",       "cat": "letras",    "days": "Lunes",      "time": "20:30", "place": "Biblioteca",                       "enabled": true }
+]

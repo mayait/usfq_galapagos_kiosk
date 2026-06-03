@@ -1,0 +1,272 @@
+/* ==========================================================================
+   USFQ Galápagos — Colors & Type
+   Source: USFQG Brand Guidelines V2 2025 (Lucky Frog Studios)
+   ========================================================================== */
+
+/* ---- Fonts -------------------------------------------------------------- */
+/* Jost — primary brand sans (monograma + UI). Owen Earl, variable font. */
+@font-face {
+  font-family: 'Jost';
+  src: url('fonts/Jost-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('fonts/Jost-Italic-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* University Roman — display roman caps used in the USFQ monogram. */
+@font-face {
+  font-family: 'University Roman';
+  src: url('fonts/University_Roman_Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'University Roman';
+  src: url('fonts/UniversityRomanBoldPlain.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---- Primary palette (Brand Guidelines p.13) ------------------------- */
+  /* Degradé — three stops that compose the logo gradient */
+  --color-azul-medio:   #1182C5;   /* gradient stop 0%   — Pantone P 109-7C */
+  --color-azul-mar:     #1672A3;   /* gradient stop 35%  — Pantone P 110-7C (also flat "Azul Mar") */
+  --color-turquesa:     #00A9A8;   /* gradient stop 100% — Pantone P 124-6C */
+
+  /* The official logo gradient (top → bottom in the imagotipo) */
+  --gradient-brand: linear-gradient(180deg, var(--color-turquesa) 0%, var(--color-azul-mar) 35%, var(--color-azul-medio) 100%);
+  --gradient-brand-horizontal: linear-gradient(90deg, var(--color-turquesa) 0%, var(--color-azul-mar) 50%, var(--color-azul-medio) 100%);
+
+  /* ---- Extended blues (tint + shade of Azul Mar, derived) -------------- */
+  --color-azul-900: #0a3b5c;
+  --color-azul-800: #0e4f7a;
+  --color-azul-700: #115f93;   /* close to azul-mar */
+  --color-azul-600: #1672a3;   /* azul-mar */
+  --color-azul-500: #1182c5;   /* azul-medio */
+  --color-azul-400: #4ba3d7;
+  --color-azul-300: #88c2e5;
+  --color-azul-200: #bfdcf0;
+  --color-azul-100: #e2eff8;
+  --color-azul-050: #f1f7fb;
+
+  /* ---- Extended turquoise --------------------------------------------- */
+  --color-turq-900: #003938;
+  --color-turq-800: #005655;
+  --color-turq-700: #007a79;
+  --color-turq-600: #00a9a8;   /* turquesa */
+  --color-turq-500: #2fc3c2;
+  --color-turq-400: #6bd6d5;
+  --color-turq-300: #9ce4e3;
+  --color-turq-200: #c8efef;
+  --color-turq-100: #e4f7f7;
+
+  /* ---- Neutrals (warm-leaning to pair with the terracotta campus) ----- */
+  --color-ink:        #0d1b24;   /* near-black on deep navy */
+  --color-graphite:   #243845;
+  --color-slate:      #4a5a66;
+  --color-stone:      #7f8b93;
+  --color-mist:       #c3cbd1;
+  --color-sand:       #e8eaec;
+  --color-bone:       #f4f5f6;
+  --color-paper:      #ffffff;
+
+  /* ---- Accent / secondary — pulled from brand photography ------------- */
+  --color-terracota:  #c6634a;   /* historic campus façade */
+  --color-coral:      #e07a5f;
+  --color-arena:      #e9dcc4;   /* Galápagos beach sand */
+  --color-lava:       #2a2722;   /* volcanic rock */
+  --color-uniform-red:#b3262d;   /* student polo red accent */
+
+  /* ---- Semantic tokens ------------------------------------------------ */
+  --bg-page:          var(--color-paper);
+  --bg-subtle:        var(--color-azul-050);
+  --bg-muted:         var(--color-bone);
+  --bg-inverse:       var(--color-azul-900);
+  --bg-brand:         var(--color-azul-mar);
+  --bg-accent:        var(--color-turquesa);
+
+  --fg-1:             var(--color-ink);
+  --fg-2:             var(--color-graphite);
+  --fg-3:             var(--color-slate);
+  --fg-muted:         var(--color-stone);
+  --fg-on-brand:      var(--color-paper);
+  --fg-brand:         var(--color-azul-mar);
+  --fg-accent:        var(--color-turq-700);
+
+  --border-subtle:    color-mix(in oklab, var(--color-azul-mar) 10%, transparent);
+  --border-default:   color-mix(in oklab, var(--color-azul-mar) 22%, transparent);
+  --border-strong:    var(--color-azul-mar);
+
+  /* ---- Type families -------------------------------------------------- */
+  --font-sans:    'Jost', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'University Roman', 'Trajan Pro', 'Times New Roman', serif; /* roman caps */
+  --font-mono:    ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+  /* Per brand guide: Jost Medium, letter-spacing 532 (Adobe) ≈ 0.053em for wordmark */
+  --tracking-imagotipo: 0.053em;
+  --tracking-display:   0.04em;
+  --tracking-eyebrow:   0.18em;
+  --tracking-normal:    0;
+  --tracking-tight:     -0.01em;
+
+  /* ---- Type scale ----------------------------------------------------- */
+  /* Jost body, Cinzel display. Semantic. */
+  --fs-display-xl: clamp(3.25rem, 6vw + 1rem, 5.75rem);   /* 52 → 92 */
+  --fs-display-l:  clamp(2.5rem, 4vw + 1rem, 4rem);       /* 40 → 64 */
+  --fs-display-m:  clamp(2rem, 2.5vw + 1rem, 3rem);       /* 32 → 48 */
+  --fs-h1:         2.25rem;     /* 36 */
+  --fs-h2:         1.75rem;     /* 28 */
+  --fs-h3:         1.375rem;    /* 22 */
+  --fs-h4:         1.125rem;    /* 18 */
+  --fs-body-lg:    1.125rem;    /* 18 */
+  --fs-body:       1rem;        /* 16 */
+  --fs-body-sm:    0.9375rem;   /* 15 */
+  --fs-caption:    0.8125rem;   /* 13 */
+  --fs-micro:      0.6875rem;   /* 11 */
+
+  /* ---- Spacing (8-pt base, halved for tight increments) --------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* ---- Radii ---------------------------------------------------------- */
+  /* Brand leans on the curved wave under the logo; soft organic radii feel on-brand */
+  --radius-xs:  4px;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-2xl: 32px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows (cool blue-tinted) ------------------------------------ */
+  --shadow-xs: 0 1px 2px rgba(13, 59, 92, 0.06);
+  --shadow-sm: 0 2px 6px rgba(13, 59, 92, 0.08);
+  --shadow-md: 0 8px 20px -6px rgba(13, 59, 92, 0.14), 0 2px 6px rgba(13, 59, 92, 0.06);
+  --shadow-lg: 0 18px 40px -12px rgba(13, 59, 92, 0.20), 0 4px 10px rgba(13, 59, 92, 0.08);
+  --shadow-xl: 0 30px 60px -18px rgba(13, 59, 92, 0.30), 0 8px 16px rgba(13, 59, 92, 0.10);
+  --shadow-brand-glow: 0 12px 32px -8px color-mix(in oklab, var(--color-turquesa) 45%, transparent);
+
+  /* ---- Motion --------------------------------------------------------- */
+  --ease-out-quart: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --dur-quick: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+
+  /* ---- Layout --------------------------------------------------------- */
+  --container-narrow: 720px;
+  --container-default: 1080px;
+  --container-wide: 1280px;
+  --container-ultra: 1440px;
+}
+
+/* ==========================================================================
+   Semantic element styles
+   ========================================================================== */
+
+html { font-family: var(--font-sans); color: var(--fg-1); background: var(--bg-page); }
+body { font-size: var(--fs-body); line-height: 1.55; font-weight: 400; -webkit-font-smoothing: antialiased; }
+
+/* Roman-caps display: ONLY for ceremonial or hero headers, to echo the logo.
+   Default H1/H2 use Jost so the system reads modern. */
+.display,
+.display-xl, .display-l, .display-m {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.display-xl { font-size: var(--fs-display-xl); }
+.display-l  { font-size: var(--fs-display-l); }
+.display-m  { font-size: var(--fs-display-m); }
+
+h1, .h1 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: 1.12;
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+h2, .h2 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+  color: var(--fg-1);
+}
+h4, .h4 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-h4);
+  line-height: 1.4;
+  color: var(--fg-2);
+}
+
+p, .p { font-size: var(--fs-body); line-height: 1.6; color: var(--fg-2); text-wrap: pretty; }
+.p-lg { font-size: var(--fs-body-lg); line-height: 1.55; }
+.p-sm { font-size: var(--fs-body-sm); }
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--fg-accent);
+}
+
+.caption { font-size: var(--fs-caption); color: var(--fg-3); line-height: 1.5; }
+.micro   { font-size: var(--fs-micro); color: var(--fg-muted); letter-spacing: 0.03em; }
+
+code, pre, kbd { font-family: var(--font-mono); font-size: 0.92em; }
+
+/* Imagotipo wordmark mimic — only for the USFQ letters themselves.
+   The real logo is an imported PNG; this class is for mentions in running copy. */
+.imagotipo {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: var(--tracking-imagotipo);
+  text-transform: uppercase;
+}
+
+/* Brand gradient text — use sparingly, only for a hero moment */
+.text-gradient-brand {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Selection */
+::selection { background: var(--color-turq-200); color: var(--color-azul-900); }
