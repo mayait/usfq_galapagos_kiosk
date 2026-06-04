@@ -38,22 +38,27 @@
   .ctile .dy { font-size: 12px; color: var(--color-mist); }
   .ctile .tm { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-  /* ===== El mar hoy (enfoque snorkel) ===== */
-  .mar { margin-top: auto; padding-top: 18px; }
-  .mar-head { font-size: 13px; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-stone); margin-bottom: 12px; }
-  .snk { display: inline-flex; align-items: center; gap: 9px; font-size: 21px; font-weight: 600; padding: 10px 20px; border-radius: var(--radius-pill); letter-spacing: -0.01em; }
-  .snk.good { color: #04222a; background: var(--color-turq-400); }
-  .snk.mid  { color: #2a1d04; background: #e6b652; }
-  .snk.bad  { color: #2a0c06; background: var(--color-coral); }
-  .snk.none { color: var(--color-stone); background: rgba(255,255,255,0.06); }
-  .mar-why { font-size: 16px; color: var(--color-mist); margin-top: 13px; line-height: 1.4; }
-  .mar-why::first-letter { text-transform: uppercase; }
-  .tide-line { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; font-size: 16px; color: var(--color-paper); margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-default); }
-  .tide-line .tarrow { color: var(--color-turq-400); font-weight: 600; }
-  .tide-line b { color: var(--color-turq-300); font-weight: 600; font-variant-numeric: tabular-nums; }
-  .tide-line .tip { color: var(--color-stone); font-size: 14px; }
-  .sun-line { font-size: 13.5px; color: var(--color-slate); margin-top: 9px; }
-  .station { font-size: 11px; color: var(--color-slate); margin-top: 9px; }
+  /* tides + sea */
+  .tides { margin-top: auto; padding-top: 16px; }
+  .tides .h { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-mist); margin-bottom: 8px; }
+  .tides .pill { font-size: 11px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); background: rgba(0,169,168,0.14); padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(0,169,168,0.3); }
+  .tstrip { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+  .tc { padding: 7px 9px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); }
+  .tc.next { background: rgba(0,169,168,0.12); border: 1px solid rgba(0,169,168,0.3); }
+  .tc .k { font-size: 11px; color: var(--color-stone); } .tc.next .k { color: var(--color-turq-300); }
+  .tc .v { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; } .tc .v span { font-size: 10px; font-weight: 400; color: var(--color-stone); }
+  .tc .x { font-size: 10.5px; color: var(--color-slate); }
+  .sea { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px; margin-top: 8px; }
+  .sea .m { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); }
+  .sea .m .ic { font-size: 16px; width: 20px; text-align: center; opacity: 0.95; }
+  .sea .m .lb { font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-stone); }
+  .sea .m .vl { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  /* chip de Snorkel (reemplaza al de Sol) — veredicto con color */
+  .sea .m.snk .vl { font-variant-numeric: normal; }
+  .sea .m.snk-good { background: rgba(0,169,168,0.12); } .sea .m.snk-good .vl { color: var(--color-turq-400); }
+  .sea .m.snk-mid  { background: rgba(230,182,82,0.12); } .sea .m.snk-mid  .vl { color: #e6b652; }
+  .sea .m.snk-bad  { background: rgba(224,122,95,0.14); } .sea .m.snk-bad  .vl { color: var(--color-coral); }
+  .station { font-size: 11px; color: var(--color-slate); margin-top: 8px; }
 
   /* ===== RIGHT (bento) ===== */
   #main { position: relative; padding: 40px 44px 38px; display: flex; flex-direction: column; min-width: 0; }
@@ -100,18 +105,18 @@
   .grid-head h2 { font-size: 22px; font-weight: 600; }
   .grid-head .hint { font-size: 14px; color: var(--color-slate); margin-left: auto; }
   .grid-vp { position: relative; flex: 1; min-height: 0; }
-  .gpage { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3,1fr); grid-auto-rows: 1fr; gap: 14px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
+  .gpage { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(2,1fr); grid-auto-rows: 1fr; gap: 18px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
   .gpage.on { opacity: 1; }
   .gtile { position: relative; border-radius: var(--radius-lg); overflow: hidden; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; }
   .gtile .ph { position: relative; flex: 1; min-height: 0; overflow: hidden; }
   .gtile .ph img { width: 100%; height: 100%; object-fit: cover; }
   .gtile .ph::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(2,12,20,0.1) 30%, rgba(2,12,20,0.82)); }
-  .gtile .ph .tag { position: absolute; top: 11px; right: 11px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 999px; }
-  .gtile .ph .day { position: absolute; left: 14px; bottom: 11px; font-size: 13px; font-weight: 600; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.8); }
-  .gtile .bd { padding: 12px 15px 14px; flex: none; }
-  .gtile .tm { font-size: 15px; font-weight: 600; color: var(--color-turq-300); font-variant-numeric: tabular-nums; min-height: 1px; }
-  .gtile .tt { font-size: 19px; font-weight: 600; line-height: 1.1; margin-top: 3px; }
-  .gtile .pl { font-size: 13px; color: var(--color-stone); margin-top: 4px; }
+  .gtile .ph .tag { position: absolute; top: 14px; right: 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; padding: 5px 12px; border-radius: 999px; }
+  .gtile .ph .day { position: absolute; left: 18px; bottom: 14px; font-size: 15px; font-weight: 600; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.8); }
+  .gtile .bd { padding: 16px 20px 18px; flex: none; }
+  .gtile .tm { font-size: 16px; font-weight: 600; color: var(--color-turq-300); font-variant-numeric: tabular-nums; min-height: 1px; }
+  .gtile .tt { font-size: 25px; font-weight: 600; line-height: 1.08; margin-top: 4px; letter-spacing: -0.01em; }
+  .gtile .pl { font-size: 15px; color: var(--color-stone); margin-top: 6px; }
   .gtile.imp { border-color: rgba(0,169,168,0.5); }
   .empty { position:absolute; inset:0; display:grid; place-items:center; color:var(--color-stone); font-size:20px; }
   .dots { position: absolute; bottom: -2px; right: 0; display: flex; gap: 7px; }
@@ -133,12 +138,11 @@
       <div class="title">¿Qué pasa<br>en la USFQ?</div>
       <div class="clubs-head"><h2>Clubes activos</h2><span class="n" id="club-n">—</span></div>
       <div class="club-grid" id="clubs"></div>
-      <div class="mar">
-        <div class="mar-head">El mar hoy</div>
-        <span class="snk none" id="snk">🤿 Snorkel: —</span>
-        <div class="mar-why" id="marWhy"></div>
-        <div class="tide-line" id="tideLine"></div>
-        <div class="sun-line" id="sunLine"></div>
+      <div class="tides">
+        <div class="h">Mareas hoy <span class="pill" id="tstate">—</span></div>
+        <div class="tstrip" id="tides"></div>
+        <div class="h" style="margin-top:14px">Estado del mar <span class="pill" id="seastate">—</span></div>
+        <div class="sea" id="sea"></div>
         <div class="station" id="station"></div>
       </div>
     </aside>
@@ -149,7 +153,7 @@
         <div class="wk" id="wk"></div>
       </div>
       <div class="pin-wrap" id="pin-wrap"></div>
-      <div class="grid-head"><h2>Esta semana</h2><span class="hint" id="hint"></span></div>
+      <div class="grid-head"><h2>Próximos eventos</h2><span class="hint" id="hint"></span></div>
       <div class="grid-vp" id="grid"><div class="dots" id="dots"></div></div>
     </section>
   </main>
@@ -162,11 +166,13 @@
   const REFRESH_MS = 120000;         // re-leer el feed cada 2 min
   let timers = [];                   // intervalos de rotación a limpiar entre renders
 
+  // Ajuste a CUALQUIER pantalla: estira el lienzo 1920×1080 para llenar el viewport
+  // completo, sin franjas negras. En pantallas ~16:9 (TVs del campus) la distorsión
+  // es imperceptible; en proporciones muy distintas se adapta igual.
   function fit(){
     const vw = document.documentElement.clientWidth  || innerWidth;
     const vh = document.documentElement.clientHeight || innerHeight;
-    const s  = Math.min(vw / 1920, vh / 1080);
-    document.getElementById('kiosk').style.transform = `scale(${s})`;
+    document.getElementById('kiosk').style.transform = `scale(${vw / 1920}, ${vh / 1080})`;
   }
   ['resize','orientationchange','load','pageshow'].forEach(ev => addEventListener(ev, fit));
   if (window.visualViewport) visualViewport.addEventListener('resize', fit);
@@ -202,8 +208,14 @@
         <div class="rw"><span class="dy">${c.days||''}</span><span class="tm">${c.time||''}</span></div>
       </div>`; }).join('');
 
-    // El mar hoy (veredicto snorkel + mareas, simple y explicativo)
-    renderMar(K);
+    // Mareas
+    document.getElementById('tstate').textContent = K.tides.state || '—';
+    document.getElementById('station').textContent = K.tides.station || '';
+    document.getElementById('tides').innerHTML = (K.tides.points||[]).map(p=>`<div class="tc ${p.next?'next':''}">
+      <div class="k">${p.kind}</div><div class="v">${p.h}<span> m</span></div><div class="x">${p.time} h</div></div>`).join('')
+      || `<div class="tc"><div class="k">Sin datos</div><div class="v">—</div></div>`;
+    // Estado del mar (con veredicto de snorkel en lugar del sol)
+    renderSea(K.marine);
 
     // Cabecera de semana
     document.getElementById('wk').textContent = `${K.week.label||''}${K.week.count?` · ${K.week.count} eventos`:''}`;
@@ -212,59 +224,31 @@
     renderGrid(K);
   }
 
-  // "El mar hoy" pensado como snorkel: un veredicto claro + una línea en palabras
-  // + la marea simplificada (estado + próxima). Todo derivado de los datos del feed.
-  function renderMar(K){
-    const m = K.marine || null, t = K.tides || {};
-    const snk = document.getElementById('snk');
-    const why = document.getElementById('marWhy');
-    const tideLine = document.getElementById('tideLine');
-    const sunLine = document.getElementById('sunLine');
+  // Veredicto de snorkel a partir del oleaje (y viento como matiz)
+  function snorkelRating(m){
+    const wave = m.waveHeight, wind = (m.wind && m.wind.speed != null) ? m.wind.speed : null;
+    if (wave == null) return { label: '—', cls: '' };
+    if (wave < 0.8 && (wind == null || wind < 25)) return { label: 'Ideal',   cls: 'snk-good' };
+    if (wave < 1.5 && (wind == null || wind < 35)) return { label: 'Bueno',   cls: 'snk-good' };
+    if (wave < 2.5)                                return { label: 'Regular', cls: 'snk-mid'  };
+    return { label: 'Evitar', cls: 'snk-bad' };
+  }
 
-    if (m) {
-      const wave = m.waveHeight, water = m.waterTemp;
-      const wind = (m.wind && m.wind.speed != null) ? m.wind.speed : null;
-      // Veredicto de snorkel a partir del oleaje (y viento como matiz)
-      let rating = '—', cls = 'none';
-      if (wave != null) {
-        if (wave < 0.8 && (wind == null || wind < 25))      { rating = 'Ideal';   cls = 'good'; }
-        else if (wave < 1.5 && (wind == null || wind < 35)) { rating = 'Bueno';   cls = 'good'; }
-        else if (wave < 2.5)                                { rating = 'Regular'; cls = 'mid';  }
-        else                                                { rating = 'Evitar';  cls = 'bad';  }
-      }
-      snk.textContent = '🤿 Snorkel: ' + rating;
-      snk.className = 'snk ' + cls;
-
-      // Línea explicativa en palabras
-      const aguaW   = water == null ? '' : water >= 26 ? 'tibia' : water >= 23 ? 'templada' : 'fresca';
-      const vientoW = wind  == null ? '' : wind < 12 ? 'flojo' : wind < 25 ? 'moderado' : 'fuerte';
-      const parts = [];
-      if (m.seaState)    parts.push(`oleaje ${m.seaState.toLowerCase()}`);
-      if (water != null) parts.push(`agua ${aguaW} ${water}°`);
-      if (wind != null)  parts.push(`viento ${vientoW}${m.wind.dir ? ' del ' + m.wind.dir : ''}`);
-      why.textContent = parts.join(' · ');
-
-      sunLine.textContent = (m.sunrise && m.sunset) ? `Amanece ${m.sunrise} · Atardece ${m.sunset}` : '';
-    } else {
-      snk.textContent = '🤿 Snorkel: —'; snk.className = 'snk none'; why.textContent = ''; sunLine.textContent = '';
-    }
-
-    // Marea: estado + próxima (lo justo y explicativo)
-    const pts = t.points || [];
-    const next = pts.find(p => p.next);
-    const state = (t.state || '').toLowerCase();
-    const arrow = state.includes('sub') ? '▲' : state.includes('baj') ? '▼' : '·';
-    if (next) {
-      const tip = state.includes('sub') ? 'mejor con marea alta' : '';
-      tideLine.innerHTML = `<span class="tarrow">${arrow} Marea ${t.state || ''}</span>`
-        + ` · próxima <b>${next.kind} ${next.time}</b> (${next.h} m)`
-        + (tip ? ` <span class="tip">— ${tip}</span>` : '');
-    } else if (pts.length) {
-      tideLine.innerHTML = pts.map(p => `${p.kind} ${p.time}`).join(' · ');
-    } else {
-      tideLine.textContent = 'Mareas: sin datos';
-    }
-    document.getElementById('station').textContent = t.station || '';
+  function renderSea(m){
+    const seastate = document.getElementById('seastate'), sea = document.getElementById('sea');
+    if(!m){ seastate.textContent='—'; sea.innerHTML=''; return; }
+    seastate.textContent = m.seaState || '—';
+    const wave  = m.waveHeight!=null ? `${m.waveHeight} m${m.swellPeriod?` · ${m.swellPeriod}s`:''}` : '—';
+    const water = m.waterTemp!=null ? `${m.waterTemp}°C` : '—';
+    const wind  = (m.wind && m.wind.speed!=null) ? `${m.wind.speed} km/h ${m.wind.dir||''}`.trim() : '—';
+    const snk   = snorkelRating(m);
+    const chips=[
+      {ic:'🌊', lb:'Oleaje',  vl:wave,      cls:''},
+      {ic:'🌡', lb:'Agua',    vl:water,     cls:''},
+      {ic:'💨', lb:'Viento',  vl:wind,      cls:''},
+      {ic:'🤿', lb:'Snorkel', vl:snk.label, cls:'snk '+snk.cls},
+    ];
+    sea.innerHTML = chips.map(c=>`<div class="m ${c.cls}"><span class="ic">${c.ic}</span><div><div class="lb">${c.lb}</div><div class="vl">${c.vl}</div></div></div>`).join('');
   }
 
   // ---- Destacado rotativo: eventos importantes + convenios/promos ---------
@@ -328,7 +312,7 @@
     }
     const ex=grid.querySelector('.empty'); if(ex) ex.remove();
 
-    const per=6, pages=Math.ceil(cards.length/per);
+    const per=4, pages=Math.ceil(cards.length/per);   // 2 columnas × 2 filas, tarjetas grandes
     for(let pg=0; pg<pages; pg++){ const page=document.createElement('div'); page.className='gpage'+(pg===0?' on':'');
       page.innerHTML=cards.slice(pg*per,pg*per+per).map(({d,it})=>{
         const imp=it.type==='importante'; const cat=imp?null:(K.CATS[it.cat]||K.CATS.letras);
