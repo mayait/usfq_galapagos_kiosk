@@ -115,8 +115,7 @@
   /* lista de próximos eventos: 2 columnas, miniatura + texto */
   .lpage { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: min-content; align-content: start; gap: 11px 18px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
   .lpage.on { opacity: 1; }
-  .erow { display: flex; gap: 13px; align-items: center; padding: 9px 12px; border-radius: var(--radius-md); background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
-  .erow .th { width: 72px; height: 54px; border-radius: var(--radius-sm); object-fit: cover; flex: none; background: #0a1f2e; }
+  .erow { display: flex; gap: 13px; align-items: center; padding: 13px 16px; border-radius: var(--radius-md); background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
   .erow .bd2 { min-width: 0; flex: 1; }
   .erow .tm2 { font-size: 13px; font-weight: 600; color: var(--color-turq-300); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .erow .tt2 { font-size: 18px; font-weight: 600; line-height: 1.12; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -334,13 +333,9 @@
     for(let pg=0; pg<pages; pg++){ const page=document.createElement('div'); page.className='lpage'+(pg===0?' on':'');
       page.innerHTML=rows.slice(pg*per,pg*per+per).map(({d,it})=>{
         const imp=it.type==='importante'; const cat=imp?null:(K.CATS[it.cat]||K.CATS.letras);
-        let photo;
-        if(imp && K.pinned[it.ref]) photo=K.pinned[it.ref].flyer||K.pinned[it.ref].photo;
-        else photo=it.image_url || K.PH[it.cat] || K.PH.letras;
         const accent=imp?'var(--color-turq-400)':cat.color;
         const time=it.start?K.fmtTime(it.start):'';
-        return `<div class="erow ${imp?'imp':''}" style="border-left:3px solid ${accent}">
-          <img class="th" src="${photo}" alt="" onerror="this.style.opacity=0"/>
+        return `<div class="erow ${imp?'imp':''}" style="border-left:4px solid ${accent}">
           <div class="bd2">
             <div class="tm2">${time?time+' · ':''}${d.dow} ${d.date}</div>
             <div class="tt2">${imp?'★ ':''}${it.title}</div>
