@@ -27,7 +27,7 @@
   .title { margin-top: 22px; font-size: 32px; font-weight: 600; line-height: 1.04; color: var(--color-turq-400); letter-spacing: -0.01em; }
   .clubs-head { display: flex; align-items: baseline; justify-content: space-between; margin: 20px 0 12px; }
   .clubs-head h2 { font-size: 22px; font-weight: 600; }
-  .clubs-head .n { font-size: 13px; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-stone); }
+  .clubs-head .n { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-stone); white-space: nowrap; }
   .club-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .ctile { position: relative; padding: 12px 13px 11px; border-radius: var(--radius-lg); overflow: hidden;
     background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
@@ -49,15 +49,22 @@
   .tc .v { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; } .tc .v span { font-size: 10px; font-weight: 400; color: var(--color-stone); }
   .tc .x { font-size: 10.5px; color: var(--color-slate); }
   .sea { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px; margin-top: 8px; }
-  .sea .m { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); }
-  .sea .m .ic { font-size: 16px; width: 20px; text-align: center; opacity: 0.95; }
-  .sea .m .lb { font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-stone); }
+  .sea .m { display: flex; align-items: center; gap: 10px; padding: 8px 11px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); }
+  .sea .m .ic { width: 22px; height: 22px; flex: none; color: var(--color-mist); opacity: 0.9; }
+  .sea .m .ic svg { width: 100%; height: 100%; display: block; }
+  .sea .m .bd3 { flex: 1; min-width: 0; }
+  .sea .m .lb { font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-stone); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sea .m .vl { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
-  /* chip de Snorkel (reemplaza al de Sol) — veredicto con color */
-  .sea .m.snk .vl { font-variant-numeric: normal; }
-  .sea .m.snk-good { background: rgba(0,169,168,0.12); } .sea .m.snk-good .vl { color: var(--color-turq-400); }
-  .sea .m.snk-mid  { background: rgba(230,182,82,0.12); } .sea .m.snk-mid  .vl { color: #e6b652; }
-  .sea .m.snk-bad  { background: rgba(224,122,95,0.14); } .sea .m.snk-bad  .vl { color: var(--color-coral); }
+  /* chip de Actividades marinas — veredicto con color */
+  .sea .m.act .vl { font-variant-numeric: normal; }
+  .sea .m.snk-good .vl { color: var(--color-turq-400); }
+  .sea .m.snk-mid  .vl { color: #e6b652; }
+  .sea .m.snk-bad  .vl { color: var(--color-coral); }
+  /* semáforo por elemento: verde=bueno, ámbar=regular, rojo=malo */
+  .sem { width: 11px; height: 11px; border-radius: 999px; flex: none; }
+  .sem.ok  { background: #34c759; box-shadow: 0 0 7px rgba(52,199,89,0.65); }
+  .sem.mid { background: #e6b652; box-shadow: 0 0 7px rgba(230,182,82,0.65); }
+  .sem.bad { background: #e0584a; box-shadow: 0 0 7px rgba(224,88,74,0.65); }
   .station { font-size: 11px; color: var(--color-slate); margin-top: 8px; }
 
   /* ===== RIGHT (bento) ===== */
@@ -105,19 +112,16 @@
   .grid-head h2 { font-size: 22px; font-weight: 600; }
   .grid-head .hint { font-size: 14px; color: var(--color-slate); margin-left: auto; }
   .grid-vp { position: relative; flex: 1; min-height: 0; }
-  .gpage { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(2,1fr); grid-auto-rows: 1fr; gap: 18px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
-  .gpage.on { opacity: 1; }
-  .gtile { position: relative; border-radius: var(--radius-lg); overflow: hidden; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; }
-  .gtile .ph { position: relative; flex: 1; min-height: 0; overflow: hidden; }
-  .gtile .ph img { width: 100%; height: 100%; object-fit: cover; }
-  .gtile .ph::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(2,12,20,0.1) 30%, rgba(2,12,20,0.82)); }
-  .gtile .ph .tag { position: absolute; top: 14px; right: 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; padding: 5px 12px; border-radius: 999px; }
-  .gtile .ph .day { position: absolute; left: 18px; bottom: 14px; font-size: 15px; font-weight: 600; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.8); }
-  .gtile .bd { padding: 16px 20px 18px; flex: none; }
-  .gtile .tm { font-size: 16px; font-weight: 600; color: var(--color-turq-300); font-variant-numeric: tabular-nums; min-height: 1px; }
-  .gtile .tt { font-size: 25px; font-weight: 600; line-height: 1.08; margin-top: 4px; letter-spacing: -0.01em; }
-  .gtile .pl { font-size: 15px; color: var(--color-stone); margin-top: 6px; }
-  .gtile.imp { border-color: rgba(0,169,168,0.5); }
+  /* lista de próximos eventos: 2 columnas, miniatura + texto */
+  .lpage { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: min-content; align-content: start; gap: 11px 18px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
+  .lpage.on { opacity: 1; }
+  .erow { display: flex; gap: 13px; align-items: center; padding: 9px 12px; border-radius: var(--radius-md); background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
+  .erow .th { width: 72px; height: 54px; border-radius: var(--radius-sm); object-fit: cover; flex: none; background: #0a1f2e; }
+  .erow .bd2 { min-width: 0; flex: 1; }
+  .erow .tm2 { font-size: 13px; font-weight: 600; color: var(--color-turq-300); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .erow .tt2 { font-size: 18px; font-weight: 600; line-height: 1.12; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .erow .pl2 { font-size: 13px; color: var(--color-stone); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .erow.imp { border-color: rgba(0,169,168,0.4); }
   .empty { position:absolute; inset:0; display:grid; place-items:center; color:var(--color-stone); font-size:20px; }
   .dots { position: absolute; bottom: -2px; right: 0; display: flex; gap: 7px; }
   .dots .d { width: 8px; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.2); transition: all var(--dur-base); }
@@ -149,7 +153,7 @@
 
     <section id="main">
       <div class="mh">
-        <div><div class="eb">Cartelera estudiantil</div><h1>Agenda de la semana</h1></div>
+        <div><div class="eb">Cartelera estudiantil</div><h1>Cartelera de eventos</h1></div>
         <div class="wk" id="wk"></div>
       </div>
       <div class="pin-wrap" id="pin-wrap"></div>
@@ -199,7 +203,7 @@
     clearTimers();
 
     // Clubes
-    document.getElementById('club-n').textContent = K.clubs.length+' '+(K.clubs.length===1?'club':'clubes');
+    document.getElementById('club-n').textContent = 'Abierto a toda la comunidad';
     document.getElementById('clubs').innerHTML = K.clubs.map(c=>{ const cat=K.CATS[c.cat]||K.CATS.letras;
       return `<div class="ctile">
         <span class="glow" style="background:radial-gradient(120% 120% at 0% 0%, ${cat.color}, transparent 70%)"></span>
@@ -218,13 +222,21 @@
     renderSea(K.marine);
 
     // Cabecera de semana
-    document.getElementById('wk').textContent = `${K.week.label||''}${K.week.count?` · ${K.week.count} eventos`:''}`;
+    document.getElementById('wk').textContent = K.week.count ? `${K.week.count} eventos próximos` : '';
 
     renderPinned(K);
-    renderGrid(K);
+    renderList(K);
   }
 
-  // Veredicto de snorkel a partir del oleaje (y viento como matiz)
+  // Iconos SVG (las pantallas LG no renderizan emojis)
+  const SEAICON = {
+    wave: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 13c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></svg>',
+    temp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>',
+    wind: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h16a3 3 0 1 1-3 3"/><path d="M3 16h9a2.5 2.5 0 1 1-2.5 2.5"/></svg>',
+    mask: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5V11a3 3 0 0 1-3 3h-1.2a2 2 0 0 1-1.8-1.1L12 10.8l-1.2 2.1A2 2 0 0 1 9 14H7.8a3 3 0 0 1-3-3z"/><path d="M20 9h2"/></svg>',
+  };
+
+  // Veredicto de actividades marinas (snorkel/baño) a partir del oleaje y viento
   function snorkelRating(m){
     const wave = m.waveHeight, wind = (m.wind && m.wind.speed != null) ? m.wind.speed : null;
     if (wave == null) return { label: '—', cls: '' };
@@ -234,21 +246,28 @@
     return { label: 'Evitar', cls: 'snk-bad' };
   }
 
+  // Semáforo por elemento: 'ok' verde · 'mid' ámbar · 'bad' rojo
+  function semWave(w){ if(w==null) return 'mid'; return w<1 ? 'ok' : w<2 ? 'mid' : 'bad'; }
+  function semTemp(t){ if(t==null) return 'mid'; return t>=24 ? 'ok' : t>=21 ? 'mid' : 'bad'; }
+  function semWind(s){ if(s==null) return 'mid'; return s<15 ? 'ok' : s<30 ? 'mid' : 'bad'; }
+  function semAct(cls){ return cls==='snk-good' ? 'ok' : cls==='snk-bad' ? 'bad' : 'mid'; }
+
   function renderSea(m){
     const seastate = document.getElementById('seastate'), sea = document.getElementById('sea');
     if(!m){ seastate.textContent='—'; sea.innerHTML=''; return; }
     seastate.textContent = m.seaState || '—';
-    const wave  = m.waveHeight!=null ? `${m.waveHeight} m${m.swellPeriod?` · ${m.swellPeriod}s`:''}` : '—';
-    const water = m.waterTemp!=null ? `${m.waterTemp}°C` : '—';
-    const wind  = (m.wind && m.wind.speed!=null) ? `${m.wind.speed} km/h ${m.wind.dir||''}`.trim() : '—';
-    const snk   = snorkelRating(m);
+    const wind  = (m.wind && m.wind.speed!=null) ? m.wind.speed : null;
+    const waveV = m.waveHeight!=null ? `${m.waveHeight} m${m.swellPeriod?` · ${m.swellPeriod}s`:''}` : '—';
+    const waterV= m.waterTemp!=null ? `${m.waterTemp}°C` : '—';
+    const windV = (wind!=null) ? `${wind} km/h ${m.wind.dir||''}`.trim() : '—';
+    const act   = snorkelRating(m);
     const chips=[
-      {ic:'🌊', lb:'Oleaje',  vl:wave,      cls:''},
-      {ic:'🌡', lb:'Agua',    vl:water,     cls:''},
-      {ic:'💨', lb:'Viento',  vl:wind,      cls:''},
-      {ic:'🤿', lb:'Snorkel', vl:snk.label, cls:'snk '+snk.cls},
+      {ic:SEAICON.wave, lb:'Oleaje',              vl:waveV,     sem:semWave(m.waveHeight), cls:''},
+      {ic:SEAICON.temp, lb:'Agua',                vl:waterV,    sem:semTemp(m.waterTemp),  cls:''},
+      {ic:SEAICON.wind, lb:'Viento',              vl:windV,     sem:semWind(wind),         cls:''},
+      {ic:SEAICON.mask, lb:'Actividades marinas', vl:act.label, sem:semAct(act.cls),       cls:'act '+act.cls},
     ];
-    sea.innerHTML = chips.map(c=>`<div class="m ${c.cls}"><span class="ic">${c.ic}</span><div><div class="lb">${c.lb}</div><div class="vl">${c.vl}</div></div></div>`).join('');
+    sea.innerHTML = chips.map(c=>`<div class="m ${c.cls}"><span class="ic">${c.ic}</span><div class="bd3"><div class="lb">${c.lb}</div><div class="vl">${c.vl}</div></div><span class="sem ${c.sem}"></span></div>`).join('');
   }
 
   // ---- Destacado rotativo: eventos importantes + convenios/promos ---------
@@ -296,45 +315,45 @@
     if(pins.length>1) timers.push(setInterval(()=>{ pins[xi].classList.remove('on'); xi=(xi+1)%pins.length; pins[xi].classList.add('on'); }, 8500));
   }
 
-  // ---- Grid paginado de eventos de la semana -----------------------------
-  function renderGrid(K){
+  // ---- Lista paginada de TODOS los próximos eventos (2 columnas) ----------
+  function renderList(K){
     const grid=document.getElementById('grid');
-    grid.querySelectorAll('.gpage').forEach(e=>e.remove());
-    const cards=[]; (K.days||[]).forEach(d=>d.items.forEach(it=>cards.push({d,it})));
-    const dots=document.getElementById('dots');
-    const hint=document.getElementById('hint');
+    grid.querySelectorAll('.lpage').forEach(e=>e.remove());
+    const rows=[]; (K.days||[]).forEach(d=>d.items.forEach(it=>rows.push({d,it})));
+    const dots=document.getElementById('dots'), hint=document.getElementById('hint');
 
-    if(cards.length===0){
+    if(rows.length===0){
       dots.innerHTML=''; hint.textContent='';
       let e=grid.querySelector('.empty'); if(!e){ e=document.createElement('div'); e.className='empty'; grid.appendChild(e); }
-      e.textContent='No hay eventos esta semana';
+      e.textContent='No hay eventos próximos';
       return;
     }
     const ex=grid.querySelector('.empty'); if(ex) ex.remove();
 
-    const per=4, pages=Math.ceil(cards.length/per);   // 2 columnas × 2 filas, tarjetas grandes
-    for(let pg=0; pg<pages; pg++){ const page=document.createElement('div'); page.className='gpage'+(pg===0?' on':'');
-      page.innerHTML=cards.slice(pg*per,pg*per+per).map(({d,it})=>{
+    const per=10, pages=Math.ceil(rows.length/per);   // 2 columnas × 5 filas
+    for(let pg=0; pg<pages; pg++){ const page=document.createElement('div'); page.className='lpage'+(pg===0?' on':'');
+      page.innerHTML=rows.slice(pg*per,pg*per+per).map(({d,it})=>{
         const imp=it.type==='importante'; const cat=imp?null:(K.CATS[it.cat]||K.CATS.letras);
         let photo;
         if(imp && K.pinned[it.ref]) photo=K.pinned[it.ref].flyer||K.pinned[it.ref].photo;
         else photo=it.image_url || K.PH[it.cat] || K.PH.letras;
-        const tag=it.type==='club'?'Club':imp?'Importante':'Evento';
-        const tagCss=imp?'color:#04101a;background:var(--color-turq-400)':`color:${cat.color};background:${cat.soft}`;
-        const time=it.start?`${K.fmtTime(it.start)}${it.end?' – '+K.fmtTime(it.end):''}`:'';
-        return `<div class="gtile ${imp?'imp':''}">
-          <div class="ph"><img src="${photo}" alt="" onerror="this.style.opacity=0"/><span class="tag" style="${tagCss}">${tag}</span><span class="day">${d.dow} · ${d.date}</span></div>
-          <div class="bd"><div class="tm">${time}</div>
-          <div class="tt">${imp?'★ ':''}${it.title}</div>${it.place?`<div class="pl">${it.place}</div>`:''}</div>
-        </div>`;}).join('');
+        const accent=imp?'var(--color-turq-400)':cat.color;
+        const time=it.start?K.fmtTime(it.start):'';
+        return `<div class="erow ${imp?'imp':''}" style="border-left:3px solid ${accent}">
+          <img class="th" src="${photo}" alt="" onerror="this.style.opacity=0"/>
+          <div class="bd2">
+            <div class="tm2">${time?time+' · ':''}${d.dow} ${d.date}</div>
+            <div class="tt2">${imp?'★ ':''}${it.title}</div>
+            ${it.place?`<div class="pl2">${it.place}</div>`:''}
+          </div></div>`;}).join('');
       grid.appendChild(page); }
 
     dots.innerHTML=Array.from({length:pages},(_,i)=>`<span class="d ${i===0?'on':''}"></span>`).join('');
-    const pageEls=[...grid.querySelectorAll('.gpage')], dotEls=[...dots.querySelectorAll('.d')]; let gi=0;
+    const pageEls=[...grid.querySelectorAll('.lpage')], dotEls=[...dots.querySelectorAll('.d')]; let gi=0;
     hint.textContent=`Página 1 de ${pages}`;
     if(pages>1) timers.push(setInterval(()=>{ pageEls[gi].classList.remove('on'); dotEls[gi].classList.remove('on');
       gi=(gi+1)%pages; pageEls[gi].classList.add('on'); dotEls[gi].classList.add('on');
-      hint.textContent=`Página ${gi+1} de ${pages}`; }, 7500));
+      hint.textContent=`Página ${gi+1} de ${pages}`; }, 9000));
   }
 
   // ---- Carga + refresco ---------------------------------------------------

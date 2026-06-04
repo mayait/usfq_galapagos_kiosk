@@ -164,14 +164,23 @@ function expandRRule(array $ev, DateTimeImmutable $from, DateTimeImmutable $to):
     return $instances;
 }
 
-/** Expande la lista cruda de VEVENTs dentro de la semana actual y deduplica. */
-function expandWeekEvents(array $vevents): array {
-    [$monday, $sunday] = getWeekBounds();
+/** Ventana de "próximos eventos": desde hoy hasta hoy + N días. */
+function getUpcomingBounds(int $days = 60): array {
+    $now = new DateTimeImmutable('now', gtz());
+    return [$now->setTime(0, 0, 0), $now->modify("+$days days")->setTime(23, 59, 59)];
+}
+
+/**
+ * Expande los VEVENTs dentro de [$from, $to] y deduplica.
+ * Los recurrentes se muestran SOLO en su próxima ocurrencia (no se repiten).
+ */
+function expandEvents(array $vevents, DateTimeImmutable $from, DateTimeImmutable $to): array {
     $expanded = [];
     foreach ($vevents as $ev) {
         if (!empty($ev['rrule'])) {
-            foreach (expandRRule($ev, $monday, $sunday) as $inst) $expanded[] = $inst;
-        } elseif ($ev['dtstart'] >= $monday && $ev['dtstart'] <= $sunday) {
+            $insts = expandRRule($ev, $from, $to);
+            if ($insts) $expanded[] = $insts[0];   // próxima ocurrencia únicamente
+        } elseif ($ev['dtstart'] >= $from && $ev['dtstart'] <= $to) {
             $expanded[] = $ev;
         }
     }
@@ -274,11 +283,11 @@ function fetchCalendarRaw(string $url): ?string {
 }
 
 /**
- * Obtiene los eventos de TODOS los calendarios habilitados, ya expandidos
- * dentro de la semana actual. Cachea el ICS crudo combinado ~2 min y, si la
- * descarga falla, reusa la caché aunque esté vencida (resiliencia).
+ * Obtiene los eventos PRÓXIMOS de TODOS los calendarios habilitados (hoy → +N días),
+ * ya expandidos. Cachea el ICS crudo combinado ~2 min y, si la descarga falla,
+ * reusa la caché aunque esté vencida (resiliencia).
  */
-function fetchWeekEvents(): array {
+function fetchUpcomingEvents(int $days = 60): array {
     $cache = ICS_CACHE_FILE;
     $combined = '';
 
@@ -303,7 +312,8 @@ function fetchWeekEvents(): array {
     // Excluir eventos marcados como club en Outlook (#CLUB en la descripción):
     // los clubes se gestionan en el CMS y se muestran aparte en el kiosko.
     $vevents = array_values(array_filter($vevents, fn($ev) => !isClubTagged($ev)));
-    return expandWeekEvents($vevents);
+    [$from, $to] = getUpcomingBounds($days);
+    return expandEvents($vevents, $from, $to);
 }
 
 /** ¿El evento trae el hashtag #CLUB (en descripción o título)? → se ignora en la agenda. */

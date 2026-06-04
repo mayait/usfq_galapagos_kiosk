@@ -65,8 +65,9 @@ function promoPhoto(array $p): string {
     return $p['photo'] ?? '';
 }
 
-// ── Semana actual ────────────────────────────────────────────────────────────
+// ── Semana actual + ventana de próximos eventos ──────────────────────────────
 [$monday, $sunday] = getWeekBounds();
+[$upFrom, $upTo]   = getUpcomingBounds();          // hoy → +60 días
 $today = (new DateTimeImmutable('now', gtz()))->format('Y-m-d');
 
 // ── 1) Destacados (pinned) desde importantes activos del CMS ─────────────────
@@ -94,7 +95,7 @@ $dayBuckets = [];
 //     Se excluyen los que son clubes (#CLUB ya se filtró al ingerir; aquí además
 //     se omiten los que coinciden con un club del CMS) → los clubes solo van en
 //     el panel izquierdo, no duplicados en la agenda.
-foreach (fetchWeekEvents() as $ev) {
+foreach (fetchUpcomingEvents() as $ev) {
     if (matchesClubName($ev['summary'] ?? '', $clubNorms)) continue;
     $d   = $ev['dtstart']->setTimezone(gtz());
     $key = $d->format('Y-m-d');
@@ -113,7 +114,7 @@ foreach (fetchWeekEvents() as $ev) {
 foreach ($cmsEvents as $e) {
     if (empty($e['event_date'])) continue;
     $d = DateTimeImmutable::createFromFormat('!Y-m-d', $e['event_date'], gtz());
-    if (!$d || $d < $monday->setTime(0, 0, 0) || $d > $sunday) continue;
+    if (!$d || $d < $upFrom || $d > $upTo) continue;
 
     $key  = $d->format('Y-m-d');
     $time = $e['event_time'] ?? null;
@@ -188,8 +189,7 @@ $marine = $marineData['marine'] ?? null;
 
 // ── 6) Meta de la semana ─────────────────────────────────────────────────────
 $week = [
-    'label' => 'Semana del ' . (int)$monday->format('j') . ' al ' . (int)$sunday->format('j')
-             . ' de ' . MES_ES_FULL[(int)$sunday->format('n') - 1],
+    'label' => '',          // el kiosko muestra solo el conteo de próximos eventos
     'count' => $count,
 ];
 
