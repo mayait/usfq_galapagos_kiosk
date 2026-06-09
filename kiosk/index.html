@@ -8,8 +8,8 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; background: #02080e; overflow: hidden; }
-  #stage { position: fixed; inset: 0; overflow: hidden; background: #02080e; }
-  #kiosk { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0;
+  #stage { position: fixed; inset: 0; overflow: hidden; background: #02080e; display: grid; place-items: center; }
+  #kiosk { position: relative; width: 1920px; height: 1080px; transform-origin: center center;
     color: var(--color-paper); font-family: var(--font-sans);
     display: grid; grid-template-columns: 540px 1fr;
     background: radial-gradient(120% 95% at 12% 0%, #103247 0%, #0a2434 42%, #06141e 76%, #030d14 100%);
@@ -170,19 +170,21 @@
   let timers = [];                   // intervalos de rotación a limpiar entre renders
 
   // Ajuste a CUALQUIER pantalla: estira el lienzo 1920×1080 para llenar el viewport
-  // completo, sin franjas negras. El lienzo se ancla en (0,0) (transform-origin 0 0)
-  // y se estira con scale(sx, sy) hasta cubrir exactamente [0,ancho]×[0,alto]; así no
-  // hay centrado y, por tanto, es imposible que quede un hueco de borde por redondeo.
-  // Un sobre-relleno mínimo absorbe cualquier fracción de píxel (recorta <2px, invisible).
-  const OVERFILL = 1.004;
+  // completo, sin franjas negras. El lienzo va CENTRADO (estructura que el navegador
+  // webOS de las LG sí compone) y se estira con un sobre-relleno mínimo: al cubrir un
+  // pelín de más, el exceso se reparte a ambos lados y recorta <2px — nunca deja hueco
+  // de borde por redondeo sub-pixel (que es lo que se veía como banda negra).
+  // Envuelto en try/catch para que un fallo de medición NUNCA frene el resto del script.
+  var OVERFILL = 1.004;
   function fit(){
-    // Toma la medida más grande disponible para no infravalorar el viewport real.
-    const de = document.documentElement, vv = window.visualViewport;
-    const vw = Math.max(de.clientWidth  || 0, window.innerWidth  || 0, vv ? vv.width  : 0);
-    const vh = Math.max(de.clientHeight || 0, window.innerHeight || 0, vv ? vv.height : 0);
-    if(!vw || !vh) return;
-    document.getElementById('kiosk').style.transform =
-      `scale(${(vw / 1920) * OVERFILL}, ${(vh / 1080) * OVERFILL})`;
+    try {
+      var de = document.documentElement;
+      var vw = de.clientWidth  || window.innerWidth  || 0;
+      var vh = de.clientHeight || window.innerHeight || 0;
+      var k  = document.getElementById('kiosk');
+      if(!k || !vw || !vh) return;
+      k.style.transform = 'scale(' + ((vw / 1920) * OVERFILL) + ',' + ((vh / 1080) * OVERFILL) + ')';
+    } catch(e){ /* no romper el render por un problema de viewport */ }
   }
   ['resize','orientationchange','load','pageshow'].forEach(ev => addEventListener(ev, fit));
   if (window.visualViewport) visualViewport.addEventListener('resize', fit);
