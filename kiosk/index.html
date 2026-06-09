@@ -8,8 +8,8 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; background: #02080e; overflow: hidden; }
-  #stage { position: fixed; inset: 0; overflow: hidden; background: #02080e; display: grid; place-items: center; }
-  #kiosk { position: relative; width: 1920px; height: 1080px; transform-origin: center center;
+  #stage { position: fixed; inset: 0; overflow: hidden; background: #02080e; }
+  #kiosk { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; transform-origin: 0 0;
     color: var(--color-paper); font-family: var(--font-sans);
     display: grid; grid-template-columns: 540px 1fr;
     background: radial-gradient(120% 95% at 12% 0%, #103247 0%, #0a2434 42%, #06141e 76%, #030d14 100%);
@@ -169,12 +169,15 @@
   const REFRESH_MS = 120000;         // re-leer el feed cada 2 min
   let timers = [];                   // intervalos de rotación a limpiar entre renders
 
-  // Ajuste a CUALQUIER pantalla: estira el lienzo 1920×1080 para llenar el viewport
-  // completo, sin franjas negras. El lienzo va CENTRADO (estructura que el navegador
-  // webOS de las LG sí compone) y se estira con un sobre-relleno mínimo: al cubrir un
-  // pelín de más, el exceso se reparte a ambos lados y recorta <2px — nunca deja hueco
-  // de borde por redondeo sub-pixel (que es lo que se veía como banda negra).
-  // Envuelto en try/catch para que un fallo de medición NUNCA frene el resto del script.
+  // Ajuste a CUALQUIER pantalla: estira el lienzo 1920×1080 para llenar el viewport.
+  // El lienzo se ancla en (0,0) (position:absolute + transform-origin:0 0) y se estira
+  // con scale(sx,sy) hasta cubrir [0,ancho]×[0,alto]. Al anclar en la esquina, el mapeo
+  // es determinista (0,0→0,0) sin depender del centrado de grid — que a ciertos tamaños
+  // de viewport dejaba el lienzo sin llenar (banda). Un sobre-relleno mínimo absorbe
+  // cualquier fracción de píxel (recorta <2px abajo-derecha, invisible).
+  // Envuelto en try/catch para que un fallo de medición NUNCA frene el resto del script;
+  // y al anclar en la esquina, si la escala no llegara a aplicarse se ve el contenido,
+  // nunca una pantalla negra.
   var OVERFILL = 1.004;
   function fit(){
     try {
