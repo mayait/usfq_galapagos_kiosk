@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $k2 = trim($_POST['key2'] ?? '');
     $settings = loadJson(SETTINGS_FILE);
     $settings['stormglass_keys'] = array_values(array_filter([$k1, $k2]));
+    $settings['openuv_key'] = trim($_POST['openuv_key'] ?? '');
     saveJson(SETTINGS_FILE, $settings);
     $success = true;
 }
@@ -77,6 +78,11 @@ $marine = loadJson(MARINE_FILE);
         <label for="key2">API key 2 (respaldo)</label>
         <input type="text" id="key2" name="key2" value="<?= htmlspecialchars($keys[1] ?? '') ?>" placeholder="xxxxxxxx-xxxx-…">
         <div class="hint">Solo se usa si la key 1 falla (quota agotada o key inválida).</div>
+      </div>
+      <div class="field">
+        <label for="openuv_key">OpenUV API key (respaldo del índice UV)</label>
+        <input type="text" id="openuv_key" name="openuv_key" value="<?= htmlspecialchars($settings['openuv_key'] ?? '') ?>" placeholder="openuv-…">
+        <div class="hint">El UV viene de Open-Meteo (gratis, sin key). OpenUV solo se usa si Open-Meteo falla. 50 llamadas/día.</div>
       </div>
       <button type="submit" class="btn-primary" style="width:100%">Guardar keys</button>
     </form>

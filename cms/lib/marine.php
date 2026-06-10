@@ -191,8 +191,14 @@ function sunTimes(): array {
 /**
  * Trae la curva UV del día (por hora) + máximo. El cron la cachea y el feed
  * elige el valor de la hora actual al responder — UV fresco sin más llamadas.
+ * Fuente principal: Open-Meteo (gratis, sin key, ajusta por nubes reales).
+ * Respaldo: OpenUV (key en settings.json; 50/día, cielo despejado teórico).
  */
 function fetchUv(): ?array {
+    return fetchUvOpenMeteo() ?? fetchUvOpenUv();
+}
+
+function fetchUvOpenMeteo(): ?array {
     $url = 'https://api.open-meteo.com/v1/forecast?' . http_build_query([
         'latitude' => LAT, 'longitude' => LNG,
         'hourly'   => 'uv_index', 'daily' => 'uv_index_max',
@@ -210,6 +216,26 @@ function fetchUv(): ?array {
         'uvHours' => $hours,                                              // 'HH:00' => uv
         'uvMax'   => round((float)($d['daily']['uv_index_max'][0] ?? 0), 1),
     ];
+}
+
+function fetchUvOpenUv(): ?array {
+    $key = trim(loadJson(SETTINGS_FILE)['openuv_key'] ?? '');
+    if (!$key) return null;
+    $json = httpGet('https://api.openuv.io/api/v1/forecast?lat=' . LAT . '&lng=' . LNG,
+                    ['x-access-token: ' . $key]);
+    if (!$json) return null;
+    $pts = json_decode($json, true)['result'] ?? [];
+    if (!$pts) return null;
+    $hours = []; $max = 0.0;
+    foreach ($pts as $p) {
+        if (!isset($p['uv_time'])) continue;
+        $local = (new DateTimeImmutable($p['uv_time']))->setTimezone(gtz());
+        $hh = ((int)$local->format('H') + ((int)$local->format('i') >= 30 ? 1 : 0)) % 24;
+        $hours[str_pad((string)$hh, 2, '0', STR_PAD_LEFT) . ':00'] = round((float)$p['uv'], 1);
+        $max = max($max, (float)$p['uv']);
+    }
+    if (!$hours) return null;
+    return ['uvHours' => $hours, 'uvMax' => round($max, 1)];
 }
 
 // ════════════════════════════════════════════════════════════════════════════
