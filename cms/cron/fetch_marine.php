@@ -37,16 +37,16 @@ $prev = loadJson(MARINE_FILE);
 // Cada fuente se llama UNA sola vez
 $tidesFresh  = fetchNoaaTides();      // NOAA (gratis)
 $marineFresh = fetchStormglass();     // Stormglass (cuenta para el límite diario)
-$sun = sunTimes();                    // cálculo local, siempre disponible
+$local = array_merge(sunTimes(), moonData());   // cálculo local, siempre disponible
 
 $tides = $tidesFresh ?? ($prev['tides'] ?? null);
 
 if ($marineFresh !== null) {
-    $marine = array_merge($marineFresh, $sun);
+    $marine = array_merge($marineFresh, $local);
 } elseif (is_array($prev['marine'] ?? null)) {
-    $marine = array_merge($prev['marine'], $sun);   // conserva mar previo, refresca sol
+    $marine = array_merge($prev['marine'], $local); // conserva mar previo, refresca sol/luna
 } else {
-    $marine = $sun;                                  // al menos amanecer/atardecer
+    $marine = $local;                                // al menos sol y luna
 }
 
 $payload = [

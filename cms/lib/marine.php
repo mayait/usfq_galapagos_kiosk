@@ -98,14 +98,36 @@ function windCompass(?float $deg): ?string {
     return $dirs[((int)round($deg / 45)) % 8];
 }
 
+/**
+ * Keys de Stormglass con failover: se leen de data/settings.json (editable
+ * desde /admin/settings.php); si no hay, cae a la constante de config.php.
+ */
+if (!defined('SETTINGS_FILE')) define('SETTINGS_FILE', DATA_DIR . '/settings.json');
+
+function getStormglassKeys(): array {
+    $s = loadJson(SETTINGS_FILE);
+    $keys = array_values(array_filter(array_map('trim', $s['stormglass_keys'] ?? [])));
+    if (!$keys && defined('STORMGLASS_KEY') && STORMGLASS_KEY !== '__CAMBIAR_EN_SERVIDOR__') {
+        $keys = [STORMGLASS_KEY];
+    }
+    return $keys;
+}
+
 function fetchStormglass(): ?array {
     $now = time();
     $url = STORMGLASS_ENDPOINT . '?' . http_build_query([
         'lat'    => LAT, 'lng' => LNG,
-        'params' => 'waveHeight,swellHeight,swellPeriod,waterTemperature,windSpeed,windDirection,airTemperature',
+        'params' => 'waveHeight,swellHeight,swellPeriod,swellDirection,waterTemperature,airTemperature,'
+                  . 'windSpeed,windDirection,gust,currentSpeed,currentDirection,visibility,cloudCover,precipitation',
         'start'  => $now, 'end' => $now,
     ]);
-    $json = httpGet($url, ['Authorization: ' . STORMGLASS_KEY]);
+
+    // Failover: intenta cada key en orden (quota agotada, key inválida o error de red)
+    $json = null;
+    foreach (getStormglassKeys() as $key) {
+        $json = httpGet($url, ['Authorization: ' . $key]);
+        if ($json) break;
+    }
     if (!$json) return null;
     $hours = json_decode($json, true)['hours'] ?? [];
     if (!$hours) return null;
@@ -114,22 +136,38 @@ function fetchStormglass(): ?array {
     $wave    = sgPick($h['waveHeight']       ?? null);
     $swellH  = sgPick($h['swellHeight']      ?? null);
     $swellP  = sgPick($h['swellPeriod']      ?? null);
+    $swellD  = sgPick($h['swellDirection']   ?? null);
     $water   = sgPick($h['waterTemperature'] ?? null);
     $air     = sgPick($h['airTemperature']   ?? null);
     $windMs  = sgPick($h['windSpeed']        ?? null);
     $windDir = sgPick($h['windDirection']    ?? null);
+    $gustMs  = sgPick($h['gust']             ?? null);
+    $curMs   = sgPick($h['currentSpeed']     ?? null);
+    $curDir  = sgPick($h['currentDirection'] ?? null);
+    $visKm   = sgPick($h['visibility']       ?? null);
+    $clouds  = sgPick($h['cloudCover']       ?? null);
+    $precip  = sgPick($h['precipitation']    ?? null);
 
     return [
         'seaState'    => seaStateLabel($wave !== null ? (float)$wave : null),
         'waveHeight'  => $wave   !== null ? round((float)$wave, 1)  : null,   // m
         'swellHeight' => $swellH !== null ? round((float)$swellH, 1) : null,  // m
         'swellPeriod' => $swellP !== null ? (int)round((float)$swellP) : null, // s
+        'swellDir'    => windCompass($swellD !== null ? (float)$swellD : null), // de dónde viene
         'waterTemp'   => $water  !== null ? (int)round((float)$water) : null, // °C
         'airTemp'     => $air    !== null ? (int)round((float)$air)   : null, // °C
         'wind'        => [
             'speed' => $windMs !== null ? (int)round((float)$windMs * 3.6) : null, // km/h
             'dir'   => windCompass($windDir !== null ? (float)$windDir : null),
+            'gust'  => $gustMs !== null ? (int)round((float)$gustMs * 3.6) : null, // km/h
         ],
+        'current'     => [
+            'kn'  => $curMs !== null ? round((float)$curMs * 1.9438, 1) : null,   // nudos
+            'dir' => windCompass($curDir !== null ? (float)$curDir : null),       // hacia dónde va
+        ],
+        'visibility'  => $visKm  !== null ? (int)round((float)$visKm)  : null,    // km
+        'cloudCover'  => $clouds !== null ? (int)round((float)$clouds) : null,    // %
+        'precip'      => $precip !== null ? round((float)$precip, 1)   : null,    // mm/h
     ];
 }
 
@@ -144,4 +182,36 @@ function sunTimes(): array {
         return (new DateTimeImmutable('@' . $t))->setTimezone(gtz())->format('H:i');
     };
     return ['sunrise' => $fmt($info['sunrise'] ?? null), 'sunset' => $fmt($info['sunset'] ?? null)];
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  Luna + aguaje — cálculo local (sin llamadas API)
+// ════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Fase lunar por edad sinódica (referencia: luna nueva 2000-01-06 18:14 UTC).
+ * "Aguaje" = mareas vivas (±2 días de luna nueva o llena): mayor rango de
+ * marea y corrientes más fuertes — dato que la comunidad costera sí usa.
+ */
+function moonData(): array {
+    $synodic = 29.530588853;
+    $age = fmod((time() - 947182440) / 86400.0, $synodic);
+    if ($age < 0) $age += $synodic;
+
+    if     ($age <  1.85 || $age >= 27.68) $label = 'Luna nueva';
+    elseif ($age <  5.53)                  $label = 'Creciente';
+    elseif ($age <  9.22)                  $label = 'Cuarto creciente';
+    elseif ($age < 12.91)                  $label = 'Gibosa creciente';
+    elseif ($age < 16.61)                  $label = 'Luna llena';
+    elseif ($age < 20.30)                  $label = 'Gibosa menguante';
+    elseif ($age < 23.99)                  $label = 'Cuarto menguante';
+    else                                   $label = 'Menguante';
+
+    $dNew  = min($age, $synodic - $age);          // días a la luna nueva más cercana
+    $dFull = abs($age - $synodic / 2);            // días a la luna llena
+    return [
+        'moonPhase' => $label,
+        'moonAge'   => round($age, 1),
+        'aguaje'    => ($dNew <= 2.0 || $dFull <= 2.0),
+    ];
 }

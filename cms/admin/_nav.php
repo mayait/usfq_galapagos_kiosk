@@ -6,6 +6,7 @@ $links = [
     'clubs'     => ['clubs.php',     'Clubes'],
     'promos'    => ['promos.php',    'Convenios'],
     'calendars' => ['calendars.php', 'Calendarios'],
+    'settings'  => ['settings.php',  'Ajustes'],
 ];
 ?>
 <header>

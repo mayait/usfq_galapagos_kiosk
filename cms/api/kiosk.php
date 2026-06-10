@@ -179,7 +179,7 @@ if ($stale) {
     $freshTides = fetchNoaaTides();
     if ($freshTides) {
         $marineData['tides'] = $freshTides;
-        $marineData['marine'] = array_merge($marineData['marine'] ?? [], sunTimes());
+        $marineData['marine'] = array_merge($marineData['marine'] ?? [], sunTimes(), moonData());
         $marineData['updated_at'] = date('c');
         saveJson(MARINE_FILE, $marineData);   // cachea para el resto de pantallas
     }

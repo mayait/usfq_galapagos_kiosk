@@ -46,13 +46,13 @@
   .tchart { margin-top: 4px; }
   .tchart svg { display: block; width: 100%; height: auto; overflow: visible; }
   .tnone { font-size: 13px; color: var(--color-stone); padding: 8px 0; }
-  .sea { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; margin-top: 2px; }
-  .sea .m { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--radius-md); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); }
-  .sea .m .ic { width: 25px; height: 25px; flex: none; color: var(--color-turq-300); opacity: 0.9; }
+  .sea { display: grid; grid-template-columns: repeat(2,1fr); gap: 7px; margin-top: 2px; }
+  .sea .m { display: flex; align-items: center; gap: 11px; padding: 9px 14px; border-radius: var(--radius-md); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); }
+  .sea .m .ic { width: 22px; height: 22px; flex: none; color: var(--color-turq-300); opacity: 0.9; }
   .sea .m .ic svg { width: 100%; height: 100%; display: block; }
   .sea .m .bd3 { flex: 1; min-width: 0; }
   .sea .m .lb { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-stone); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .sea .m .vl { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .sea .m .vl { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   /* chip de Actividades marinas — veredicto con color */
   .sea .m.act .vl { font-variant-numeric: normal; }
   .sea .m.snk-good .vl { color: var(--color-turq-400); }
@@ -331,22 +331,31 @@
     temp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>',
     wind: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h16a3 3 0 1 1-3 3"/><path d="M3 16h9a2.5 2.5 0 1 1-2.5 2.5"/></svg>',
     mask: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5V11a3 3 0 0 1-3 3h-1.2a2 2 0 0 1-1.8-1.1L12 10.8l-1.2 2.1A2 2 0 0 1 9 14H7.8a3 3 0 0 1-3-3z"/><path d="M20 9h2"/></svg>',
+    cur:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h13"/><path d="M2 12h18"/><path d="m16 8 4 4-4 4"/><path d="M2 18h13"/></svg>',
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
   };
 
-  // Veredicto de actividades marinas (snorkel/baño) a partir del oleaje y viento
+  // Veredicto de actividades marinas (snorkel/baño): oleaje + viento, empeorado
+  // por aguaje (mareas vivas) y corriente fuerte
   function snorkelRating(m){
     const wave = m.waveHeight, wind = (m.wind && m.wind.speed != null) ? m.wind.speed : null;
     if (wave == null) return { label: '—', cls: '' };
-    if (wave < 0.8 && (wind == null || wind < 25)) return { label: 'Ideal',   cls: 'snk-good' };
-    if (wave < 1.5 && (wind == null || wind < 35)) return { label: 'Bueno',   cls: 'snk-good' };
-    if (wave < 2.5)                                return { label: 'Regular', cls: 'snk-mid'  };
-    return { label: 'Evitar', cls: 'snk-bad' };
+    let lvl;
+    if      (wave < 0.8 && (wind == null || wind < 25)) lvl = 0;
+    else if (wave < 1.5 && (wind == null || wind < 35)) lvl = 1;
+    else if (wave < 2.5)                                lvl = 2;
+    else                                                lvl = 3;
+    const cur = (m.current && m.current.kn != null) ? m.current.kn : null;
+    if (m.aguaje)              lvl = Math.min(3, lvl + 1);   // mareas vivas: más corriente
+    if (cur != null && cur >= 1.5) lvl = Math.min(3, lvl + 1);
+    return [{label:'Ideal',cls:'snk-good'},{label:'Bueno',cls:'snk-good'},{label:'Regular',cls:'snk-mid'},{label:'Evitar',cls:'snk-bad'}][lvl];
   }
 
   // Semáforo por elemento: 'ok' verde · 'mid' ámbar · 'bad' rojo
   function semWave(w){ if(w==null) return 'mid'; return w<1 ? 'ok' : w<2 ? 'mid' : 'bad'; }
   function semTemp(t){ if(t==null) return 'mid'; return t>=24 ? 'ok' : t>=21 ? 'mid' : 'bad'; }
   function semWind(s){ if(s==null) return 'mid'; return s<15 ? 'ok' : s<30 ? 'mid' : 'bad'; }
+  function semCur(k){ if(k==null) return 'mid'; return k<0.5 ? 'ok' : k<1 ? 'mid' : 'bad'; }
   function semAct(cls){ return cls==='snk-good' ? 'ok' : cls==='snk-bad' ? 'bad' : 'mid'; }
 
   // Semáforo en la píldora del estado del mar (calmo=turquesa, moderado=ámbar, agitado=rojo)
@@ -362,15 +371,21 @@
     seastate.textContent = m.seaState || '—';
     seastate.className = 'pill ' + seaStateCls(m.seaState);
     const wind  = (m.wind && m.wind.speed!=null) ? m.wind.speed : null;
-    const waveV = m.waveHeight!=null ? `${m.waveHeight} m${m.swellPeriod?` · ${m.swellPeriod}s`:''}` : '—';
-    const waterV= m.waterTemp!=null ? `${m.waterTemp}°C` : '—';
-    const windV = (wind!=null) ? `${wind} km/h ${m.wind.dir||''}`.trim() : '—';
+    const gust  = (m.wind && m.wind.gust!=null)  ? m.wind.gust  : null;
+    const cur   = (m.current && m.current.kn!=null) ? m.current : null;
+    const waveV = m.waveHeight!=null ? `${m.waveHeight} m${m.swellPeriod?` · ${m.swellPeriod}s`:''}${m.swellDir?` ${m.swellDir}`:''}` : '—';
+    const waterV= (m.waterTemp!=null ? `${m.waterTemp}°C` : '—') + (m.airTemp!=null ? ` · aire ${m.airTemp}°` : '');
+    const windV = (wind!=null) ? `${wind} km/h ${m.wind.dir||''}${gust!=null&&gust>wind?` · ráf. ${gust}`:''}`.trim() : '—';
+    const curV  = cur ? `${cur.kn} kn ${cur.dir||''}`.trim() : '—';
+    const moonV = m.moonPhase ? `${m.moonPhase}${m.aguaje?' · Aguaje':''}` : '—';
     const act   = snorkelRating(m);
     const chips=[
-      {ic:SEAICON.wave, lb:'Oleaje',              vl:waveV,     sem:semWave(m.waveHeight), cls:''},
-      {ic:SEAICON.temp, lb:'Agua',                vl:waterV,    sem:semTemp(m.waterTemp),  cls:''},
-      {ic:SEAICON.wind, lb:'Viento',              vl:windV,     sem:semWind(wind),         cls:''},
-      {ic:SEAICON.mask, lb:'Actividades marinas', vl:act.label, sem:semAct(act.cls),       cls:'act '+act.cls},
+      {ic:SEAICON.wave, lb:'Oleaje',              vl:waveV,     sem:semWave(m.waveHeight),    cls:''},
+      {ic:SEAICON.temp, lb:'Agua · Aire',         vl:waterV,    sem:semTemp(m.waterTemp),     cls:''},
+      {ic:SEAICON.wind, lb:'Viento',              vl:windV,     sem:semWind(wind),            cls:''},
+      {ic:SEAICON.cur,  lb:'Corriente',           vl:curV,      sem:semCur(cur?cur.kn:null),  cls:''},
+      {ic:SEAICON.moon, lb:'Luna · Mareas',       vl:moonV,     sem:m.aguaje?'mid':'ok',      cls:m.aguaje?'act snk-mid':''},
+      {ic:SEAICON.mask, lb:'Actividades marinas', vl:act.label, sem:semAct(act.cls),          cls:'act '+act.cls},
     ];
     sea.innerHTML = chips.map(c=>`<div class="m ${c.cls}"><span class="ic">${c.ic}</span><div class="bd3"><div class="lb">${c.lb}</div><div class="vl">${c.vl}</div></div><span class="sem ${c.sem}"></span></div>`).join('');
   }
