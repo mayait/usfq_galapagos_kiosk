@@ -43,18 +43,21 @@ function eventToPinned(array $e): array {
     $cat  = $e['cat'] ?? detectCat($e['title'] ?? '');
     $img  = UPLOAD_URL . ($e['image'] ?? '');
     return [
-        'kicker'   => $e['kicker']   ?? 'Evento destacado',
-        'title'    => cleanTitle($e['title'] ?? ''),
-        'subtitle' => $e['subtitle'] ?? '',
-        'dateNum'  => $date->format('d'),
-        'month'    => mb_strtoupper(MES_ES_SHORT[(int)$date->format('n') - 1]),
-        'year'     => $date->format('Y'),
-        'time'     => $e['event_time'] ?? '',
-        'place'    => stripEmojis($e['place'] ?? ''),
-        'partners' => $e['partners'] ?? '',
-        'photo'    => $img,
-        'flyer'    => $img,
-        'accent'   => $e['accent'] ?? (ACCENT_BY_CAT[$cat] ?? 'var(--color-turquesa)'),
+        'kicker'      => $e['kicker']   ?? 'Evento destacado',
+        'title'       => cleanTitle($e['title'] ?? ''),
+        'subtitle'    => $e['subtitle'] ?? '',
+        'description' => $e['description'] ?? '',
+        'cta'         => $e['cta'] ?? '',
+        'star'        => ($e['event_type'] ?? 'evento') === 'importante',
+        'dateNum'     => $date->format('d'),
+        'month'       => mb_strtoupper(MES_ES_SHORT[(int)$date->format('n') - 1]),
+        'year'        => $date->format('Y'),
+        'time'        => $e['event_time'] ?? '',
+        'place'       => stripEmojis($e['place'] ?? ''),
+        'partners'    => $e['partners'] ?? '',
+        'photo'       => $img,
+        'flyer'       => $img,
+        'accent'      => $e['accent'] ?? (ACCENT_BY_CAT[$cat] ?? 'var(--color-turquesa)'),
     ];
 }
 
@@ -70,15 +73,16 @@ function promoPhoto(array $p): string {
 [$upFrom, $upTo]   = getUpcomingBounds();          // hoy → +60 días
 $today = (new DateTimeImmutable('now', gtz()))->format('Y-m-d');
 
-// ── 1) Destacados (pinned) desde importantes activos del CMS ─────────────────
+// ── 1) Destacados (pinned): TODOS los eventos del CMS con publicación activa ─
+//  Cada afiche subido al CMS rota en el espacio destacado del kiosko, mezclado
+//  con las promos. "Importante" solo añade la estrella y el badge en la agenda.
 $cmsEvents       = loadEvents();
 $pinned          = [];
 $pinnedByEventId = [];
 foreach ($cmsEvents as $e) {
-    $type   = $e['event_type'] ?? 'evento';
     $active = ($e['publish_from'] ?? '0000-00-00') <= $today
            && ($e['publish_until'] ?? '9999-99-99') >= $today;
-    if ($type === 'importante' && $active) {
+    if ($active) {
         $pinnedByEventId[$e['id']] = count($pinned);
         $pinned[] = eventToPinned($e);
     }

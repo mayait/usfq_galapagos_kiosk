@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $place        = trim($_POST['place']      ?? '');
     $kicker       = trim($_POST['kicker']     ?? '');
     $subtitle     = trim($_POST['subtitle']   ?? '');
+    $description  = trim($_POST['description'] ?? '');
+    $cta          = trim($_POST['cta']        ?? '');
     $partners     = trim($_POST['partners']   ?? '');
 
     // Validaciones
@@ -66,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'place'         => $place,
                 'kicker'        => $kicker,
                 'subtitle'      => $subtitle,
+                'description'   => $description,
+                'cta'           => $cta,
                 'partners'      => $partners,
                 'created_at'    => date('c'),
             ], fn($v) => $v !== null && $v !== '');
@@ -128,13 +132,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   .hint { font-size: 12px; color: #9ca3af; margin-top: 4px; }
 
-  input[type=text], input[type=date] {
+  input[type=text], input[type=date], textarea {
     width: 100%; border: 1.5px solid #d1d5db; border-radius: 8px;
     padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px;
     color: var(--ink); outline: none; transition: border-color .2s;
   }
+  textarea { resize: vertical; min-height: 76px; }
 
-  input:focus { border-color: var(--teal); }
+  input:focus, textarea:focus { border-color: var(--teal); }
 
   .date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
@@ -217,20 +222,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="field">
         <label for="event_type">Tipo</label>
         <select id="event_type" name="event_type" style="width:100%;border:1.5px solid #d1d5db;border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);background:#fff">
-          <option value="evento" <?= ($_POST['event_type'] ?? '') === 'evento' ? 'selected' : '' ?>>Evento (afiche en la agenda)</option>
-          <option value="importante" <?= ($_POST['event_type'] ?? '') === 'importante' ? 'selected' : '' ?>>Importante (destacado grande, rota arriba)</option>
+          <option value="evento" <?= ($_POST['event_type'] ?? '') === 'evento' ? 'selected' : '' ?>>Evento</option>
+          <option value="importante" <?= ($_POST['event_type'] ?? '') === 'importante' ? 'selected' : '' ?>>Importante (con estrella y prioridad en la agenda)</option>
         </select>
-        <div class="hint">Los “importantes” ocupan el espacio destacado del kiosko con su afiche completo.</div>
+        <div class="hint">Todos los eventos publicados rotan en el espacio destacado del kiosko, mezclados con las promos.</div>
       </div>
 
-      <div id="destacado-fields" style="display:none">
+      <div id="destacado-fields">
         <div class="field">
           <label for="kicker">Antetítulo (kicker)</label>
           <input type="text" id="kicker" name="kicker" value="<?= htmlspecialchars($_POST['kicker'] ?? '') ?>" placeholder="Ej. Invitación · Lanzamiento de proyecto">
         </div>
         <div class="field">
-          <label for="subtitle">Subtítulo</label>
+          <label for="subtitle">Subtítulo <span style="text-transform:none;letter-spacing:0;color:#9ca3af">(opcional)</span></label>
           <input type="text" id="subtitle" name="subtitle" value="<?= htmlspecialchars($_POST['subtitle'] ?? '') ?>" placeholder="Una línea que describe el evento">
+        </div>
+        <div class="field">
+          <label for="description">Texto <span style="text-transform:none;letter-spacing:0;color:#9ca3af">(opcional)</span></label>
+          <textarea id="description" name="description" placeholder="Texto breve que acompaña al afiche en pantalla (2–3 líneas máximo)"><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
+        </div>
+        <div class="field">
+          <label for="cta">Llamada a la acción <span style="text-transform:none;letter-spacing:0;color:#9ca3af">(opcional)</span></label>
+          <input type="text" id="cta" name="cta" value="<?= htmlspecialchars($_POST['cta'] ?? '') ?>" placeholder="Ej. Inscríbete en eventos.usfq.edu.ec · Cupos limitados">
         </div>
         <div class="date-row">
           <div class="field">
@@ -328,11 +341,7 @@ zone.addEventListener('drop', e => {
   }
 });
 
-// Mostrar campos del destacado solo cuando el tipo es "importante"
-const typeSel = document.getElementById('event_type');
-const destFields = document.getElementById('destacado-fields');
-function toggleDest(){ destFields.style.display = typeSel.value === 'importante' ? 'block' : 'none'; }
-typeSel.addEventListener('change', toggleDest); toggleDest();
+// Los campos de contenido del destacado aplican a todos los eventos (siempre visibles)
 </script>
 
 </body>

@@ -88,20 +88,26 @@
   .pin .art img.cover { width: 100%; height: 100%; object-fit: cover; }
   .pin .art img.flyer { width: 100%; height: 100%; object-fit: cover; }
   .pin .art .frame { position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); }
-  .pin .info { position: relative; padding: 34px 36px; display: flex; flex-direction: column; justify-content: center;
+  .pin .info { position: relative; padding: 24px 32px; display: flex; flex-direction: column; justify-content: center;
     background: linear-gradient(150deg, #103a52, #0a2231); }
   .pin .info .accent { position: absolute; left: 0; top: 34px; bottom: 34px; width: 5px; border-radius: 999px; }
   .pin .star { position: absolute; top: 24px; right: 28px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); }
-  .pin .kick { font-size: 15px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); margin-bottom: 12px; }
-  .pin .tt { font-size: 48px; font-weight: 600; line-height: 0.98; letter-spacing: -0.015em; }
-  .pin .sub { font-size: 22px; color: var(--color-mist); margin-top: 13px; line-height: 1.3; max-width: 94%; text-wrap: pretty; }
-  .pin .when { display: flex; align-items: center; gap: 20px; margin-top: 24px; }
+  .pin .kick { font-size: 14px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); margin-bottom: 10px; }
+  .pin .tt { font-size: 38px; font-weight: 600; line-height: 1.0; letter-spacing: -0.015em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pin .sub { font-size: 19px; color: var(--color-mist); margin-top: 10px; line-height: 1.25; max-width: 94%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pin .desc { font-size: 15.5px; color: var(--color-mist); opacity: 0.92; margin-top: 11px; line-height: 1.4; max-width: 92%;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pin .when { display: flex; align-items: center; gap: 18px; margin-top: 16px; }
   .pin .db { display: flex; align-items: baseline; gap: 9px; }
-  .pin .db .d { font-size: 58px; font-weight: 600; line-height: 0.85; letter-spacing: -0.02em; }
-  .pin .db .my { font-size: 17px; font-weight: 600; color: var(--color-mist); line-height: 1.05; }
-  .pin .wm { border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; }
-  .pin .wm .t { font-size: 26px; font-weight: 600; } .pin .wm .p { font-size: 17px; color: var(--color-mist); }
-  .pin .partners { font-size: 14px; color: var(--color-stone); margin-top: 18px; }
+  .pin .db .d { font-size: 46px; font-weight: 600; line-height: 0.85; letter-spacing: -0.02em; }
+  .pin .db .my { font-size: 15px; font-weight: 600; color: var(--color-mist); line-height: 1.05; }
+  .pin .wm { border-left: 1px solid rgba(255,255,255,0.2); padding-left: 18px; }
+  .pin .wm .t { font-size: 21px; font-weight: 600; } .pin .wm .p { font-size: 15px; color: var(--color-mist); }
+  .pin .cta-pill { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600;
+    padding: 9px 18px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.07);
+    min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pin .cta-pill .cdot { width: 9px; height: 9px; border-radius: 999px; flex: none; }
+  .pin .partners { font-size: 12.5px; color: var(--color-stone); margin-top: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   /* convenio / promo variant */
   .pin .ribbon { position: absolute; top: 22px; left: 22px; z-index: 3; display: flex; align-items: center; gap: 9px;
     font-size: 13px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: #fff;
@@ -403,15 +409,17 @@
     return `<div class="art"><img class="cover" src="${p.flyer||p.photo}" alt="" onerror="this.style.display='none'"/><span class="frame"></span></div>
       <div class="info">
         <span class="accent" style="background:${p.accent}"></span>
-        <span class="star">★ Destacado</span>
-        <div class="kick">${p.kicker||''}</div>
+        ${p.star?'<span class="star">★ Destacado</span>':''}
+        <div class="kick">${p.kicker||'Evento'}</div>
         <div class="tt">${p.title}</div>
         ${p.subtitle?`<div class="sub">${p.subtitle}</div>`:''}
+        ${p.description?`<div class="desc">${p.description}</div>`:''}
         <div class="when">
           <div class="db"><span class="d">${p.dateNum}</span><span class="my">${p.month}<br>${p.year}</span></div>
           ${(p.time||p.place)?`<div class="wm">${p.time?`<div class="t">${p.time}</div>`:''}${p.place?`<div class="p">${p.place}</div>`:''}</div>`:''}
+          ${p.cta?`<span class="cta-pill" style="border-color:${p.accent}"><span class="cdot" style="background:${p.accent}"></span>${p.cta}</span>`:''}
         </div>
-        ${p.partners?`<div class="partners">${p.partners}</div>`:''}
+        ${p.partners&&!p.cta?`<div class="partners">${p.partners}</div>`:''}
       </div>`;
   }
   function promoSlide(c){
@@ -424,7 +432,7 @@
         <div class="tt">${c.name}</div>
         ${c.tagline?`<div class="sub">${c.tagline}</div>`:''}
         <div class="when">
-          <div class="pct"><span class="d" style="font-size:54px;font-weight:600;color:${c.accent};letter-spacing:-0.02em">${c.discount}</span><span class="my" style="font-size:16px;font-weight:600;color:var(--color-mist);line-height:1.05;white-space:pre-line">${c.discountNote||''}</span></div>
+          <div class="pct"><span class="d" style="font-size:44px;font-weight:600;color:${c.accent};letter-spacing:-0.02em">${c.discount}</span><span class="my" style="font-size:15px;font-weight:600;color:var(--color-mist);line-height:1.05;white-space:pre-line">${c.discountNote||''}</span></div>
           ${c.place?`<div class="wm"><div class="p" style="font-size:18px">${c.place}</div></div>`:''}
         </div>
         ${c.terms?`<div class="partners">${c.terms}</div>`:''}
@@ -433,7 +441,10 @@
 
   function renderPinned(K){
     const pw=document.getElementById('pin-wrap'); pw.innerHTML='';
-    const ev=(K.pinned||[]).map(p=>({t:'e',d:p})), pr=(K.promos||[]).map(p=>({t:'p',d:p}));
+    // Baraja (Fisher-Yates) e intercala: siempre alterna evento ↔ promo,
+    // en orden aleatorio (se rebaraja en cada refresco de datos).
+    function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+    const ev=shuffle((K.pinned||[]).map(p=>({t:'e',d:p}))), pr=shuffle((K.promos||[]).map(p=>({t:'p',d:p})));
     const spot=[]; for(let i=0;i<Math.max(ev.length,pr.length);i++){ if(ev[i])spot.push(ev[i]); if(pr[i])spot.push(pr[i]); }
     if(spot.length===0){ pw.style.display='none'; return; }
     pw.style.display='';
