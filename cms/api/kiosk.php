@@ -169,6 +169,18 @@ foreach (loadPromos() as $p) {
     $promos[] = $p;
 }
 
+// ── 4b) Reconocimiento al staff (cromos) ─────────────────────────────────────
+if (!defined('STAFF_FILE')) define('STAFF_FILE', DATA_DIR . '/staff.json');
+$staff = [];
+foreach (loadJson(STAFF_FILE) as $s) {
+    if (!($s['enabled'] ?? true)) continue;
+    $staff[] = [
+        'name'  => $s['name'] ?? '',
+        'role'  => $s['role'] ?? '',
+        'photo' => UPLOAD_URL . ($s['image'] ?? ''),
+    ];
+}
+
 // ── 5) Mareas + estado del mar (cacheado por el cron) ────────────────────────
 //  El estado del mar (Stormglass) lo escribe SOLO el cron. Pero si el cron no
 //  ha corrido o el dato está viejo (>6 h), refrescamos las mareas con NOAA en
@@ -210,6 +222,7 @@ jsonResponse([
     'clubs'        => $clubs,
     'pinned'       => $pinned,
     'promos'       => $promos,
+    'staff'        => $staff,
     'days'         => $days,
     'tides'        => $tides,
     'marine'       => $marine,

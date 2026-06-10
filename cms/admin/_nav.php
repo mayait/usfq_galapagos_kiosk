@@ -5,6 +5,7 @@ $links = [
     'events'    => ['index.php',     'Eventos'],
     'clubs'     => ['clubs.php',     'Clubes'],
     'promos'    => ['promos.php',    'Convenios'],
+    'staff'     => ['staff.php',     'Staff'],
     'calendars' => ['calendars.php', 'Calendarios'],
     'settings'  => ['settings.php',  'Ajustes'],
 ];

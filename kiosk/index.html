@@ -85,6 +85,11 @@
     border: 1px solid rgba(255,255,255,0.09); box-shadow: var(--shadow-xl); opacity: 0; transition: opacity 800ms var(--ease-out-quart); }
   .pin.on { opacity: 1; }
   .pin .art { position: relative; overflow: hidden; background: #0a1f2e; }
+  /* cromo del staff: carta vertical 2:3 centrada, con brillo festivo */
+  .pin .art.staffa { display: grid; place-items: center;
+    background: radial-gradient(90% 110% at 30% 0%, rgba(255,210,0,0.14), transparent 55%), linear-gradient(150deg, #0e2c40, #0a1f2e); }
+  .pin .art.staffa img.cromo { height: 90%; width: auto; border-radius: 12px;
+    box-shadow: 0 14px 44px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.12); }
   .pin .art img.cover { width: 100%; height: 100%; object-fit: cover; }
   .pin .art img.flyer { width: 100%; height: 100%; object-fit: cover; }
   .pin .art .frame { position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); }
@@ -435,6 +440,17 @@
         ${p.partners&&!p.cta?`<div class="partners">${p.partners}</div>`:''}
       </div>`;
   }
+  function staffSlide(s){
+    return `<div class="art staffa"><img class="cromo" src="${s.photo}" alt="" onerror="this.style.display='none'"/></div>
+      <div class="info">
+        <span class="accent" style="background:#ffd200"></span>
+        <div class="kick" style="color:#ffd200">Mundial 2026 · Reconocimiento al staff</div>
+        <div class="tt">${s.name}</div>
+        ${s.role?`<div class="sub">${s.role}</div>`:''}
+        <span class="cta-pill" style="border-color:#ffd200;margin-top:20px;align-self:flex-start"><span class="cdot" style="background:#ffd200"></span>TEAM USFQ GALÁPAGOS</span>
+      </div>`;
+  }
+
   function promoSlide(c){
     return `<div class="art"><img class="cover" src="${c.photo}" alt="" onerror="this.style.display='none'"/><span class="frame"></span>
         <span class="ribbon"><b style="background:${c.accent}"></b>${c.label} · ${c.audience}</span></div>
@@ -454,15 +470,19 @@
 
   function renderPinned(K){
     const pw=document.getElementById('pin-wrap'); pw.innerHTML='';
-    // Baraja (Fisher-Yates) e intercala: siempre alterna evento ↔ promo,
-    // en orden aleatorio (se rebaraja en cada refresco de datos).
+    // Baraja (Fisher-Yates) e intercala round-robin evento → cromo → promo,
+    // en orden aleatorio (se rebaraja en cada refresco de datos). Los cromos
+    // del staff entran de a 3 al azar por ciclo para no dominar la rotación.
     function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
     const ev=shuffle((K.pinned||[]).map(p=>({t:'e',d:p}))), pr=shuffle((K.promos||[]).map(p=>({t:'p',d:p})));
-    const spot=[]; for(let i=0;i<Math.max(ev.length,pr.length);i++){ if(ev[i])spot.push(ev[i]); if(pr[i])spot.push(pr[i]); }
+    const st=shuffle((K.staff||[]).map(p=>({t:'s',d:p}))).slice(0,3);
+    const lists=[ev,st,pr].filter(l=>l.length>0);
+    const spot=[]; let i=0, added=true;
+    while(added){ added=false; for(let li=0; li<lists.length; li++){ if(lists[li][i]){ spot.push(lists[li][i]); added=true; } } i++; }
     if(spot.length===0){ pw.style.display='none'; return; }
     pw.style.display='';
-    spot.forEach((s,i)=>{ const el=document.createElement('article'); el.className='pin'+(i===0?' on':'');
-      el.innerHTML = s.t==='e' ? eventSlide(s.d) : promoSlide(s.d); pw.appendChild(el); });
+    spot.forEach((s,i2)=>{ const el=document.createElement('article'); el.className='pin'+(i2===0?' on':'');
+      el.innerHTML = s.t==='e' ? eventSlide(s.d) : s.t==='s' ? staffSlide(s.d) : promoSlide(s.d); pw.appendChild(el); });
     const pins=[...pw.querySelectorAll('.pin')]; let xi=0;
     if(pins.length>1) timers.push(setInterval(()=>{ pins[xi].classList.remove('on'); xi=(xi+1)%pins.length; pins[xi].classList.add('on'); }, 8500));
   }

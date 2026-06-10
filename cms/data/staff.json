@@ -1,0 +1,154 @@
+[
+  {
+    "id": "cromo001",
+    "name": "SILVI",
+    "role": "Coordinador Administrativa",
+    "image": "staff/cromo_001.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo002",
+    "name": "GABY",
+    "role": "Coordinadora Investigación",
+    "image": "staff/cromo_002.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo003",
+    "name": "KARI",
+    "role": "Comunicación",
+    "image": "staff/cromo_003.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo004",
+    "name": "DARA",
+    "role": "Veterinaria",
+    "image": "staff/cromo_004.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo005",
+    "name": "MAFER",
+    "role": "Desarrollo Comunitario",
+    "image": "staff/cromo_005.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo006",
+    "name": "DR. PÁEZ",
+    "role": "Investigador Lobos",
+    "image": "staff/cromo_006.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo007",
+    "name": "DANI",
+    "role": "Investigadora Cetáceos",
+    "image": "staff/cromo_007.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo008",
+    "name": "PISQUITO",
+    "role": "Eventos",
+    "image": "staff/cromo_008.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo010",
+    "name": "WILLYSAO",
+    "role": "Front Desk",
+    "image": "staff/cromo_010.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo012",
+    "name": "ANYÉS AMOREIRA",
+    "role": "Investigador Lobos Jr.",
+    "image": "staff/cromo_012.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo014",
+    "name": "LA MATI",
+    "role": "Bienestar Estudiantil",
+    "image": "staff/cromo_014.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo016",
+    "name": "MIKA PLU",
+    "role": "Consejera Académica",
+    "image": "staff/cromo_016.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo017",
+    "name": "SHEY",
+    "role": "Coordinadora Académica",
+    "image": "staff/cromo_017.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo018",
+    "name": "NAO",
+    "role": "Contacto Empresarial",
+    "image": "staff/cromo_018.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo019",
+    "name": "HEHE",
+    "role": "Psicóloga",
+    "image": "staff/cromo_019.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo020",
+    "name": "JULI",
+    "role": "Director Técnico",
+    "image": "staff/cromo_020.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo021",
+    "name": "MEANGRID",
+    "role": "Genómica",
+    "image": "staff/cromo_021.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo022",
+    "name": "LUCHITO",
+    "role": "Internet",
+    "image": "staff/cromo_022.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo023",
+    "name": "ROMI",
+    "role": "Comunicación",
+    "image": "staff/cromo_023.jpg",
+    "enabled": true,
+    "created_at": "2026-06-10T17:30:00-06:00"
+  }
+]
