@@ -14,33 +14,26 @@
   #kiosk { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px;
     -webkit-transform-origin: 0 0; transform-origin: 0 0;
     color: var(--color-paper); font-family: var(--font-sans);
-    display: grid; grid-template-columns: 470px 1fr; grid-template-rows: 1fr 250px;
+    display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr 290px;
     background: radial-gradient(120% 95% at 12% 0%, #103247 0%, #0a2434 42%, #06141e 76%, #030d14 100%);
     overflow: hidden; }
 
-  /* ===== LEFT ===== */
-  #rail { position: relative; padding: 44px 36px 30px; display: flex; flex-direction: column;
-    background: linear-gradient(180deg, rgba(7,24,35,0.45), rgba(2,9,15,0.7)); border-right: 1px solid var(--border-default); }
-  .top { display: flex; align-items: flex-start; justify-content: space-between; }
-  .logo { height: 54px; }
+  /* ===== Cabecera (logo + título + reloj) ===== */
+  .logo { height: 56px; }
+  .brand { display: flex; align-items: center; gap: 22px; }
   .clk-wrap { text-align: right; }
-  .clk { font-size: 50px; font-weight: 600; line-height: 0.9; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-  .clk .sec { font-size: 22px; color: var(--color-turq-400); }
-  .dt { font-size: 16px; color: var(--color-mist); text-transform: capitalize; margin-top: 4px; }
-  .title { margin-top: 16px; font-size: 32px; font-weight: 600; line-height: 1.04; color: var(--color-turq-400); letter-spacing: -0.01em; }
-  .clubs-head { display: flex; align-items: baseline; justify-content: space-between; margin: 16px 0 10px; }
-  .clubs-head h2 { font-size: 22px; font-weight: 600; }
-  .clubs-head .n { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-stone); white-space: nowrap; }
-  /* Clubes: lista simple de una columna (barra de color = categoría) */
-  .club-list { display: flex; flex-direction: column; gap: 6px; }
-  .crow { display: flex; align-items: center; gap: 12px; padding: 9px 13px; border-radius: var(--radius-md);
+  .clk { font-size: 46px; font-weight: 600; line-height: 0.9; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .clk .sec { font-size: 20px; color: var(--color-turq-400); }
+  .dt { font-size: 15px; color: var(--color-mist); text-transform: capitalize; margin-top: 3px; }
+  /* Filas de club (panel rotatorio) */
+  .crow { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: var(--radius-md);
     background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid; overflow: hidden; }
-  .crow .nm { flex: 1; min-width: 0; font-size: 16.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .crow .nm { flex: 1; min-width: 0; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .crow .dy { font-size: 12.5px; color: var(--color-mist); white-space: nowrap; }
-  .crow .tm { font-size: 15.5px; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 50px; text-align: right; }
+  .crow .tm { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 50px; text-align: right; }
 
   /* ===== Banda inferior: el mar hoy (mareas + estado del mar) ===== */
-  #seaband { grid-column: 1 / -1; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding: 18px 44px 14px;
+  #seaband { grid-column: 1 / -1; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding: 22px 44px 16px;
     border-top: 1px solid var(--border-default); background: linear-gradient(180deg, rgba(7,24,35,0.5), rgba(2,9,15,0.75)); min-width: 0; }
   #seaband .h { display: flex; align-items: center; gap: 12px; font-size: 19px; font-weight: 600; color: var(--color-paper); margin-bottom: 8px; }
   #seaband .pill { font-size: 11px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); background: rgba(0,169,168,0.14); padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(0,169,168,0.3); }
@@ -54,7 +47,7 @@
   .tchart svg { display: block; width: 100%; height: auto; overflow: visible; }
   .tnone { font-size: 13px; color: var(--color-stone); padding: 8px 0; }
   .sea { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; margin-top: 2px; }
-  .sea .m { display: flex; align-items: center; gap: 12px; padding: 11px 15px; border-radius: var(--radius-md); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); }
+  .sea .m { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--radius-md); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); }
   .sea .m .ic { width: 25px; height: 25px; flex: none; color: var(--color-turq-300); opacity: 0.9; }
   .sea .m .ic svg { width: 100%; height: 100%; display: block; }
   .sea .m .bd3 { flex: 1; min-width: 0; }
@@ -72,34 +65,34 @@
   .sem.bad { background: #e0584a; box-shadow: 0 0 7px rgba(224,88,74,0.65); }
   .station { font-size: 11px; color: var(--color-slate); margin-top: 7px; }
 
-  /* ===== RIGHT (bento) ===== */
-  #main { position: relative; padding: 40px 44px 38px; display: flex; flex-direction: column; min-width: 0; }
-  .mh { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 18px; }
+  /* ===== MAIN (una sola columna) ===== */
+  #main { position: relative; padding: 26px 44px 18px; display: flex; flex-direction: column; min-width: 0; }
+  .mh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .mh .eb { font-size: 14px; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); }
-  .mh h1 { font-size: 34px; font-weight: 600; letter-spacing: -0.01em; }
+  .mh h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.01em; }
   .mh .wk { font-size: 17px; color: var(--color-stone); }
 
   /* Pinned bento (rotates) */
-  .pin-wrap { position: relative; height: 320px; flex: none; margin-bottom: 20px; }
-  .pin { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: 392px 1fr; gap: 0; border-radius: var(--radius-2xl); overflow: hidden;
+  .pin-wrap { position: relative; height: 380px; flex: none; margin-bottom: 18px; }
+  .pin { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: 460px 1fr; gap: 0; border-radius: var(--radius-2xl); overflow: hidden;
     border: 1px solid rgba(255,255,255,0.09); box-shadow: var(--shadow-xl); opacity: 0; transition: opacity 800ms var(--ease-out-quart); }
   .pin.on { opacity: 1; }
   .pin .art { position: relative; overflow: hidden; background: #0a1f2e; }
   .pin .art img.cover { width: 100%; height: 100%; object-fit: cover; }
   .pin .art img.flyer { width: 100%; height: 100%; object-fit: cover; }
   .pin .art .frame { position: absolute; top: 0; right: 0; bottom: 0; left: 0; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); }
-  .pin .info { position: relative; padding: 24px 32px; display: flex; flex-direction: column; justify-content: center;
+  .pin .info { position: relative; padding: 30px 36px; display: flex; flex-direction: column; justify-content: center;
     background: linear-gradient(150deg, #103a52, #0a2231); }
   .pin .info .accent { position: absolute; left: 0; top: 34px; bottom: 34px; width: 5px; border-radius: 999px; }
   .pin .star { position: absolute; top: 24px; right: 28px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); }
   .pin .kick { font-size: 14px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); margin-bottom: 10px; }
-  .pin .tt { font-size: 38px; font-weight: 600; line-height: 1.0; letter-spacing: -0.015em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .pin .sub { font-size: 19px; color: var(--color-mist); margin-top: 10px; line-height: 1.25; max-width: 94%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pin .desc { font-size: 15.5px; color: var(--color-mist); opacity: 0.92; margin-top: 11px; line-height: 1.4; max-width: 92%;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .pin .when { display: flex; align-items: center; gap: 18px; margin-top: 16px; }
+  .pin .tt { font-size: 44px; font-weight: 600; line-height: 1.0; letter-spacing: -0.015em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pin .sub { font-size: 20px; color: var(--color-mist); margin-top: 11px; line-height: 1.25; max-width: 94%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pin .desc { font-size: 16.5px; color: var(--color-mist); opacity: 0.92; margin-top: 12px; line-height: 1.42; max-width: 92%;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .pin .when { display: flex; align-items: center; gap: 18px; margin-top: 18px; }
   .pin .db { display: flex; align-items: baseline; gap: 9px; }
-  .pin .db .d { font-size: 46px; font-weight: 600; line-height: 0.85; letter-spacing: -0.02em; }
+  .pin .db .d { font-size: 52px; font-weight: 600; line-height: 0.85; letter-spacing: -0.02em; }
   .pin .db .my { font-size: 15px; font-weight: 600; color: var(--color-mist); line-height: 1.05; }
   .pin .wm { border-left: 1px solid rgba(255,255,255,0.2); padding-left: 18px; }
   .pin .wm .t { font-size: 21px; font-weight: 600; } .pin .wm .p { font-size: 15px; color: var(--color-mist); }
@@ -123,17 +116,14 @@
   .grid-head h2 { font-size: 22px; font-weight: 600; }
   .grid-head .hint { font-size: 14px; color: var(--color-slate); margin-left: auto; }
   .grid-vp { position: relative; flex: 1; min-height: 0; }
-  /* lista de próximos eventos: 2 columnas, tarjetas con badge de tipo */
-  .lpage { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: min-content; align-content: start; gap: 16px 22px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
+  /* panel rotatorio: páginas de eventos (3×3 = 9) ↔ clubes (9 en una pantalla) */
+  .lpage { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: 1fr 1fr 1fr; grid-auto-rows: min-content; align-content: start; gap: 10px 16px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
   .lpage.on { opacity: 1; }
-  .erow { display: flex; gap: 14px; align-items: flex-start; padding: 15px 18px 14px; border-radius: var(--radius-md); background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
+  .erow { display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-radius: var(--radius-md); background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
   .erow .bd2 { min-width: 0; flex: 1; }
-  .erow .tm2 { font-size: 13.5px; font-weight: 600; color: var(--color-turq-300); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .erow .tt2 { font-size: 19.5px; font-weight: 600; line-height: 1.15; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .erow .pl2 { font-size: 13px; color: var(--color-stone); margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .erow .badge { flex: none; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin-top: 2px; }
-  .erow .badge.ev { color: var(--color-mist); border: 1px solid rgba(255,255,255,0.18); }
-  .erow .badge.im { color: #04222c; background: #9ce4e3; }
+  .erow .tm2 { font-size: 12.5px; font-weight: 600; color: var(--color-turq-300); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .erow .tt2 { font-size: 16.5px; font-weight: 600; line-height: 1.12; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .erow .pl2 { font-size: 12px; color: var(--color-stone); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .erow.imp { border-color: rgba(0,169,168,0.45); background: rgba(0,169,168,0.06); }
   .empty { position:absolute; top:0; right:0; bottom:0; left:0; display:grid; place-items:center; color:var(--color-stone); font-size:20px; }
   .dots { position: absolute; bottom: -2px; right: 0; display: flex; gap: 7px; }
@@ -147,23 +137,16 @@
 <body>
 <div id="stage">
   <main id="kiosk" data-screen-label="Kiosko · Mosaico">
-    <aside id="rail">
-      <div class="top">
-        <img class="logo" src="assets/logo-white.png" alt="USFQ Galápagos" />
-        <div class="clk-wrap"><div class="clk" id="clk">--:--</div><div class="dt" id="date">—</div></div>
-      </div>
-      <div class="title">¿Qué pasa<br>en la USFQ?</div>
-      <div class="clubs-head"><h2>Clubes activos</h2><span class="n" id="club-n">—</span></div>
-      <div class="club-list" id="clubs"></div>
-    </aside>
-
     <section id="main">
       <div class="mh">
-        <div><div class="eb">Cartelera estudiantil</div><h1>Cartelera de eventos</h1></div>
-        <div class="wk" id="wk"></div>
+        <div class="brand">
+          <img class="logo" src="assets/logo-white.png" alt="USFQ Galápagos" />
+          <div><div class="eb">Cartelera estudiantil</div><h1>¿Qué pasa en la USFQ?</h1></div>
+        </div>
+        <div class="clk-wrap"><div class="clk" id="clk">--:--</div><div class="dt" id="date">—</div></div>
       </div>
       <div class="pin-wrap" id="pin-wrap"></div>
-      <div class="grid-head"><h2>Próximos eventos</h2><span class="hint" id="hint"></span></div>
+      <div class="grid-head"><h2 id="rot-title">Próximos eventos</h2><span class="hint" id="hint"></span></div>
       <div class="grid-vp" id="grid"><div class="dots" id="dots"></div></div>
     </section>
 
@@ -241,26 +224,14 @@
   function render(K){
     clearTimers();
 
-    // Clubes
-    document.getElementById('club-n').textContent = 'Abierto a toda la comunidad';
-    document.getElementById('clubs').innerHTML = K.clubs.map(c=>{ const cat=K.CATS[c.cat]||K.CATS.letras;
-      return `<div class="crow" style="border-left-color:${cat.color}">
-        <span class="nm">${c.name}</span>
-        <span class="dy">${c.days||''}</span>
-        <span class="tm">${c.time||''}</span>
-      </div>`; }).join('');
-
     // Mareas — curva del día (diseño "Onda")
     document.getElementById('station').textContent = K.tides.station || '';
     renderTides(K.tides);
     // Estado del mar (con veredicto de snorkel en lugar del sol)
     renderSea(K.marine);
 
-    // Cabecera de semana
-    document.getElementById('wk').textContent = K.week.count ? `${K.week.count} eventos próximos` : '';
-
     renderPinned(K);
-    renderList(K);
+    renderRotator(K);
   }
 
   // ---- Mareas: curva del día (diseño "Onda") -------------------------------
@@ -290,7 +261,7 @@
 
     let hMin=Infinity, hMax=-Infinity;
     pts.forEach(function(p){ if(p.h<hMin)hMin=p.h; if(p.h>hMax)hMax=p.h; });
-    const W=1075, H=150, padT=32, padB=26, lo=hMin-0.3, hi=hMax+0.3;
+    const W=1075, H=188, padT=36, padB=28, lo=hMin-0.3, hi=hMax+0.3;
     const mx=function(t){ return (t/1440)*W; };
     const my=function(v){ return padT+(1-(v-lo)/(hi-lo))*(H-padT-padB); };
 
@@ -454,42 +425,52 @@
     if(pins.length>1) timers.push(setInterval(()=>{ pins[xi].classList.remove('on'); xi=(xi+1)%pins.length; pins[xi].classList.add('on'); }, 8500));
   }
 
-  // ---- Lista paginada de TODOS los próximos eventos (2 columnas) ----------
-  function renderList(K){
+  // ---- Panel rotatorio: páginas de eventos (9 = 3×3) ↔ clubes activos ------
+  // Alterna cada 10 s: eventos pág. 1 → pág. 2 → ... → clubes → repetir.
+  function renderRotator(K){
     const grid=document.getElementById('grid');
     grid.querySelectorAll('.lpage').forEach(e=>e.remove());
-    const rows=[]; (K.days||[]).forEach(d=>d.items.forEach(it=>rows.push({d,it})));
-    const dots=document.getElementById('dots'), hint=document.getElementById('hint');
+    const dots=document.getElementById('dots'), hint=document.getElementById('hint'), title=document.getElementById('rot-title');
+    const per=9;   // 3 columnas × 3 filas
 
-    if(rows.length===0){
-      dots.innerHTML=''; hint.textContent='';
+    const eventRow=({d,it})=>{
+      const imp=it.type==='importante'; const cat=imp?null:(K.CATS[it.cat]||K.CATS.letras);
+      const accent=imp?'var(--color-turq-400)':cat.color; const dow=(d.dow||'').slice(0,3);
+      return `<div class="erow ${imp?'imp':''}" style="border-left-color:${accent}">
+        <div class="bd2">
+          <div class="tm2">${it.start&&it.start!=='00:00'?it.start+' · ':''}${dow} ${d.date}</div>
+          <div class="tt2">${imp?'★ ':''}${it.title}</div>
+          ${it.place?`<div class="pl2">${it.place}</div>`:''}
+        </div></div>`; };
+    const clubRow=c=>{ const cat=K.CATS[c.cat]||K.CATS.letras;
+      return `<div class="crow" style="border-left-color:${cat.color}">
+        <span class="nm">${c.name}</span><span class="dy">${c.days||''}</span><span class="tm">${c.time||''}</span></div>`; };
+
+    const rows=[]; (K.days||[]).forEach(d=>d.items.forEach(it=>rows.push({d,it})));
+    const clubs=K.clubs||[];
+    const panels=[];
+    for(let pg=0; pg*per<rows.length; pg++)
+      panels.push({ title:'Próximos eventos', hint:K.week.count?`${K.week.count} eventos próximos`:'',
+                    html: rows.slice(pg*per,pg*per+per).map(eventRow).join('') });
+    for(let pg=0; pg*per<clubs.length; pg++)
+      panels.push({ title:'Clubes activos', hint:'Abierto a toda la comunidad',
+                    html: clubs.slice(pg*per,pg*per+per).map(clubRow).join('') });
+
+    if(panels.length===0){
+      dots.innerHTML=''; hint.textContent=''; title.textContent='Próximos eventos';
       let e=grid.querySelector('.empty'); if(!e){ e=document.createElement('div'); e.className='empty'; grid.appendChild(e); }
       e.textContent='No hay eventos próximos';
       return;
     }
     const ex=grid.querySelector('.empty'); if(ex) ex.remove();
 
-    const per=4, pages=Math.ceil(rows.length/per);    // 2 columnas × 2 filas
-    for(let pg=0; pg<pages; pg++){ const page=document.createElement('div'); page.className='lpage'+(pg===0?' on':'');
-      page.innerHTML=rows.slice(pg*per,pg*per+per).map(({d,it})=>{
-        const imp=it.type==='importante'; const cat=imp?null:(K.CATS[it.cat]||K.CATS.letras);
-        const accent=imp?'var(--color-turq-400)':cat.color;
-        const dow=(d.dow||'').slice(0,3);
-        return `<div class="erow ${imp?'imp':''}" style="border-left:4px solid ${accent}">
-          <div class="bd2">
-            <div class="tm2">${it.start&&it.start!=='00:00'?it.start+' · ':''}${dow} ${d.date}</div>
-            <div class="tt2">${imp?'★ ':''}${it.title}</div>
-            ${it.place?`<div class="pl2">${it.place}</div>`:''}
-          </div>
-          <span class="badge ${imp?'im':'ev'}">${imp?'Importante':'Evento'}</span></div>`;}).join('');
-      grid.appendChild(page); }
-
-    dots.innerHTML=Array.from({length:pages},(_,i)=>`<span class="d ${i===0?'on':''}"></span>`).join('');
-    const pageEls=[...grid.querySelectorAll('.lpage')], dotEls=[...dots.querySelectorAll('.d')]; let gi=0;
-    hint.textContent=`Página 1 de ${pages}`;
-    if(pages>1) timers.push(setInterval(()=>{ pageEls[gi].classList.remove('on'); dotEls[gi].classList.remove('on');
-      gi=(gi+1)%pages; pageEls[gi].classList.add('on'); dotEls[gi].classList.add('on');
-      hint.textContent=`Página ${gi+1} de ${pages}`; }, 9000));
+    panels.forEach((p,i)=>{ const el=document.createElement('div'); el.className='lpage'+(i===0?' on':''); el.innerHTML=p.html; grid.appendChild(el); });
+    dots.innerHTML=panels.map((_,i)=>`<span class="d ${i===0?'on':''}"></span>`).join('');
+    const els=[...grid.querySelectorAll('.lpage')], dEls=[...dots.querySelectorAll('.d')]; let gi=0;
+    function apply(i){ title.textContent=panels[i].title; hint.textContent=panels[i].hint; }
+    apply(0);
+    if(panels.length>1) timers.push(setInterval(()=>{ els[gi].classList.remove('on'); dEls[gi].classList.remove('on');
+      gi=(gi+1)%panels.length; els[gi].classList.add('on'); dEls[gi].classList.add('on'); apply(gi); }, 10000));
   }
 
   // ---- Carga + refresco ---------------------------------------------------
