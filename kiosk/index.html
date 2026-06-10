@@ -85,10 +85,12 @@
     border: 1px solid rgba(255,255,255,0.09); box-shadow: var(--shadow-xl); opacity: 0; transition: opacity 800ms var(--ease-out-quart); }
   .pin.on { opacity: 1; }
   .pin .art { position: relative; overflow: hidden; background: #0a1f2e; }
-  /* cromo del staff: carta vertical 2:3 centrada, con brillo festivo */
-  .pin .art.staffa { display: grid; place-items: center;
-    background: radial-gradient(90% 110% at 30% 0%, rgba(255,210,0,0.14), transparent 55%), linear-gradient(150deg, #0e2c40, #0a1f2e); }
-  .pin .art.staffa img.cromo { height: 90%; width: auto; border-radius: 12px;
+  /* cromo del staff: carta vertical SIEMPRE completa al 100% de alto.
+     Posicionamiento absoluto: la altura se resuelve contra .art en cualquier
+     motor (el height:% dentro de grid fallaba y recortaba la carta). */
+  .pin .art.staffa { background: radial-gradient(90% 110% at 30% 0%, rgba(255,210,0,0.14), transparent 55%), linear-gradient(150deg, #0e2c40, #0a1f2e); }
+  .pin .art.staffa img.cromo { position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;
+    height: 100%; width: auto; max-width: none;
     box-shadow: 0 14px 44px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.12); }
   .pin .art img.cover { width: 100%; height: 100%; object-fit: cover; }
   .pin .art img.flyer { width: 100%; height: 100%; object-fit: cover; }
@@ -444,7 +446,7 @@
     return `<div class="art staffa"><img class="cromo" src="${s.photo}" alt="" onerror="this.style.display='none'"/></div>
       <div class="info">
         <span class="accent" style="background:#ffd200"></span>
-        <div class="kick" style="color:#ffd200">Mundial 2026 · Reconocimiento al staff</div>
+        <div class="kick" style="color:#ffd200">Mundial 2026 · Galápagos Mundialista</div>
         <div class="tt">${s.name}</div>
         ${s.role?`<div class="sub">${s.role}</div>`:''}
         <span class="cta-pill" style="border-color:#ffd200;margin-top:20px;align-self:flex-start"><span class="cdot" style="background:#ffd200"></span>TEAM USFQ GALÁPAGOS</span>
