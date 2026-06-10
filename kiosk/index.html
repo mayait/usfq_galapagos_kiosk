@@ -39,6 +39,13 @@
   #seaband .pill { font-size: 11px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); background: rgba(0,169,168,0.14); padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(0,169,168,0.3); }
   #seaband .pill.warn { color: #f0c674; background: rgba(232,167,60,0.12); border-color: rgba(232,167,60,0.34); }
   #seaband .pill.bad { color: #ef8c80; background: rgba(224,88,74,0.12); border-color: rgba(224,88,74,0.36); }
+  /* UV extremo (11+, escala OMS = violeta): pulso para que no pase desapercibido */
+  #seaband .pill.extreme { color: #e6c4ff; background: rgba(168,85,247,0.16); border-color: rgba(168,85,247,0.5);
+    animation: uvpulse 2.2s ease-in-out infinite; }
+  @keyframes uvpulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.45); }
+    50%     { box-shadow: 0 0 12px 3px rgba(168,85,247,0.25); }
+  }
   /* Curva de marea (diseño "Onda": curva del día + marcador Ahora) */
   #seaband .pill .arr { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 7px solid var(--color-turq-300); animation: bob 2.6s ease-in-out infinite; }
   #seaband .pill .arr.down { border-bottom: 0; border-top: 7px solid var(--color-turq-300); }
@@ -366,14 +373,21 @@
     return '';
   }
   // Píldora UV (escala OMS): <3 bajo · 3-5 moderado · 6-7 alto · 8-10 muy alto · 11+ extremo
+  // Si el PICO del día será extremo, se avisa desde temprano (violeta con pulso).
   function renderUv(m){
     const el = document.getElementById('uvpill');
     const uv = (m && m.uv!=null) ? m.uv : ((m && m.uvMax!=null) ? m.uvMax : null);
     if(uv==null){ el.style.display='none'; return; }
-    const v = Math.round(uv);
-    const lab = v<3?'bajo' : v<6?'moderado' : v<8?'alto' : v<11?'muy alto' : 'extremo';
-    el.className = 'pill ' + (v<3?'' : v<8?'warn' : 'bad');
-    el.textContent = `UV ${v} · ${lab}`;
+    const v = Math.round(uv), vmax = Math.round((m.uvMax!=null)?m.uvMax:uv);
+    if(v>=11){
+      el.className='pill extreme'; el.textContent=`UV ${v} · EXTREMO`;
+    } else if(vmax>=11){
+      el.className='pill extreme'; el.textContent=`UV ${v} · hoy máx ${vmax} EXTREMO`;
+    } else {
+      const lab = v<3?'bajo' : v<6?'moderado' : v<8?'alto' : 'muy alto';
+      el.className = 'pill ' + (v<3?'' : v<8?'warn' : 'bad');
+      el.textContent = `UV ${v} · ${lab}`;
+    }
     el.style.display = '';
   }
 
