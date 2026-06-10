@@ -37,7 +37,7 @@ $prev = loadJson(MARINE_FILE);
 // Cada fuente se llama UNA sola vez
 $tidesFresh  = fetchNoaaTides();      // NOAA (gratis)
 $marineFresh = fetchStormglass();     // Stormglass (cuenta para el límite diario)
-$local = array_merge(sunTimes(), moonData());   // cálculo local, siempre disponible
+$local = array_merge(sunTimes(), moonData(), fetchUv() ?? []);   // sol/luna local + UV (Open-Meteo, gratis)
 
 $tides = $tidesFresh ?? ($prev['tides'] ?? null);
 

@@ -156,7 +156,7 @@
         <div class="tchart" id="tides"></div>
       </div>
       <div class="sb-right">
-        <div class="h">Estado del mar <span class="pill" id="seastate">—</span></div>
+        <div class="h">Estado del mar <span class="pill" id="seastate">—</span><span class="pill" id="uvpill" style="display:none">—</span></div>
         <div class="sea" id="sea"></div>
         <div class="station" id="station"></div>
       </div>
@@ -365,8 +365,21 @@
     if(/agit|fuert|brav/.test(s)) return 'bad';
     return '';
   }
+  // Píldora UV (escala OMS): <3 bajo · 3-5 moderado · 6-7 alto · 8-10 muy alto · 11+ extremo
+  function renderUv(m){
+    const el = document.getElementById('uvpill');
+    const uv = (m && m.uv!=null) ? m.uv : ((m && m.uvMax!=null) ? m.uvMax : null);
+    if(uv==null){ el.style.display='none'; return; }
+    const v = Math.round(uv);
+    const lab = v<3?'bajo' : v<6?'moderado' : v<8?'alto' : v<11?'muy alto' : 'extremo';
+    el.className = 'pill ' + (v<3?'' : v<8?'warn' : 'bad');
+    el.textContent = `UV ${v} · ${lab}`;
+    el.style.display = '';
+  }
+
   function renderSea(m){
     const seastate = document.getElementById('seastate'), sea = document.getElementById('sea');
+    renderUv(m);
     if(!m){ seastate.textContent='—'; seastate.className='pill'; sea.innerHTML=''; return; }
     seastate.textContent = m.seaState || '—';
     seastate.className = 'pill ' + seaStateCls(m.seaState);

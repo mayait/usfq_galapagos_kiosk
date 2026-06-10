@@ -185,6 +185,34 @@ function sunTimes(): array {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
+//  Índice UV — Open-Meteo (gratis, sin key, no toca el quota de Stormglass)
+// ════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Trae la curva UV del día (por hora) + máximo. El cron la cachea y el feed
+ * elige el valor de la hora actual al responder — UV fresco sin más llamadas.
+ */
+function fetchUv(): ?array {
+    $url = 'https://api.open-meteo.com/v1/forecast?' . http_build_query([
+        'latitude' => LAT, 'longitude' => LNG,
+        'hourly'   => 'uv_index', 'daily' => 'uv_index_max',
+        'timezone' => GALAPAGOS_TZ, 'forecast_days' => 1,
+    ]);
+    $json = httpGet($url);
+    if (!$json) return null;
+    $d = json_decode($json, true);
+    $times = $d['hourly']['time'] ?? [];
+    $vals  = $d['hourly']['uv_index'] ?? [];
+    if (!$times || count($times) !== count($vals)) return null;
+    $hours = [];
+    foreach ($times as $i => $t) $hours[substr($t, 11, 5)] = round((float)$vals[$i], 1);
+    return [
+        'uvHours' => $hours,                                              // 'HH:00' => uv
+        'uvMax'   => round((float)($d['daily']['uv_index_max'][0] ?? 0), 1),
+    ];
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 //  Luna + aguaje — cálculo local (sin llamadas API)
 // ════════════════════════════════════════════════════════════════════════════
 

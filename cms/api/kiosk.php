@@ -190,6 +190,11 @@ $tides  = $marineData['tides'] ?? [
     'points'  => [],
 ];
 $marine = $marineData['marine'] ?? null;
+// UV de la hora actual desde la curva cacheada por el cron (Open-Meteo)
+if (is_array($marine) && !empty($marine['uvHours'])) {
+    $marine['uv'] = $marine['uvHours'][date('H') . ':00'] ?? null;
+    unset($marine['uvHours']);   // el kiosko no necesita la curva completa
+}
 
 // ── 6) Meta de la semana ─────────────────────────────────────────────────────
 $week = [

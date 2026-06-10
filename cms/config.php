@@ -34,10 +34,10 @@ define('MAX_FILE_SIZE',  10 * 1024 * 1024);  // 10 MB
 define('ALLOWED_TYPES',  ['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
 define('SESSION_NAME',   'kiosk_cms_session');
 
-// ── Ubicación — San Cristóbal, Galápagos (UTC-6, sin DST) ───
+// ── Ubicación — Playa Mann, San Cristóbal, Galápagos (UTC-6, sin DST) ───
 define('GALAPAGOS_TZ',   'America/Costa_Rica');  // mismo offset, máxima compatibilidad
-define('LAT',            -0.9024);
-define('LNG',            -89.6105);
+define('LAT',            -0.8956);   // 0°53'44"S — Playa Mann (frente al campus)
+define('LNG',            -89.6094);  // 89°36'34"W
 
 // ── Mareas NOAA (gratis, sin key) ───────────────────────────
 define('NOAA_ENDPOINT',  'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter');
