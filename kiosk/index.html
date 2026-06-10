@@ -27,8 +27,8 @@
   .clk { font-size: 50px; font-weight: 600; line-height: 0.9; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
   .clk .sec { font-size: 22px; color: var(--color-turq-400); }
   .dt { font-size: 16px; color: var(--color-mist); text-transform: capitalize; margin-top: 4px; }
-  .title { margin-top: 22px; font-size: 32px; font-weight: 600; line-height: 1.04; color: var(--color-turq-400); letter-spacing: -0.01em; }
-  .clubs-head { display: flex; align-items: baseline; justify-content: space-between; margin: 20px 0 12px; }
+  .title { margin-top: 16px; font-size: 32px; font-weight: 600; line-height: 1.04; color: var(--color-turq-400); letter-spacing: -0.01em; }
+  .clubs-head { display: flex; align-items: baseline; justify-content: space-between; margin: 16px 0 10px; }
   .clubs-head h2 { font-size: 22px; font-weight: 600; }
   .clubs-head .n { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-stone); white-space: nowrap; }
   .club-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -42,18 +42,19 @@
   .ctile .tm { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
   /* tides + sea */
-  .tides { margin-top: auto; padding-top: 16px; }
+  .tides { margin-top: auto; padding-top: 10px; }
   .tides .h { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-mist); margin-bottom: 8px; }
   .tides .pill { font-size: 11px; font-weight: 600; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-turq-300); background: rgba(0,169,168,0.14); padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(0,169,168,0.3); }
-  .tstrip { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
-  .tc { padding: 7px 9px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); }
-  .tc.next { background: rgba(0,169,168,0.12); border: 1px solid rgba(0,169,168,0.3); }
-  .tc .k { font-size: 11px; color: var(--color-stone); } .tc.next .k { color: var(--color-turq-300); }
-  .tc .v { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; } .tc .v span { font-size: 10px; font-weight: 400; color: var(--color-stone); }
-  .tc .x { font-size: 10.5px; color: var(--color-slate); }
+  /* Curva de marea (diseño "Onda": curva del día + marcador Ahora) */
+  .tides .pill .arr { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 7px solid var(--color-turq-300); animation: bob 2.6s ease-in-out infinite; }
+  .tides .pill .arr.down { border-bottom: 0; border-top: 7px solid var(--color-turq-300); }
+  @keyframes bob { 0%,100% { transform: translateY(1px); } 50% { transform: translateY(-2px); } }
+  .tchart { margin-top: 4px; }
+  .tchart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .tnone { font-size: 13px; color: var(--color-stone); padding: 8px 0; }
   .sea { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px; margin-top: 8px; }
   .sea .m { display: flex; align-items: center; gap: 10px; padding: 8px 11px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.04); }
-  .sea .m .ic { width: 22px; height: 22px; flex: none; color: var(--color-mist); opacity: 0.9; }
+  .sea .m .ic { width: 22px; height: 22px; flex: none; color: var(--color-turq-300); opacity: 0.9; }
   .sea .m .ic svg { width: 100%; height: 100%; display: block; }
   .sea .m .bd3 { flex: 1; min-width: 0; }
   .sea .m .lb { font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-stone); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -68,7 +69,7 @@
   .sem.ok  { background: #34c759; box-shadow: 0 0 7px rgba(52,199,89,0.65); }
   .sem.mid { background: #e6b652; box-shadow: 0 0 7px rgba(230,182,82,0.65); }
   .sem.bad { background: #e0584a; box-shadow: 0 0 7px rgba(224,88,74,0.65); }
-  .station { font-size: 11px; color: var(--color-slate); margin-top: 8px; }
+  .station { font-size: 11px; color: var(--color-slate); margin-top: 6px; }
 
   /* ===== RIGHT (bento) ===== */
   #main { position: relative; padding: 40px 44px 38px; display: flex; flex-direction: column; min-width: 0; }
@@ -146,7 +147,7 @@
       <div class="club-grid" id="clubs"></div>
       <div class="tides">
         <div class="h">Mareas hoy <span class="pill" id="tstate">—</span></div>
-        <div class="tstrip" id="tides"></div>
+        <div class="tchart" id="tides"></div>
         <div class="h" style="margin-top:14px">Estado del mar <span class="pill" id="seastate">—</span></div>
         <div class="sea" id="sea"></div>
         <div class="station" id="station"></div>
@@ -235,12 +236,9 @@
         <div class="rw"><span class="dy">${c.days||''}</span><span class="tm">${c.time||''}</span></div>
       </div>`; }).join('');
 
-    // Mareas
-    document.getElementById('tstate').textContent = K.tides.state || '—';
+    // Mareas — curva del día (diseño "Onda")
     document.getElementById('station').textContent = K.tides.station || '';
-    document.getElementById('tides').innerHTML = (K.tides.points||[]).map(p=>`<div class="tc ${p.next?'next':''}">
-      <div class="k">${p.kind}</div><div class="v">${p.h}<span> m</span></div><div class="x">${p.time} h</div></div>`).join('')
-      || `<div class="tc"><div class="k">Sin datos</div><div class="v">—</div></div>`;
+    renderTides(K.tides);
     // Estado del mar (con veredicto de snorkel en lugar del sol)
     renderSea(K.marine);
 
@@ -249,6 +247,97 @@
 
     renderPinned(K);
     renderList(K);
+  }
+
+  // ---- Mareas: curva del día (diseño "Onda") -------------------------------
+  // Interpola los extremos del API con medias ondas coseno (derivada cero en
+  // cada pleamar/bajamar), como una marea real. Marcador "Ahora" en vivo.
+  // Hora de Galápagos = UTC-6 fijo (sin DST). El anillo pulsa con SMIL
+  // (compatible con los Chromium viejos de las TVs LG, sin transform-box).
+  function renderTides(T){
+    const pill=document.getElementById('tstate'), box=document.getElementById('tides');
+    const pts=((T&&T.points)||[]).map(function(p){
+      const hm=String(p.time||'').split(':');
+      return { kind:p.kind||'', time:p.time||'', t:(+hm[0])*60+(+hm[1]||0),
+               h:parseFloat(p.h), high:/plea/i.test(p.kind||''), next:!!p.next };
+    }).filter(function(p){ return isFinite(p.t)&&isFinite(p.h); });
+    if(pts.length<2){ pill.textContent=(T&&T.state)||'—'; box.innerHTML='<div class="tnone">Sin datos de mareas</div>'; return; }
+
+    // extremos virtuales en los bordes para que la curva entre y salga natural
+    const first=pts[0], last=pts[pts.length-1], prev=pts[pts.length-2];
+    const ext=[{t:first.t-(pts[1].t-first.t), h:pts[1].h}].concat(pts).concat([{t:last.t+(last.t-prev.t), h:prev.h}]);
+    function hAt(t){
+      if(t<=ext[0].t) return ext[0].h;
+      if(t>=ext[ext.length-1].t) return ext[ext.length-1].h;
+      let i=0; while(i<ext.length-1 && !(t>=ext[i].t && t<=ext[i+1].t)) i++;
+      const a=ext[i], b=ext[i+1], u=(t-a.t)/(b.t-a.t);
+      return a.h+(b.h-a.h)*(1-Math.cos(Math.PI*u))/2;
+    }
+
+    let hMin=Infinity, hMax=-Infinity;
+    pts.forEach(function(p){ if(p.h<hMin)hMin=p.h; if(p.h>hMax)hMax=p.h; });
+    const W=468, H=170, padT=34, padB=28, lo=hMin-0.3, hi=hMax+0.3;
+    const mx=function(t){ return (t/1440)*W; };
+    const my=function(v){ return padT+(1-(v-lo)/(hi-lo))*(H-padT-padB); };
+
+    let d=''; for(let t=0;t<=1440;t+=6){ d+=(t?'L':'M')+mx(t).toFixed(1)+' '+my(hAt(t)).toFixed(1)+' '; }
+    const area=d+'L'+W+' '+H+' L0 '+H+' Z';
+
+    // marcadores y etiquetas de extremos (el próximo, en turquesa)
+    const marks=pts.map(function(p){
+      const x=mx(p.t), y=my(p.h), lx=Math.max(54,Math.min(W-54,x));
+      return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="5" fill="'+(p.high?'#00a9a8':'#1182c5')+'" stroke="#081a28" stroke-width="2.5"/>'+
+        '<text x="'+lx+'" y="'+(p.high?y-16:y+22).toFixed(1)+'" text-anchor="middle" fill="'+(p.next?'#6bd6d5':'#c3cbd1')+'" font-size="12.5" font-family="Jost" font-weight="600">'+p.kind+' · '+p.h.toFixed(2)+' m</text>'+
+        '<text x="'+lx+'" y="'+(p.high?y-32:y+38).toFixed(1)+'" text-anchor="middle" fill="#7f8b93" font-size="11.5" font-family="Jost">'+p.time+' h</text>';
+    }).join('');
+    const ticks=[0,6,12,18,24].map(function(hr){
+      const x=Math.max(2,Math.min(mx(hr*60),W-2)), a=hr===0?'start':hr===24?'end':'middle';
+      return '<text x="'+x.toFixed(1)+'" y="'+(H+11)+'" text-anchor="'+a+'" fill="#4a5a66" font-size="10.5" font-family="Jost">'+(hr<10?'0':'')+hr+':00</text>';
+    }).join('');
+
+    box.innerHTML='<svg viewBox="0 0 '+W+' '+(H+14)+'">'+
+      '<defs><linearGradient id="tg-stroke" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#00a9a8"/><stop offset="0.5" stop-color="#1672a3"/><stop offset="1" stop-color="#1182c5"/></linearGradient>'+
+      '<linearGradient id="tg-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00a9a8" stop-opacity="0.34"/><stop offset="1" stop-color="#00a9a8" stop-opacity="0"/></linearGradient></defs>'+
+      '<line x1="0" y1="'+my(hMax).toFixed(1)+'" x2="'+W+'" y2="'+my(hMax).toFixed(1)+'" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 6"/>'+
+      '<line x1="0" y1="'+my(hMin).toFixed(1)+'" x2="'+W+'" y2="'+my(hMin).toFixed(1)+'" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 6"/>'+
+      '<path id="tarea" d="'+area+'" fill="url(#tg-fill)" opacity="0"/>'+
+      '<path id="tline" d="'+d+'" fill="none" stroke="url(#tg-stroke)" stroke-width="3" stroke-linecap="round"/>'+
+      marks+ticks+
+      '<g><line id="tnow-l" y1="'+(padT-6)+'" y2="'+(H-padB)+'" stroke="#6bd6d5" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.7"/>'+
+      '<circle id="tnow-r" r="6" fill="none" stroke="#6bd6d5" stroke-width="2" opacity="0.55"><animate attributeName="r" values="6;15" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.55;0" dur="2.8s" repeatCount="indefinite"/></circle>'+
+      '<circle id="tnow-d" r="4.5" fill="#6bd6d5" stroke="#081a28" stroke-width="2"/>'+
+      '<rect id="tnow-tb" rx="6" height="26" fill="rgba(8,26,40,0.92)" stroke="rgba(107,214,213,0.5)"/>'+
+      '<text id="tnow-tt" fill="#ffffff" font-size="13" font-family="Jost" font-weight="600" text-anchor="middle"></text></g></svg>';
+
+    function nowMin(){ const dte=new Date(); return ((dte.getUTCHours()*60+dte.getUTCMinutes()-360)+1440)%1440; }
+    function q(id){ return document.getElementById(id); }
+    function placeNow(){
+      const now=nowMin(), x=mx(now), hv=hAt(now), y=my(hv);
+      q('tnow-l').setAttribute('x1',x); q('tnow-l').setAttribute('x2',x);
+      q('tnow-d').setAttribute('cx',x); q('tnow-d').setAttribute('cy',y);
+      q('tnow-r').setAttribute('cx',x); q('tnow-r').setAttribute('cy',y);
+      const label='Ahora · '+hv.toFixed(2)+' m', w=label.length*7.2+18;
+      let tx=Math.max(2,Math.min(x-w/2,W-w-2));
+      const ty=Math.max(2,y-42);
+      q('tnow-tb').setAttribute('x',tx); q('tnow-tb').setAttribute('y',ty); q('tnow-tb').setAttribute('width',w);
+      q('tnow-tt').setAttribute('x',tx+w/2); q('tnow-tt').setAttribute('y',ty+17.5); q('tnow-tt').textContent=label;
+      const up=hAt(now+5)>=hv;
+      pill.innerHTML='<span class="arr'+(up?'':' down')+'"></span>'+(up?'Subiendo':'Bajando');
+    }
+    placeNow();
+    timers.push(setInterval(placeNow,20000));
+
+    // animación de trazado de la curva
+    const lineEl=q('tline'), areaEl=q('tarea');
+    try{
+      const len=lineEl.getTotalLength();
+      lineEl.style.strokeDasharray=len; lineEl.style.strokeDashoffset=len;
+      requestAnimationFrame(function(){
+        lineEl.style.transition='stroke-dashoffset 1400ms cubic-bezier(0.22,1,0.36,1)';
+        lineEl.style.strokeDashoffset=0;
+        areaEl.style.transition='opacity 1200ms ease 300ms'; areaEl.style.opacity=1;
+      });
+    }catch(e){ areaEl.style.opacity=1; }
   }
 
   // Iconos SVG (las pantallas LG no renderizan emojis)
