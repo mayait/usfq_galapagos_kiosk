@@ -14,7 +14,7 @@
   #kiosk { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px;
     -webkit-transform-origin: 0 0; transform-origin: 0 0;
     color: var(--color-paper); font-family: var(--font-sans);
-    display: grid; grid-template-columns: 540px 1fr;
+    display: grid; grid-template-columns: 470px 1fr;
     background: radial-gradient(120% 95% at 12% 0%, #103247 0%, #0a2434 42%, #06141e 76%, #030d14 100%);
     overflow: hidden; }
 
@@ -31,15 +31,13 @@
   .clubs-head { display: flex; align-items: baseline; justify-content: space-between; margin: 16px 0 10px; }
   .clubs-head h2 { font-size: 22px; font-weight: 600; }
   .clubs-head .n { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-stone); white-space: nowrap; }
-  .club-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .ctile { position: relative; padding: 12px 13px 11px; border-radius: var(--radius-lg); overflow: hidden;
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
-  .ctile .glow { position: absolute; top: 0; right: 0; bottom: 0; left: 0; opacity: 0.16; }
-  .ctile .cat { position: relative; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-  .ctile .nm { position: relative; font-size: 17px; font-weight: 600; line-height: 1.08; margin-top: 5px; }
-  .ctile .rw { position: relative; display: flex; align-items: baseline; justify-content: space-between; margin-top: 8px; }
-  .ctile .dy { font-size: 12px; color: var(--color-mist); }
-  .ctile .tm { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  /* Clubes: lista simple de una columna (barra de color = categoría) */
+  .club-list { display: flex; flex-direction: column; gap: 6px; }
+  .crow { display: flex; align-items: center; gap: 12px; padding: 9px 13px; border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid; overflow: hidden; }
+  .crow .nm { flex: 1; min-width: 0; font-size: 16.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .crow .dy { font-size: 12.5px; color: var(--color-mist); white-space: nowrap; }
+  .crow .tm { font-size: 15.5px; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 50px; text-align: right; }
 
   /* tides + sea */
   .tides { margin-top: auto; padding-top: 10px; }
@@ -116,8 +114,8 @@
   .grid-head h2 { font-size: 22px; font-weight: 600; }
   .grid-head .hint { font-size: 14px; color: var(--color-slate); margin-left: auto; }
   .grid-vp { position: relative; flex: 1; min-height: 0; }
-  /* lista de próximos eventos: 2 columnas, miniatura + texto */
-  .lpage { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: min-content; align-content: start; gap: 11px 18px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
+  /* lista de próximos eventos: una columna */
+  .lpage { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: 1fr; grid-auto-rows: min-content; align-content: start; gap: 11px; opacity: 0; transition: opacity 700ms var(--ease-out-quart); }
   .lpage.on { opacity: 1; }
   .erow { display: flex; gap: 13px; align-items: center; padding: 13px 16px; border-radius: var(--radius-md); background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
   .erow .bd2 { min-width: 0; flex: 1; }
@@ -144,7 +142,7 @@
       </div>
       <div class="title">¿Qué pasa<br>en la USFQ?</div>
       <div class="clubs-head"><h2>Clubes activos</h2><span class="n" id="club-n">—</span></div>
-      <div class="club-grid" id="clubs"></div>
+      <div class="club-list" id="clubs"></div>
       <div class="tides">
         <div class="h">Mareas hoy <span class="pill" id="tstate">—</span></div>
         <div class="tchart" id="tides"></div>
@@ -229,11 +227,10 @@
     // Clubes
     document.getElementById('club-n').textContent = 'Abierto a toda la comunidad';
     document.getElementById('clubs').innerHTML = K.clubs.map(c=>{ const cat=K.CATS[c.cat]||K.CATS.letras;
-      return `<div class="ctile">
-        <span class="glow" style="background:radial-gradient(120% 120% at 0% 0%, ${cat.color}, transparent 70%)"></span>
-        <div class="cat" style="color:${cat.color}">${cat.label}</div>
-        <div class="nm">${c.name}</div>
-        <div class="rw"><span class="dy">${c.days||''}</span><span class="tm">${c.time||''}</span></div>
+      return `<div class="crow" style="border-left-color:${cat.color}">
+        <span class="nm">${c.name}</span>
+        <span class="dy">${c.days||''}</span>
+        <span class="tm">${c.time||''}</span>
       </div>`; }).join('');
 
     // Mareas — curva del día (diseño "Onda")
@@ -276,7 +273,7 @@
 
     let hMin=Infinity, hMax=-Infinity;
     pts.forEach(function(p){ if(p.h<hMin)hMin=p.h; if(p.h>hMax)hMax=p.h; });
-    const W=468, H=170, padT=34, padB=28, lo=hMin-0.3, hi=hMax+0.3;
+    const W=398, H=170, padT=34, padB=28, lo=hMin-0.3, hi=hMax+0.3;
     const mx=function(t){ return (t/1440)*W; };
     const my=function(v){ return padT+(1-(v-lo)/(hi-lo))*(H-padT-padB); };
 
@@ -442,7 +439,7 @@
     }
     const ex=grid.querySelector('.empty'); if(ex) ex.remove();
 
-    const per=10, pages=Math.ceil(rows.length/per);   // 2 columnas × 5 filas
+    const per=5, pages=Math.ceil(rows.length/per);    // 1 columna × 5 filas
     for(let pg=0; pg<pages; pg++){ const page=document.createElement('div'); page.className='lpage'+(pg===0?' on':'');
       page.innerHTML=rows.slice(pg*per,pg*per+per).map(({d,it})=>{
         const imp=it.type==='importante'; const cat=imp?null:(K.CATS[it.cat]||K.CATS.letras);
