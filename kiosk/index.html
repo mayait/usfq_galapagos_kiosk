@@ -472,14 +472,19 @@
 
   function renderPinned(K){
     const pw=document.getElementById('pin-wrap'); pw.innerHTML='';
-    // Baraja (Fisher-Yates) y arma la rotación con PRIORIDAD para el staff:
-    // un cromo entre cada evento/promo (la mitad de los slides son cromos).
-    // Entran 6 cromos al azar por ciclo, re-sorteados en cada refresco.
+    // Baraja (Fisher-Yates) y arma la rotación con el STAFF como protagonista:
+    // DOS cromos entre cada evento/promo (~3 de cada 4 slides son cromos).
+    // Entran 8 cromos al azar por ciclo, re-sorteados en cada refresco.
     function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
     const ev=shuffle((K.pinned||[]).map(p=>({t:'e',d:p}))), pr=shuffle((K.promos||[]).map(p=>({t:'p',d:p})));
-    const st=shuffle((K.staff||[]).map(p=>({t:'s',d:p}))).slice(0,6);
+    const st=shuffle((K.staff||[]).map(p=>({t:'s',d:p}))).slice(0,8);
     const others=[]; for(let i=0;i<Math.max(ev.length,pr.length);i++){ if(ev[i])others.push(ev[i]); if(pr[i])others.push(pr[i]); }
-    const spot=[]; for(let i=0;i<Math.max(st.length,others.length);i++){ if(st[i])spot.push(st[i]); if(others[i])spot.push(others[i]); }
+    const spot=[]; let si=0, oi=0;
+    while(si<st.length || oi<others.length){
+      if(st[si]) spot.push(st[si++]);
+      if(st[si]) spot.push(st[si++]);
+      if(others[oi]) spot.push(others[oi++]);
+    }
     if(spot.length===0){ pw.style.display='none'; return; }
     pw.style.display='';
     spot.forEach((s,i2)=>{ const el=document.createElement('article'); el.className='pin'+(i2===0?' on':'');
