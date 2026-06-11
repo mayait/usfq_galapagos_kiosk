@@ -262,5 +262,101 @@
     "image": "staff/cromo_039.jpg",
     "enabled": true,
     "created_at": "2026-06-11T12:00:00-06:00"
+  },
+  {
+    "id": "cromo040",
+    "name": "CHICHER",
+    "role": "Coordinador Tec. Turismo",
+    "image": "staff/cromo_040.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo041",
+    "name": "CARLOS MENA",
+    "role": "Delantero",
+    "image": "staff/cromo_041.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo042",
+    "name": "LEO ZURITA",
+    "role": "Investigador",
+    "image": "staff/cromo_042.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo043",
+    "name": "GABRIEL",
+    "role": "Teacher",
+    "image": "staff/cromo_043.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo044",
+    "name": "MAJITO",
+    "role": "Teacher",
+    "image": "staff/cromo_044.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo046",
+    "name": "LINDA",
+    "role": "Asistente Administrativa",
+    "image": "staff/cromo_046.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo047",
+    "name": "JUANCA",
+    "role": "Profesor",
+    "image": "staff/cromo_047.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo048",
+    "name": "FAVIO",
+    "role": "Gestor Académico",
+    "image": "staff/cromo_048.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo049",
+    "name": "MATEO DAVILA",
+    "role": "Profesor",
+    "image": "staff/cromo_049.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo050",
+    "name": "ANA",
+    "role": "Teacher",
+    "image": "staff/cromo_050.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo051",
+    "name": "SOFI",
+    "role": "Subdirectora",
+    "image": "staff/cromo_051.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
+  },
+  {
+    "id": "cromo052",
+    "name": "TOÑO",
+    "role": "Defensa",
+    "image": "staff/cromo_052.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T15:00:00-06:00"
   }
 ]
