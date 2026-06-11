@@ -472,15 +472,14 @@
 
   function renderPinned(K){
     const pw=document.getElementById('pin-wrap'); pw.innerHTML='';
-    // Baraja (Fisher-Yates) e intercala round-robin evento → cromo → promo,
-    // en orden aleatorio (se rebaraja en cada refresco de datos). Los cromos
-    // del staff entran de a 3 al azar por ciclo para no dominar la rotación.
+    // Baraja (Fisher-Yates) y arma la rotación con PRIORIDAD para el staff:
+    // un cromo entre cada evento/promo (la mitad de los slides son cromos).
+    // Entran 6 cromos al azar por ciclo, re-sorteados en cada refresco.
     function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
     const ev=shuffle((K.pinned||[]).map(p=>({t:'e',d:p}))), pr=shuffle((K.promos||[]).map(p=>({t:'p',d:p})));
-    const st=shuffle((K.staff||[]).map(p=>({t:'s',d:p}))).slice(0,3);
-    const lists=[ev,st,pr].filter(l=>l.length>0);
-    const spot=[]; let i=0, added=true;
-    while(added){ added=false; for(let li=0; li<lists.length; li++){ if(lists[li][i]){ spot.push(lists[li][i]); added=true; } } i++; }
+    const st=shuffle((K.staff||[]).map(p=>({t:'s',d:p}))).slice(0,6);
+    const others=[]; for(let i=0;i<Math.max(ev.length,pr.length);i++){ if(ev[i])others.push(ev[i]); if(pr[i])others.push(pr[i]); }
+    const spot=[]; for(let i=0;i<Math.max(st.length,others.length);i++){ if(st[i])spot.push(st[i]); if(others[i])spot.push(others[i]); }
     if(spot.length===0){ pw.style.display='none'; return; }
     pw.style.display='';
     spot.forEach((s,i2)=>{ const el=document.createElement('article'); el.className='pin'+(i2===0?' on':'');

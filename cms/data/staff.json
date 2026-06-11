@@ -88,14 +88,6 @@
     "created_at": "2026-06-10T17:30:00-06:00"
   },
   {
-    "id": "cromo016",
-    "name": "MIKA PLU",
-    "role": "Consejera Académica",
-    "image": "staff/cromo_016.jpg",
-    "enabled": true,
-    "created_at": "2026-06-10T17:30:00-06:00"
-  },
-  {
     "id": "cromo017",
     "name": "SHEY",
     "role": "Coordinadora Académica",
@@ -150,5 +142,69 @@
     "image": "staff/cromo_023.jpg",
     "enabled": true,
     "created_at": "2026-06-10T17:30:00-06:00"
+  },
+  {
+    "id": "cromo024",
+    "name": "JESS",
+    "role": "Asistente de la Coordinación",
+    "image": "staff/cromo_024.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T09:00:00-06:00"
+  },
+  {
+    "id": "cromo025",
+    "name": "NIÑA CRIS",
+    "role": "Laboratorio Marina",
+    "image": "staff/cromo_025.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T09:00:00-06:00"
+  },
+  {
+    "id": "cromo026",
+    "name": "NAZA",
+    "role": "Salud Humana",
+    "image": "staff/cromo_026.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T09:00:00-06:00"
+  },
+  {
+    "id": "cromo027",
+    "name": "DIEGO",
+    "role": "Bioinformático",
+    "image": "staff/cromo_027.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T09:00:00-06:00"
+  },
+  {
+    "id": "cromo028",
+    "name": "LEIDY",
+    "role": "Desarrollo Comunitario",
+    "image": "staff/cromo_028.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T09:00:00-06:00"
+  },
+  {
+    "id": "cromo029",
+    "name": "DIANITA",
+    "role": "Profesora",
+    "image": "staff/cromo_029.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T09:00:00-06:00"
+  },
+  {
+    "id": "cromo030",
+    "name": "JP",
+    "role": "Investigador",
+    "image": "staff/cromo_030.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T09:00:00-06:00"
+  },
+  {
+    "id": "cromo031",
+    "name": "MARJORIE",
+    "role": "Profesora",
+    "image": "staff/cromo_031.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T09:00:00-06:00"
   }
 ]
