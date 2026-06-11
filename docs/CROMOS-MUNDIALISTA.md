@@ -13,6 +13,7 @@ donde el equipo se escribe mensajes.
 | Kiosko (pantallas) | `kiosk/index.html` | GitHub Pages + `api.julianmaya.com/kiosk/` (espejo manual SFTP) |
 | Álbum PALINI 26 | `cms/cromos/index.html` | `https://api.julianmaya.com/cromos/` |
 | Endpoint del álbum | `cms/api/cromos.php` | `https://api.julianmaya.com/api/cromos.php` |
+| Página por cromo | `cms/cromos/cromo.php` + `cms/cromos/.htaccess` | `https://api.julianmaya.com/cromos/<slug>` (ej. `/cromos/juli`, `/cromos/dr_paez`) |
 | Feed del kiosko | `cms/api/kiosk.php` | `https://api.julianmaya.com/api/kiosk.php` (campo `staff`) |
 | Admin de cromos | `cms/admin/staff.php` | `https://api.julianmaya.com/admin/staff.php` |
 | Datos del staff | `cms/data/staff.json` | versionado en el repo |
@@ -51,6 +52,11 @@ cromos.csv + fotos/  ──(sync manual, ver §4)──►  staff.json + uploads
      (escribirle a todos menos a ti). Completados ordenados por fecha de término.
 - Los cromos del álbum salen en **orden aleatorio por visita** (seed estable
   por sesión: no se reordena con el refresco del feed cada 45 s).
+- **Página por cromo**: `/cromos/<slug>` (slug = nombre en minúsculas sin
+  acentos, espacios → `_`; también acepta el id `cromoNNN`). Server-rendered:
+  carta + mensajes anónimos + CTA al álbum, con **Open Graph por persona**
+  (compartir tu cromo por WhatsApp muestra TU carta). Slug inexistente →
+  redirige al álbum.
 
 ## 4. Cómo agregar / quitar cromos (sync desde el CSV)
 
