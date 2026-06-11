@@ -1090,13 +1090,20 @@ document.getElementById('npEdit').onclick = e=>{
   if(id!==null) openModal(+id, true);
 };
 
+// Slug igual al del servidor (cromo.php): minúsculas, sin acentos, _ por espacios
+function cromoSlugJs(n){
+  return (n||'').toLowerCase()
+    .replace(/á/g,'a').replace(/é/g,'e').replace(/í/g,'i').replace(/ó/g,'o')
+    .replace(/ú/g,'u').replace(/ñ/g,'n').replace(/ü/g,'u')
+    .replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');
+}
 document.addEventListener('click', e=>{
   const st = e.target.closest('.sticker');
   if(!st){ if(!e.target.closest('#notePop')) hideNote(); return; }
   const id = +st.dataset.id;
   if(st.classList.contains('mine')){ hideNote(); openWall(ME); return; }
   if(st.classList.contains('locked')){ hideNote(); openModal(id,false); }
-  else if(st.classList.contains('stuck')){ hideNote(); openWall(CROMOS[id].id); }
+  else if(st.classList.contains('stuck')){ hideNote(); location.href = '/cromos/' + cromoSlugJs(CROMOS[id].n); }
 });
 
 /* ---------- lightbox ---------- */

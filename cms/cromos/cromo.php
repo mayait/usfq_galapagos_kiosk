@@ -95,11 +95,14 @@ $e = fn($x) => htmlspecialchars($x, ENT_QUOTES, 'UTF-8');
   .msg:nth-child(even){transform:rotate(.6deg)}
   .msg:nth-child(3n){transform:rotate(-.5deg)}
   .empty{font-size:14px;color:rgba(255,255,255,.8);margin-top:18px;text-align:center;line-height:1.6}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:26px}
   .cta{
-    margin-top:26px;display:inline-block;text-decoration:none;color:#fff;
+    display:inline-block;text-decoration:none;color:#fff;cursor:pointer;border:none;
+    font-family:'Space Grotesk',sans-serif;
     background:linear-gradient(120deg,var(--red),#ff7a52);border-radius:99px;
     font-weight:700;font-size:13.5px;letter-spacing:1px;padding:13px 28px;
     box-shadow:0 6px 22px rgba(224,73,47,.5)}
+  .cta.share{background:transparent;border:1.5px solid var(--gold);color:var(--gold);box-shadow:none}
   .foot{margin-top:14px;font-size:11px;color:rgba(255,255,255,.55)}
 </style>
 </head>
@@ -118,7 +121,21 @@ $e = fn($x) => htmlspecialchars($x, ENT_QUOTES, 'UTF-8');
     <div class="empty">Todavía nadie le ha escrito a <?= $e($name) ?>…<br>¡Sé la primera persona! ✍️</div>
   <?php endif; ?>
 
-  <a class="cta" href="/cromos/">⚽ Escríbele algo y pega su cromo</a>
+  <div class="actions">
+    <a class="cta" href="/cromos/">⚽ Escríbele algo y pega su cromo</a>
+    <button class="cta share" id="shareBtn">📤 Compartir</button>
+  </div>
   <div class="foot">Los mensajes son anónimos 💛</div>
+<script>
+// Compartir: hoja nativa del teléfono; en desktop copia el link al portapapeles
+document.getElementById('shareBtn').addEventListener('click', async function(){
+  const url = 'https://api.julianmaya.com/cromos/<?= $e($slug) ?>';
+  const data = { title: <?= json_encode($title, JSON_UNESCAPED_UNICODE) ?>, url: url };
+  if (navigator.share) { try { await navigator.share(data); } catch(e){} return; }
+  try { await navigator.clipboard.writeText(url); this.textContent = '✅ Link copiado'; }
+  catch(e) { prompt('Copia el link:', url); }
+  setTimeout(()=>{ this.textContent = '📤 Compartir'; }, 2200);
+});
+</script>
 </body>
 </html>
