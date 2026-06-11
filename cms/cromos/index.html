@@ -226,9 +226,20 @@ body::after{
   font-family:var(--disp);font-weight:400;font-size:10px;letter-spacing:1.5px;
   padding:3px 9px;border-radius:99px;box-shadow:0 3px 8px rgba(0,0,0,.3);border:1px solid #fff}
 .slot.mine .cap .heartTag{color:#b5527e}
+/* ── AHORRO DE CPU GLOBAL (desktop incluido): nada animado en reposo ──────
+      Las animaciones infinitas (shimmer/twinkle en cada sticker, lápiz en
+      cada casilla, pulse del CTA) mantenían el compositor activo aunque
+      nadie tocara nada. Ahora el tornasol solo se anima en el cromo bajo el
+      cursor; el resto queda estático. ───────────────────────────────────── */
+.lockCover .pen{ animation:none; }
+.cover .open{ animation:none; }
+.holoRainbow{ animation:none; opacity:.26; }
+.holoSpark{ animation:none; opacity:0; }
+.sticker:hover .holoRainbow{ animation:shimmer 5.5s ease-in-out infinite; }
+.sticker:hover .holoSpark{ animation:twinkle 3s ease-in-out infinite; opacity:.4; }
+
 /* ── MODO LITE (celular/táctil): tornasol simple y estático, sin animaciones
-      ni blend-modes pesados → no recalienta ni recarga el teléfono. El desktop
-      conserva el efecto completo. ─────────────────────────────────────────── */
+      ni blend-modes pesados → no recalienta ni recarga el teléfono. ──────── */
 body.lite .holoRainbow,
 body.lite .holoSpark,
 body.lite .holoGlare{ display:none; }   /* tornasol APAGADO del todo en táctil */
