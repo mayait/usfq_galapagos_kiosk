@@ -470,14 +470,37 @@
       </div>`;
   }
 
+  // Cola persistente de cromos (sobrevive entre refrescos de datos): entrega
+  // tandas de n sin repetir a nadie hasta agotar la lista completa.
+  let staffQueue = [];
+  function nextStaff(list, n){
+    if(!list.length) return [];
+    const byKey = {};
+    list.forEach(s => { byKey[s.photo] = s; });
+    staffQueue = staffQueue.filter(k => byKey[k]);   // purga cromos eliminados
+    const out = [], seen = {};
+    const want = Math.min(n, list.length);
+    while(out.length < want){
+      if(staffQueue.length === 0){
+        const keys = []; for(const k in byKey) keys.push(k);
+        staffQueue = (function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; })(keys);
+      }
+      const k = staffQueue.shift();
+      if(byKey[k] && !seen[k]){ seen[k] = true; out.push(byKey[k]); }
+    }
+    return out;
+  }
+
   function renderPinned(K){
     const pw=document.getElementById('pin-wrap'); pw.innerHTML='';
     // Baraja (Fisher-Yates) y arma la rotación con el STAFF como protagonista:
     // DOS cromos entre cada evento/promo (~3 de cada 4 slides son cromos).
-    // Entran 8 cromos al azar por ciclo, re-sorteados en cada refresco.
+    // Los cromos salen de una COLA persistente barajada: tandas de 8 SIN
+    // repetir hasta que todos hayan aparecido; recién ahí se rebaraja.
+    // Así está garantizado que rotan todos los cromos (26 → ~8 min de ciclo).
     function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
     const ev=shuffle((K.pinned||[]).map(p=>({t:'e',d:p}))), pr=shuffle((K.promos||[]).map(p=>({t:'p',d:p})));
-    const st=shuffle((K.staff||[]).map(p=>({t:'s',d:p}))).slice(0,8);
+    const st=nextStaff(K.staff||[], 8).map(p=>({t:'s',d:p}));
     const others=[]; for(let i=0;i<Math.max(ev.length,pr.length);i++){ if(ev[i])others.push(ev[i]); if(pr[i])others.push(pr[i]); }
     const spot=[]; let si=0, oi=0;
     while(si<st.length || oi<others.length){
