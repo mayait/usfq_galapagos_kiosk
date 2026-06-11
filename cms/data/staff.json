@@ -366,5 +366,93 @@
     "image": "staff/cromo_053.jpg",
     "enabled": true,
     "created_at": "2026-06-11T16:30:00-06:00"
+  },
+  {
+    "id": "cromo058",
+    "name": "PAU",
+    "role": "Minion",
+    "image": "staff/cromo_058.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo059",
+    "name": "TERNURA",
+    "role": "Operaciones",
+    "image": "staff/cromo_059.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo062",
+    "name": "ESTALIN",
+    "role": "Operaciones",
+    "image": "staff/cromo_062.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo067",
+    "name": "DON MARCOS",
+    "role": "Operaciones",
+    "image": "staff/cromo_067.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo069",
+    "name": "FERNANDO",
+    "role": "Operaciones",
+    "image": "staff/cromo_069.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo073",
+    "name": "DOÑA MARLENI",
+    "role": "Cocina",
+    "image": "staff/cromo_073.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo074",
+    "name": "ESTHER",
+    "role": "Operaciones",
+    "image": "staff/cromo_074.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo076",
+    "name": "JOHA",
+    "role": "Consejera Académica",
+    "image": "staff/cromo_076.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo077",
+    "name": "PAMELA JARAMILLO",
+    "role": "Gestión Académica SX (Nueva)",
+    "image": "staff/cromo_077.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo078",
+    "name": "VALERIA",
+    "role": "Office Manager SX (Nueva)",
+    "image": "staff/cromo_078.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo079",
+    "name": "DIANA",
+    "role": "Office Manager SX",
+    "image": "staff/cromo_079.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T18:00:00-06:00"
   }
 ]
