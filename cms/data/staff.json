@@ -206,5 +206,61 @@
     "image": "staff/cromo_031.jpg",
     "enabled": true,
     "created_at": "2026-06-11T09:00:00-06:00"
+  },
+  {
+    "id": "cromo032",
+    "name": "OLIVER",
+    "role": "Coordinador ESL",
+    "image": "staff/cromo_032.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T12:00:00-06:00"
+  },
+  {
+    "id": "cromo033",
+    "name": "CECI",
+    "role": "Recursos Humanos",
+    "image": "staff/cromo_033.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T12:00:00-06:00"
+  },
+  {
+    "id": "cromo034",
+    "name": "DON JAVI",
+    "role": "Operaciones",
+    "image": "staff/cromo_034.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T12:00:00-06:00"
+  },
+  {
+    "id": "cromo035",
+    "name": "DI",
+    "role": "OPI",
+    "image": "staff/cromo_035.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T12:00:00-06:00"
+  },
+  {
+    "id": "cromo036",
+    "name": "ANDRÉS P",
+    "role": "Subdirector",
+    "image": "staff/cromo_036.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T12:00:00-06:00"
+  },
+  {
+    "id": "cromo037",
+    "name": "EDGAR",
+    "role": "Seguridad",
+    "image": "staff/cromo_037.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T12:00:00-06:00"
+  },
+  {
+    "id": "cromo039",
+    "name": "SYLVI",
+    "role": "Nutrición",
+    "image": "staff/cromo_039.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T12:00:00-06:00"
   }
 ]
