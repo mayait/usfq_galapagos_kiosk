@@ -89,34 +89,32 @@ body::after{
 #progressTxt{font-size:12.5px;font-weight:700;min-width:48px;text-align:right;letter-spacing:.5px;font-variant-numeric:tabular-nums}
 /* ---------- book ---------- */
 #bookWrap{position:relative;margin:16px 0 4px;width:min(92vw,440px)}
-#book{position:relative;width:100%;aspect-ratio:17/24;perspective:2400px}
+#book{position:relative;width:100%;aspect-ratio:17/24}
 #book::before,#book::after{
   content:"";position:absolute;inset:0;border-radius:8px 18px 18px 8px;
   background:#ece4cf;box-shadow:0 16px 44px rgba(0,0,0,.5);
   transform:translate(5px,5px);z-index:0;
 }
 #book::after{transform:translate(10px,10px);background:#ded3b8;z-index:-1}
+/* Páginas: SIN volteo 3D (preserve-3d/backface fallaba en GPUs móviles y es
+   caro en todas partes). Transición barata universal: fade + deslizamiento
+   (solo opacity/transform → compositor puro, fluido en teléfono y PC). */
 .page{
   position:absolute;inset:0;border-radius:8px 18px 18px 8px;
-  transform-origin:left center;
-  transform-style:preserve-3d;
-  transition:transform .95s cubic-bezier(.4,.05,.25,1);
-  backface-visibility:hidden;-webkit-backface-visibility:hidden;
   background:var(--paper);
   box-shadow:inset 14px 0 26px -16px rgba(0,0,0,.28), 0 6px 20px rgba(0,0,0,.35);
   overflow:hidden;
+  opacity:0;visibility:hidden;transform:translateX(3%);
+  transition:opacity .26s ease, transform .26s ease, visibility 0s linear .26s;
 }
+.page.back{transform:translateX(-3%)}
+.page.cur{opacity:1;visibility:visible;transform:none;
+  transition:opacity .26s ease, transform .26s ease}
 /* dot-grid paper texture */
 .page:not(.cover){
   background-image:radial-gradient(rgba(23,88,115,.10) 1px, transparent 1.4px);
   background-size:16px 16px;background-position:8px 12px;background-color:var(--paper);
 }
-/* Volteada: además del rotateY se OCULTA al terminar el giro (visibility con
-   delay). En GPUs móviles (Samsung Mali/Xclipse) backface-visibility falla y
-   las páginas volteadas seguían pintándose encimadas — esto lo corta de raíz. */
-.page.flipped{transform:rotateY(-179.9deg);pointer-events:none;visibility:hidden;
-  transition:transform .95s cubic-bezier(.4,.05,.25,1), visibility 0s linear .95s}
-.page.turning{z-index:999 !important}
 .page::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(100deg,rgba(0,0,0,.10),transparent 22%)}
 /* ---------- cover ---------- */
@@ -250,11 +248,12 @@ body.lite .lockCover .pen{ animation:none; }
 body.lite .cover .cta, body.lite [class*=cta]{ animation:none; }
 body.lite .sticker,
 body.lite .sticker.stuck{ transition:none; }
-/* Celulares: pasar de página sin animación 3D (los GPUs móviles sufren con
-   preserve-3d + perspective) y sin blur() por sticker (lo más caro de pintar) */
-body.lite #book{ perspective:none; }
-body.lite .page{ transition:none !important; }
+/* Celulares: sin blur() por sticker (lo más caro de pintar) y grid más denso
+   (6 cromos por página = 2×3); el fade de página es barato y se mantiene */
 body.lite .page::after{ display:none; }
+body.lite .grid{ gap:2.5% 5%; padding:2.5% 6% 4%; }
+body.lite .lockCover .num{ font-size:17px; }
+body.lite .lockCover .pen{ font-size:15px; }
 body.lite .sticker.locked img{ filter:grayscale(1) brightness(.85) opacity(.30); }
 body.lite .mSticker img{ filter:grayscale(1) brightness(.8); }
 body.lite .sheet, body.lite #modal, body.lite #whoGate, body.lite #lightbox{
@@ -702,7 +701,9 @@ footer button .badge{position:absolute;top:-6px;right:-4px;background:var(--red)
    ÁLBUM PALINI 26 — multijugador. Backend: api.julianmaya.com/api/cromos.php
    ════════════════════════════════════════════════════════════════════════ */
 const API    = 'https://api.julianmaya.com/api/cromos.php';
-const PER_PAGE = 4;
+// En táctil caben más cromos por página (6 = 2×3); en desktop 4 (2×2)
+const TOUCH_DEVICE = !!(window.matchMedia && (matchMedia('(hover:none)').matches || matchMedia('(pointer:coarse)').matches));
+const PER_PAGE = TOUCH_DEVICE ? 6 : 4;
 const LS_ME    = 'palini26_me';
 const LS_CACHE = 'palini26_cache';
 const MIN_LEN  = 12;
@@ -877,12 +878,12 @@ function buildBook(){
 }
 
 /* ---------- navegación ---------- */
-function setTurning(pg){ pg.classList.add('turning'); setTimeout(()=> pg.classList.remove('turning'), 1000); }
-function goNext(){ if(cur >= pages.length-1) return; const pg = pages[cur]; setTurning(pg); pg.classList.add('flipped'); cur++; updateNav(); }
-function goPrev(){ if(cur <= 0) return; cur--; const pg = pages[cur]; setTurning(pg); pg.classList.remove('flipped'); updateNav(); }
+function goNext(){ if(cur >= pages.length-1) return; cur++; updateNav(); }
+function goPrev(){ if(cur <= 0) return; cur--; updateNav(); }
 function updateNav(){
   prevBtn.disabled = cur===0;
   nextBtn.disabled = cur===pages.length-1;
+  pages.forEach((p,i)=>{ p.classList.toggle('cur', i===cur); p.classList.toggle('back', i<cur); });
   Array.from(dots.children).forEach((d,i)=> d.classList.toggle('on', i===cur));
 }
 let tx0=0, ty0=0;
