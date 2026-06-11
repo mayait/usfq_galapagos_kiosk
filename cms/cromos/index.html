@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>GALAPALINI 26 · Álbum Team USFQ Galápagos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gx:50; --gy:50;
+  --blue:#175873; --blue-d:#0c2f40; --navy:#081c28;
+  --red:#e0492f; --red-d:#b23420;
+  --amber:#f0a93f; --gold:#ffd573;
+  --paper:#faf6ec; --ink:#1d2730;
+  --glass:rgba(255,255,255,.08); --glass-b:rgba(255,255,255,.16);
+  --r-lg:22px; --r-md:14px;
+  --disp:'Anton',sans-serif; --ui:'Space Grotesk',system-ui,sans-serif; --hand:'Caveat',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:var(--ui);
+  color:var(--ink);
+  min-height:100%;
+  display:flex;flex-direction:column;align-items:center;
+  overflow-x:hidden;
+  touch-action:pan-y;
+  background:var(--navy);
+  position:relative;
+}
+/* mesh gradient background */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(700px 480px at 85% -5%, rgba(29,111,139,.65), transparent 65%),
+    radial-gradient(620px 460px at -12% 30%, rgba(224,73,47,.32), transparent 60%),
+    radial-gradient(700px 520px at 50% 115%, rgba(240,169,63,.22), transparent 60%),
+    radial-gradient(420px 320px at 105% 70%, rgba(120,148,255,.18), transparent 60%),
+    var(--navy);
+}
+/* film grain */
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;opacity:.07;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+/* ---------- top bar ---------- */
+#topbar{
+  width:min(92vw,460px);margin-top:14px;
+  background:var(--glass);border:1px solid var(--glass-b);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:var(--r-lg);padding:12px 18px 14px;color:#fff;user-select:none;
+  box-shadow:0 10px 34px rgba(0,0,0,.35);
+}
+#topbar .ttl{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#topbar .ttl h1{font-family:var(--disp);font-size:24px;letter-spacing:2.5px;line-height:1;font-weight:400}
+#topbar .ttl h1 em{
+  font-style:normal;
+  background:linear-gradient(115deg,var(--gold),#fff 40%,#ffb35c 70%,var(--gold));
+  background-size:250% 250%;
+  background-position:calc(var(--gx)*1%) calc(var(--gy)*1%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+#topbar .ttl span{font-size:9.5px;font-weight:700;letter-spacing:2.5px;opacity:.75;text-align:right}
+#meChip{display:none;align-items:center;gap:7px;margin-top:9px;cursor:pointer;
+  background:rgba(255,255,255,.08);border:1px solid var(--glass-b);border-radius:99px;padding:5px 7px 5px 5px;width:fit-content}
+#meChip img{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1.5px solid var(--gold)}
+#meChip b{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.5px;color:#fff}
+#meChip i{font-style:normal;font-size:9px;opacity:.7;margin-left:2px}
+#progressWrap{margin-top:10px;display:flex;align-items:center;gap:10px}
+#progressBar{flex:1;height:9px;background:rgba(255,255,255,.13);border-radius:99px;position:relative;overflow:visible}
+#progressFill{height:100%;width:0%;border-radius:99px;position:relative;
+  background:linear-gradient(90deg,var(--red),var(--amber) 60%,var(--gold));
+  box-shadow:0 0 12px rgba(240,169,63,.55);
+  transition:width .6s cubic-bezier(.3,.7,.3,1.2)}
+#progressBall{position:absolute;top:50%;right:-10px;transform:translateY(-50%);font-size:17px;line-height:1;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.45))}
+#progressTxt{font-size:12.5px;font-weight:700;min-width:48px;text-align:right;letter-spacing:.5px;font-variant-numeric:tabular-nums}
+/* ---------- book ---------- */
+#bookWrap{position:relative;margin:16px 0 4px;width:min(92vw,440px)}
+#book{position:relative;width:100%;aspect-ratio:17/24;perspective:2400px}
+#book::before,#book::after{
+  content:"";position:absolute;inset:0;border-radius:8px 18px 18px 8px;
+  background:#ece4cf;box-shadow:0 16px 44px rgba(0,0,0,.5);
+  transform:translate(5px,5px);z-index:0;
+}
+#book::after{transform:translate(10px,10px);background:#ded3b8;z-index:-1}
+.page{
+  position:absolute;inset:0;border-radius:8px 18px 18px 8px;
+  transform-origin:left center;
+  transform-style:preserve-3d;
+  transition:transform .95s cubic-bezier(.4,.05,.25,1);
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--paper);
+  box-shadow:inset 14px 0 26px -16px rgba(0,0,0,.28), 0 6px 20px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+/* dot-grid paper texture */
+.page:not(.cover){
+  background-image:radial-gradient(rgba(23,88,115,.10) 1px, transparent 1.4px);
+  background-size:16px 16px;background-position:8px 12px;background-color:var(--paper);
+}
+.page.flipped{transform:rotateY(-179.9deg);pointer-events:none}
+.page.turning{z-index:999 !important}
+.page::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(100deg,rgba(0,0,0,.10),transparent 22%)}
+/* ---------- cover ---------- */
+.cover{
+  background:
+    radial-gradient(420px 340px at 110% -8%, rgba(240,169,63,.5), transparent 60%),
+    radial-gradient(520px 480px at -18% 112%, rgba(224,73,47,.55), transparent 62%),
+    radial-gradient(300px 300px at 50% 55%, rgba(255,255,255,.07), transparent 70%),
+    linear-gradient(165deg,#1d6f8b,#0c2f40 72%);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  color:#fff;text-align:center;padding:24px 18px 22px;cursor:pointer;
+}
+.cover .usfqLogo{height:46px;width:auto;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,.45));margin-bottom:4px}
+.cover .brandChip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);
+  backdrop-filter:blur(8px);border-radius:99px;padding:8px 18px;
+}
+.cover .brandChip b{font-family:var(--disp);font-weight:400;font-size:17px;letter-spacing:3px;color:var(--gold)}
+.cover .brandChip i{font-style:normal;font-size:9px;font-weight:700;letter-spacing:2px;opacity:.8}
+.cover .big26{
+  font-family:var(--disp);font-size:clamp(110px,32vw,168px);line-height:.9;font-weight:400;
+  background:linear-gradient(115deg,#ffd86b 8%,#fff 32%,#ff9d8a 52%,#9be8ff 72%,#d8a5ff 88%,#ffd86b);
+  background-size:300% 300%;
+  background-position:calc(var(--gx)*1%) calc(var(--gy)*1%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));
+}
+.cover .tagline{font-size:11px;font-weight:700;letter-spacing:5px;opacity:.85;margin-top:-4px}
+.cover .crest{
+  width:108px;height:108px;border-radius:50%;
+  background:
+    linear-gradient(115deg, rgba(255,119,115,.6), rgba(255,237,95,.55), rgba(131,255,247,.55), rgba(216,117,255,.55)),
+    radial-gradient(circle at 35% 30%, #fff4d8, var(--amber) 72%);
+  background-blend-mode:overlay;
+  background-size:280% 280%,100% 100%;
+  background-position:calc(var(--gx)*1%) calc(var(--gy)*1%),center;
+  display:flex;align-items:center;justify-content:center;font-size:48px;
+  box-shadow:0 10px 28px rgba(0,0,0,.45), inset 0 2px 10px rgba(255,255,255,.65);
+  border:3px solid rgba(255,255,255,.9);
+}
+.cover .team{font-family:var(--disp);font-weight:400;font-size:22px;letter-spacing:3.5px;margin-top:12px}
+.cover .open{
+  margin-top:10px;border:none;border-radius:99px;cursor:pointer;
+  background:linear-gradient(120deg,var(--red),#ff7a52);color:#fff;
+  font-family:var(--ui);font-weight:700;font-size:14px;letter-spacing:1.5px;
+  padding:14px 34px;
+  box-shadow:0 6px 22px rgba(224,73,47,.55), inset 0 1px 0 rgba(255,255,255,.35);
+  animation:pulse 2.4s infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+/* ---------- sticker pages ---------- */
+.pHead{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 8px}
+.pHead .chip{
+  background:var(--red);color:#fff;font-family:var(--disp);font-weight:400;
+  font-size:12px;letter-spacing:2.5px;padding:5px 14px;border-radius:99px;
+  box-shadow:0 3px 8px rgba(224,73,47,.35);
+}
+.pHead span{font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1.5px;opacity:.75}
+.grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:4% 6%;
+  padding:3% 7% 5%;height:calc(100% - 44px);
+}
+.slot{display:flex;flex-direction:column;min-height:0}
+.stickerBox{position:relative;flex:1;min-height:0;display:flex}
+.sticker{
+  position:relative;width:100%;border-radius:12px;overflow:hidden;
+  background:#e3dac2;
+  transform:rotate(var(--rot,0deg));
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.sticker img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.layer{position:absolute;inset:0;pointer-events:none;border-radius:inherit}
+/* locked look */
+.sticker.locked{cursor:pointer;border:2px dashed rgba(23,88,115,.45)}
+.sticker.locked img{filter:grayscale(1) brightness(.85) blur(7px) opacity(.30)}
+.lockCover{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;color:var(--blue);text-align:center;padding:8px;
+}
+.lockCover .num{
+  font-family:var(--disp);font-size:34px;line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px rgba(23,88,115,.75);
+}
+.lockCover .pen{font-size:21px;animation:bob 2.4s ease-in-out infinite;margin:2px 0}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.lockCover .t{font-size:8.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;opacity:.8;line-height:1.5}
+/* stuck look */
+.sticker.stuck{
+  border:3px solid #fff;cursor:pointer;
+  box-shadow:0 5px 14px rgba(0,0,0,.32), 0 1px 3px rgba(0,0,0,.25);
+}
+.sticker.stuck::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  border:1px solid transparent;
+  background:linear-gradient(115deg, rgba(255,119,115,.7), rgba(255,237,95,.7), rgba(131,255,247,.7), rgba(216,117,255,.7)) border-box;
+  -webkit-mask:linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.7;
+}
+.sticker.stuck:active{transform:rotate(var(--rot,0deg)) scale(.97)}
+/* mi propio cromo (espejo / muro) */
+.sticker.mine{border-color:var(--gold)}
+.sticker.mine img{filter:none}
+.meBadge{position:absolute;top:6px;left:6px;z-index:3;
+  background:linear-gradient(120deg,var(--amber),var(--gold));color:#4a3008;
+  font-family:var(--disp);font-weight:400;font-size:10px;letter-spacing:1.5px;
+  padding:3px 9px;border-radius:99px;box-shadow:0 3px 8px rgba(0,0,0,.3);border:1px solid #fff}
+.slot.mine .cap .heartTag{color:#b5527e}
+/* ── MODO LITE (celular/táctil): tornasol simple y estático, sin animaciones
+      ni blend-modes pesados → no recalienta ni recarga el teléfono. El desktop
+      conserva el efecto completo. ─────────────────────────────────────────── */
+body.lite .holoRainbow,
+body.lite .holoSpark{ display:none; }
+body.lite .holoGlare{
+  mix-blend-mode:normal;opacity:.35;animation:none;
+  background:linear-gradient(115deg, transparent 36%, rgba(255,255,255,.55) 50%, transparent 64%);
+  background-size:cover;background-position:center;
+}
+body.lite .sticker,
+body.lite .sticker.stuck{ transition:none; }
+/* holo layers */
+.holoRainbow{
+  background:repeating-linear-gradient(115deg,
+    rgba(255,119,115,.55) 0%, rgba(255,237,95,.5) 4%, rgba(168,255,95,.45) 8%,
+    rgba(131,255,247,.5) 12%, rgba(120,148,255,.55) 16%, rgba(216,117,255,.5) 20%,
+    rgba(255,119,115,.55) 24%);
+  background-size:320% 320%;
+  background-position:calc(var(--gx)*1%) calc(var(--gy)*1%);
+  mix-blend-mode:color-dodge;opacity:.30;filter:saturate(1.5);
+  animation:shimmer 5.5s ease-in-out infinite;
+}
+.holoGlare{
+  background:linear-gradient(115deg, transparent 32%, rgba(255,255,255,.6) 46%,
+    rgba(160,255,255,.45) 54%, transparent 68%);
+  background-size:260% 260%;
+  background-position:calc(var(--gx)*1%) calc(var(--gy)*1%);
+  mix-blend-mode:screen;opacity:.65;
+}
+.holoSpark{
+  background-image:
+    radial-gradient(circle at 22% 28%, rgba(255,255,255,.95) 0 1.2px, transparent 2.4px),
+    radial-gradient(circle at 68% 14%, rgba(255,255,255,.85) 0 1px, transparent 2px),
+    radial-gradient(circle at 84% 62%, rgba(255,255,255,.9) 0 1.3px, transparent 2.5px),
+    radial-gradient(circle at 38% 76%, rgba(255,255,255,.8) 0 1px, transparent 2px),
+    radial-gradient(circle at 55% 45%, rgba(255,255,255,.9) 0 1.1px, transparent 2.2px);
+  mix-blend-mode:screen;
+  animation:twinkle 3s ease-in-out infinite;
+}
+@keyframes shimmer{0%,100%{opacity:.22}50%{opacity:.38}}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.65}}
+/* caption */
+.cap{padding:5px 2px 0;text-align:center;line-height:1.2}
+.cap b{font-family:var(--disp);font-weight:400;font-size:13.5px;letter-spacing:1.5px;color:var(--blue-d);display:block}
+.cap span{font-size:8px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.8px;display:block;margin-top:1px}
+.cap .heartTag{font-size:12px;color:#b5527e;font-family:var(--hand);font-weight:700;display:none;text-transform:none;letter-spacing:0}
+.slot.done .cap .heartTag{display:block}
+/* stick animation */
+@keyframes stickIn{
+  0%{transform:scale(1.7) rotate(9deg);opacity:0}
+  55%{transform:scale(.93) rotate(calc(var(--rot) - 2deg));opacity:1}
+  75%{transform:scale(1.04) rotate(var(--rot))}
+  100%{transform:scale(1) rotate(var(--rot))}
+}
+.sticker.sticking{animation:stickIn .8s cubic-bezier(.3,.8,.3,1) both}
+/* ---------- final page ---------- */
+.finalPage{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:24px;gap:10px;
+  background:radial-gradient(420px 320px at 50% 0%, rgba(240,169,63,.22), transparent 70%), var(--paper) !important}
+.finalPage .cup{font-size:60px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3))}
+.finalPage h2{font-family:var(--disp);font-weight:400;font-size:26px;letter-spacing:3px;color:var(--blue)}
+.finalPage p{font-size:12.5px;color:#566;max-width:260px;line-height:1.5}
+.finalPage .ribbon{font-family:var(--hand);font-size:21px;color:var(--red);font-weight:700}
+#finTop3{display:flex;flex-direction:column;gap:6px;width:100%;max-width:260px;margin-top:2px}
+#finTop3 .row{display:flex;align-items:center;gap:9px;background:#fff;border-radius:12px;padding:6px 10px;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);text-align:left}
+#finTop3 .row img{width:30px;height:30px;border-radius:50%;object-fit:cover}
+#finTop3 .row .nm{font-family:var(--disp);font-weight:400;font-size:13px;letter-spacing:1px;color:var(--blue-d);flex:1}
+#finTop3 .row .medal{font-size:17px}
+#finTop3 .row .cnt{font-size:10px;font-weight:700;color:var(--red)}
+.finRankBtn{margin-top:6px;border:none;border-radius:99px;cursor:pointer;
+  background:linear-gradient(120deg,var(--amber),var(--gold));color:#4a3008;
+  font-family:var(--ui);font-weight:700;font-size:13px;padding:11px 24px;
+  box-shadow:0 6px 18px rgba(240,169,63,.45)}
+/* ---------- nav ---------- */
+.navbtn{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:1001;
+  width:62px;height:62px;border-radius:50%;border:1px solid var(--glass-b);cursor:pointer;
+  background:rgba(255,255,255,.18);color:#fff;font-size:32px;font-weight:700;line-height:1;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 6px 18px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
+  transition:opacity .3s, background .2s, transform .15s;
+}
+.navbtn:hover{background:rgba(255,255,255,.3)}
+.navbtn:active{transform:translateY(-50%) scale(.92)}
+.navbtn:disabled{opacity:0;pointer-events:none}
+#prevBtn{left:-26px}#nextBtn{right:-26px}
+#pageDots{display:flex;gap:6px;justify-content:center;padding:10px 0 4px;flex-wrap:wrap;max-width:90vw}
+#pageDots i{width:6px;height:6px;border-radius:99px;background:rgba(255,255,255,.28);transition:.3s}
+#pageDots i.on{background:var(--gold);width:18px}
+/* ---------- footer ---------- */
+footer{display:flex;gap:8px;padding:8px 10px 22px;flex-wrap:wrap;justify-content:center;max-width:94vw}
+footer button{
+  position:relative;
+  background:var(--glass);border:1px solid var(--glass-b);color:rgba(255,255,255,.85);
+  font-family:var(--ui);font-size:11px;font-weight:600;letter-spacing:.4px;
+  padding:8px 14px;border-radius:99px;cursor:pointer;
+  backdrop-filter:blur(8px);transition:.2s;
+}
+footer button:hover{color:#fff;background:rgba(255,255,255,.16)}
+footer button .badge{position:absolute;top:-6px;right:-4px;background:var(--red);color:#fff;
+  font-size:9px;font-weight:700;min-width:17px;height:17px;border-radius:99px;padding:0 4px;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+/* ---------- modal ---------- */
+#modal{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
+  background:rgba(5,18,26,.78);backdrop-filter:blur(6px);padding:18px;
+  opacity:0;pointer-events:none;transition:opacity .3s}
+#modal.show{opacity:1;pointer-events:auto}
+.mcard{
+  background:var(--paper);border-radius:26px;width:100%;max-width:370px;max-height:92vh;overflow:auto;
+  padding:22px;position:relative;text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  transform:translateY(18px) scale(.96);transition:transform .3s cubic-bezier(.3,.8,.3,1.2);
+}
+#modal.show .mcard{transform:none}
+.mclose{position:absolute;top:12px;right:14px;border:none;background:rgba(0,0,0,.06);
+  width:30px;height:30px;border-radius:50%;font-size:17px;color:#777;cursor:pointer}
+.mSticker{width:104px;margin:0 auto 10px;border-radius:10px;overflow:hidden;position:relative;
+  border:3px solid #fff;box-shadow:0 8px 20px rgba(0,0,0,.3);aspect-ratio:2/3;
+  transform:rotate(-2deg)}
+.mSticker img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.8) blur(5px)}
+.mSticker .q{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--disp);font-size:46px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.55)}
+.mcard h3{font-family:var(--disp);font-weight:400;font-size:21px;letter-spacing:1.5px;color:var(--blue)}
+.mcard h3 b{color:var(--red);font-weight:400}
+.mcard .sub2{font-size:12px;font-weight:600;color:#778;margin:3px 0 2px;letter-spacing:.3px}
+.mcard .sub3{font-size:13px;font-weight:700;color:var(--blue);margin:6px 0 10px}
+/* suggestion chips */
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.chips button{
+  border:1.5px solid rgba(23,88,115,.3);background:#fff;color:var(--blue);
+  font-family:var(--ui);font-size:11.5px;font-weight:600;
+  padding:7px 12px;border-radius:99px;cursor:pointer;transition:.15s;
+}
+.chips button:active{transform:scale(.94)}
+.chips button:hover{background:var(--blue);color:#fff}
+.mcard textarea{
+  width:100%;min-height:100px;border:2px solid rgba(23,88,115,.3);border-radius:16px;
+  padding:13px 14px;font-family:var(--hand);font-size:21px;line-height:1.3;color:#333;
+  background:#fffdf6;resize:vertical;outline:none;transition:border-color .2s;
+}
+.mcard textarea:focus{border-color:var(--blue)}
+.mcard .hint{font-size:11.5px;font-weight:600;color:#99a;margin:7px 0 12px}
+#stickBtn{
+  width:100%;border:none;border-radius:99px;cursor:pointer;
+  background:linear-gradient(120deg,var(--red),#ff7a52);color:#fff;
+  font-family:var(--ui);font-weight:700;font-size:15px;letter-spacing:.4px;padding:15px;
+  box-shadow:0 6px 18px rgba(224,73,47,.45), inset 0 1px 0 rgba(255,255,255,.3);
+  transition:.2s;
+}
+#stickBtn:disabled{background:#cdc6b4;box-shadow:none;cursor:not-allowed}
+#stickBtn:not(:disabled):active{transform:translateY(2px)}
+/* ---------- note pop ---------- */
+#notePop{
+  position:fixed;z-index:1900;max-width:240px;pointer-events:auto;
+  background:#fffbe8;border-radius:6px 18px 18px 18px;padding:14px 15px 12px;
+  box-shadow:0 14px 36px rgba(0,0,0,.38), 0 2px 5px rgba(0,0,0,.2);
+  border:1px solid rgba(0,0,0,.05);
+  font-family:var(--hand);font-size:20px;line-height:1.25;color:#3b3325;
+  opacity:0;transform:translateY(8px) scale(.9) rotate(-2deg);transform-origin:bottom left;
+  transition:opacity .25s, transform .35s cubic-bezier(.3,.9,.3,1.3);
+  visibility:hidden;
+}
+#notePop::before{content:"";position:absolute;top:0;left:0;right:0;height:7px;border-radius:6px 18px 0 0;
+  background:repeating-linear-gradient(115deg, rgba(255,119,115,.6) 0%, rgba(255,237,95,.55) 5%,
+  rgba(131,255,247,.55) 10%, rgba(216,117,255,.55) 15%, rgba(255,119,115,.6) 20%);}
+#notePop.show{opacity:1;transform:translateY(0) scale(1) rotate(-2deg);visibility:visible}
+#notePop .who{font-family:var(--ui);font-size:9px;font-weight:700;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--red);margin-bottom:4px}
+#notePop .edit{position:absolute;bottom:7px;right:9px;border:none;background:none;font-size:13px;cursor:pointer;opacity:.55}
+/* floating hearts */
+.fheart{position:fixed;z-index:1899;pointer-events:none;font-size:14px;animation:heartUp 1.6s ease-out forwards}
+@keyframes heartUp{
+  0%{opacity:0;transform:translateY(0) scale(.5) rotate(0deg)}
+  15%{opacity:1}
+  100%{opacity:0;transform:translateY(-90px) scale(1.2) rotate(20deg)}
+}
+/* sparkle burst */
+.burst{position:fixed;z-index:2100;pointer-events:none;font-size:18px;animation:burstFly .9s ease-out forwards}
+@keyframes burstFly{
+  0%{opacity:1;transform:translate(0,0) scale(.6)}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.3) rotate(50deg)}
+}
+/* tilt permission button */
+#tiltBtn{
+  position:fixed;bottom:68px;right:14px;z-index:1500;border:1px solid var(--glass-b);border-radius:99px;
+  background:rgba(255,255,255,.92);color:var(--blue-d);font-family:var(--ui);font-weight:700;font-size:12px;
+  padding:11px 15px;box-shadow:0 6px 18px rgba(0,0,0,.4);cursor:pointer;display:none;
+}
+/* toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);
+  background:rgba(20,30,38,.95);border:1px solid rgba(255,255,255,.15);color:#fff;
+  font-size:13px;font-weight:600;padding:11px 20px;border-radius:99px;
+  z-index:3000;transition:transform .35s cubic-bezier(.3,.8,.3,1.2);
+  box-shadow:0 10px 30px rgba(0,0,0,.45);backdrop-filter:blur(8px);max-width:90vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#confetti{position:fixed;inset:0;z-index:2500;pointer-events:none}
+/* ---------- lightbox (ver cromo en grande) ---------- */
+#lightbox{position:fixed;inset:0;z-index:2200;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;background:rgba(5,18,26,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .3s}
+#lightbox.show{opacity:1;pointer-events:auto}
+#lbClose{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--glass-b);background:rgba(255,255,255,.12);color:#fff;font-size:18px;cursor:pointer;
+  backdrop-filter:blur(8px)}
+.lbCard{
+  position:relative;width:min(72vw,300px);aspect-ratio:2/3;border-radius:16px;overflow:hidden;
+  border:5px solid #fff;background:#e3dac2;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+  transform:scale(.85) rotate(-3deg);transition:transform .4s cubic-bezier(.3,.9,.3,1.25);
+  touch-action:none;
+}
+#lightbox.show .lbCard{transform:scale(1) rotate(0deg)}
+.lbCard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lbInfo{text-align:center;color:#fff}
+.lbInfo b{font-family:var(--disp);font-weight:400;font-size:22px;letter-spacing:2.5px;display:block}
+.lbInfo span{font-size:10.5px;font-weight:700;letter-spacing:1.8px;color:var(--gold);text-transform:uppercase}
+.lbNote{
+  max-width:300px;background:#fffbe8;border-radius:6px 16px 16px 16px;padding:12px 16px 10px;
+  font-family:var(--hand);font-size:19px;line-height:1.25;color:#3b3325;text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);position:relative;transform:rotate(-1.5deg);
+}
+.lbNote::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;border-radius:6px 16px 0 0;
+  background:repeating-linear-gradient(115deg, rgba(255,119,115,.6) 0%, rgba(255,237,95,.55) 5%,
+  rgba(131,255,247,.55) 10%, rgba(216,117,255,.55) 15%, rgba(255,119,115,.6) 20%)}
+.lbNote .who{font-family:var(--ui);font-size:8.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--red);margin-bottom:3px}
+.lbBtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.lbBtns a,.lbBtns button{
+  display:inline-flex;align-items:center;gap:7px;border:none;border-radius:99px;cursor:pointer;
+  font-family:var(--ui);font-weight:700;font-size:13px;padding:12px 20px;text-decoration:none;transition:.2s;
+}
+#lbDownload{background:linear-gradient(120deg,var(--amber),var(--gold));color:#4a3008;
+  box-shadow:0 6px 18px rgba(240,169,63,.45)}
+#lbEdit{background:var(--glass);border:1px solid var(--glass-b);color:rgba(255,255,255,.85);backdrop-filter:blur(8px)}
+#lbEdit:hover{background:rgba(255,255,255,.16)}
+/* cover credits */
+.cover .credits{margin-top:12px;font-size:10px;font-weight:600;letter-spacing:1.5px;color:rgba(255,255,255,.75)}
+.cover .credits b{font-family:var(--hand);font-weight:700;font-size:16px;letter-spacing:.5px;
+  background:linear-gradient(115deg,var(--gold),#fff 45%,#ffb35c 75%,var(--gold));
+  background-size:250% 250%;background-position:calc(var(--gx)*1%) calc(var(--gy)*1%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+/* complete banner */
+#doneBanner{position:fixed;inset:0;z-index:2600;display:none;align-items:center;justify-content:center;
+  background:rgba(5,18,26,.8);backdrop-filter:blur(6px);padding:20px}
+#doneBanner.show{display:flex}
+.goldCard{
+  background:linear-gradient(135deg,#f7d774,#e9a13b 45%,#fce9b0 70%,#dd9b2f);
+  border-radius:26px;padding:36px 30px;text-align:center;max-width:330px;
+  box-shadow:0 30px 90px rgba(0,0,0,.6), inset 0 2px 12px rgba(255,255,255,.7);
+  border:3px solid #fff;animation:stickIn .8s cubic-bezier(.3,.8,.3,1) both;--rot:0deg;
+}
+.goldCard .cup{font-size:64px}
+.goldCard h2{font-family:var(--disp);font-weight:400;font-size:30px;letter-spacing:2.5px;color:#5b3c0a}
+.goldCard p{font-family:var(--hand);font-size:23px;color:#6e4a10;margin:6px 0 16px;line-height:1.2}
+.goldCard button{background:#5b3c0a;color:#ffe9b8;border:none;border-radius:99px;padding:13px 28px;
+  font-family:var(--ui);font-weight:700;font-size:14px;cursor:pointer}
+
+/* ════════ ¿QUIÉN ERES? (gate de identidad) ════════ */
+#whoGate{position:fixed;inset:0;z-index:4000;display:none;flex-direction:column;align-items:center;
+  justify-content:flex-start;padding:26px 16px;overflow-y:auto;
+  background:
+    radial-gradient(700px 480px at 85% -5%, rgba(29,111,139,.65), transparent 65%),
+    radial-gradient(620px 460px at -12% 30%, rgba(224,73,47,.32), transparent 60%),
+    linear-gradient(165deg,#0f3548,var(--navy));
+  backdrop-filter:blur(4px)}
+#whoGate.show{display:flex}
+.wgCard{width:min(94vw,440px);text-align:center;color:#fff}
+.wgLogo{height:54px;width:auto;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,.5));margin-bottom:8px}
+.wgKicker{font-size:9.5px;font-weight:700;letter-spacing:2.5px;color:var(--gold);opacity:.9;margin-bottom:6px}
+.wgCard h2{font-family:var(--disp);font-weight:400;font-size:32px;letter-spacing:2px;margin-bottom:4px}
+.wgCard p{font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.5;max-width:340px;margin:0 auto 14px}
+#wgSearch{width:100%;border:1px solid var(--glass-b);border-radius:99px;background:rgba(255,255,255,.1);
+  color:#fff;font-family:var(--ui);font-size:14px;padding:13px 18px;outline:none;margin-bottom:14px}
+#wgSearch::placeholder{color:rgba(255,255,255,.55)}
+.wgList{display:grid;grid-template-columns:1fr 1fr;gap:9px;width:100%}
+.wgItem{display:flex;align-items:center;gap:10px;text-align:left;cursor:pointer;
+  background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;padding:8px 10px;
+  backdrop-filter:blur(8px);transition:.15s;color:#fff}
+.wgItem:hover,.wgItem:active{background:rgba(255,255,255,.18);transform:translateY(-1px)}
+.wgItem img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.5);flex-shrink:0}
+.wgItem .nm{font-family:var(--disp);font-weight:400;font-size:14px;letter-spacing:1px;line-height:1.1}
+.wgItem .rl{font-size:9px;font-weight:600;color:rgba(255,255,255,.7);line-height:1.2;margin-top:2px}
+@media (max-width:380px){ .wgList{grid-template-columns:1fr} }
+
+/* ════════ MURO / RANKING (overlays) ════════ */
+.sheet{position:fixed;inset:0;z-index:3500;display:none;flex-direction:column;align-items:center;
+  padding:22px 16px;overflow-y:auto;
+  background:linear-gradient(165deg,#0f3548,var(--navy));backdrop-filter:blur(6px)}
+.sheet.show{display:flex}
+.sheet .head{width:min(94vw,440px);display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.sheet .head h2{font-family:var(--disp);font-weight:400;font-size:24px;letter-spacing:1.5px;color:#fff}
+.sheet .head h2 em{font-style:normal;color:var(--gold)}
+.sheet .head .x{width:36px;height:36px;border-radius:50%;border:1px solid var(--glass-b);
+  background:rgba(255,255,255,.12);color:#fff;font-size:17px;cursor:pointer}
+.sheet .sub{width:min(94vw,440px);font-size:12px;color:rgba(255,255,255,.75);margin-bottom:14px;line-height:1.5}
+.sheet .body{width:min(94vw,440px);display:flex;flex-direction:column;gap:10px}
+.sheet .empty{text-align:center;color:rgba(255,255,255,.7);font-family:var(--hand);font-size:22px;padding:40px 10px;line-height:1.3}
+.wallActions{width:min(94vw,440px);display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.wallCard{display:block;width:min(58vw,225px);margin:4px auto 18px;border-radius:12px;transform:rotate(-1.4deg);
+  box-shadow:0 16px 36px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.18)}
+.wAct{border:1px solid var(--glass-b);background:rgba(255,255,255,.12);color:#fff;border-radius:99px;
+  padding:9px 16px;font-family:var(--ui);font-size:12px;font-weight:600;cursor:pointer;backdrop-filter:blur(8px)}
+.wAct:hover{background:rgba(255,255,255,.2)}
+/* muro */
+.wallMsg{background:#fffbe8;border-radius:8px 18px 18px 18px;padding:13px 15px;position:relative;
+  box-shadow:0 8px 22px rgba(0,0,0,.28);transform:rotate(-.6deg)}
+.wallMsg:nth-child(even){transform:rotate(.7deg)}
+.wallMsg::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;border-radius:8px 18px 0 0;
+  background:repeating-linear-gradient(115deg, rgba(255,119,115,.6) 0%, rgba(255,237,95,.55) 5%,
+  rgba(131,255,247,.55) 10%, rgba(216,117,255,.55) 15%, rgba(255,119,115,.6) 20%)}
+.wallMsg .frm{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.wallMsg .frm img{width:28px;height:28px;border-radius:50%;object-fit:cover;border:1.5px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.2)}
+.wallMsg .frm b{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--red);text-transform:uppercase}
+.wallMsg .frm i{font-style:normal;font-size:9.5px;color:#aa9;margin-left:auto}
+.wallMsg .txt{font-family:var(--hand);font-size:22px;line-height:1.3;color:#3b3325}
+.wallMsg.fromMe{outline:2.5px solid var(--gold);outline-offset:1px}
+.wallMsg .meTag{position:absolute;top:9px;right:12px;font-family:var(--ui);font-size:9px;font-weight:700;
+  letter-spacing:.8px;text-transform:uppercase;color:#b88800;background:rgba(255,213,115,.35);
+  border-radius:99px;padding:3px 8px}
+/* ranking */
+.rankSec{font-family:var(--disp);font-size:15px;letter-spacing:1.5px;color:#fff;text-transform:uppercase;
+  margin:14px 2px 2px;padding-bottom:5px;border-bottom:1.5px dashed rgba(255,255,255,.25)}
+.rankSec em{font-style:normal;color:var(--gold)}
+.rankSec:first-child{margin-top:0}
+.rankRow{display:flex;align-items:center;gap:11px;background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:14px;padding:9px 12px;backdrop-filter:blur(8px)}
+.rankRow.meRow{border-color:var(--gold);background:rgba(255,213,115,.14)}
+.rankRow .pos{width:26px;text-align:center;font-family:var(--disp);font-size:17px;color:#fff;flex-shrink:0}
+.rankRow .medal{font-size:20px}
+.rankRow img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.5);flex-shrink:0}
+.rankRow .info{flex:1;min-width:0}
+.rankRow .info b{font-family:var(--disp);font-weight:400;font-size:14px;letter-spacing:1px;color:#fff;display:block}
+.rankRow .info .bar{height:6px;border-radius:99px;background:rgba(255,255,255,.15);margin-top:4px;overflow:hidden}
+.rankRow .info .bar i{display:block;height:100%;border-radius:99px;
+  background:linear-gradient(90deg,var(--red),var(--amber) 60%,var(--gold))}
+.rankRow .meta{text-align:right;flex-shrink:0}
+.rankRow .meta .n{font-size:12px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+.rankRow .meta .done{font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.5px;display:block}
+@media (min-width:700px){ #bookWrap{width:440px} }
+</style>
+</head>
+<body>
+
+<header id="topbar">
+  <div class="ttl">
+    <h1>GALAPALINI <em>26</em></h1>
+    <span>TEAM USFQ<br>GALÁPAGOS</span>
+  </div>
+  <div id="meChip"><img id="meChipImg" alt=""><b id="meChipName"></b><i>cambiar ⇄</i></div>
+  <div id="progressWrap">
+    <div id="progressBar"><div id="progressFill"><span id="progressBall">⚽</span></div></div>
+    <div id="progressTxt">0/0</div>
+  </div>
+</header>
+
+<div id="bookWrap">
+  <div id="book"></div>
+  <button id="prevBtn" class="navbtn" aria-label="anterior">‹</button>
+  <button id="nextBtn" class="navbtn" aria-label="siguiente">›</button>
+</div>
+<div id="pageDots"></div>
+
+<footer>
+  <button id="wallBtn">💌 Mi muro <span class="badge" id="wallBadge" style="display:none">0</span></button>
+  <button id="rankBtn">🏆 Ranking</button>
+  <button id="copyAll">📋 Copiar</button>
+  <button id="whoBtn">⇄ ¿Quién soy?</button>
+</footer>
+
+<!-- modal: escribir mensaje para desbloquear un cromo -->
+<div id="modal">
+  <div class="mcard">
+    <button class="mclose" id="mClose">✕</button>
+    <div class="mSticker"><img id="mImg" alt=""><div class="q">¿?</div></div>
+    <h3>Para conseguir a <b id="mName"></b></h3>
+    <div class="sub2" id="mPuesto"></div>
+    <div class="sub3">…escríbele algo lindo, divertido o un agradecimiento ✍️</div>
+    <div class="chips">
+      <button data-mode="lindo">💛 Algo lindo</button>
+      <button data-mode="chistoso">😂 Algo chistoso</button>
+      <button data-mode="futbolero">⚽ Futbolero</button>
+    </div>
+    <textarea id="mText"></textarea>
+    <div class="hint" id="mHint"></div>
+    <button id="stickBtn" disabled>Pegar cromo en el álbum</button>
+  </div>
+</div>
+
+<div id="notePop">
+  <div class="who" id="npWho"></div>
+  <div id="npMsg"></div>
+  <button class="edit" id="npEdit" title="Editar mensaje">✏️</button>
+</div>
+
+<div id="doneBanner">
+  <div class="goldCard">
+    <div class="cup">🏆</div>
+    <h2>¡ÁLBUM COMPLETO!</h2>
+    <p>Le escribiste a todo el equipo 💛 ¡Mira el ranking!</p>
+    <button id="doneClose">Ver ranking 🏆</button>
+  </div>
+</div>
+
+<div id="lightbox">
+  <button id="lbClose">✕</button>
+  <div class="lbCard" id="lbCard">
+    <img id="lbImg" alt="" draggable="false">
+    <div class="layer holoRainbow"></div>
+    <div class="layer holoGlare"></div>
+    <div class="layer holoSpark"></div>
+  </div>
+  <div class="lbInfo"><b id="lbName"></b><span id="lbPuesto"></span></div>
+  <div class="lbNote" id="lbNote"><div class="who">Tu mensaje</div><div id="lbMsg"></div></div>
+  <div class="lbBtns">
+    <a id="lbDownload" download>⬇️ Descargar cromo</a>
+    <button id="lbEdit">✏️ Editar mensaje</button>
+  </div>
+</div>
+
+<!-- ¿Quién eres? -->
+<div id="whoGate">
+  <div class="wgCard">
+    <img class="wgLogo" src="https://mayait.github.io/usfq_galapagos_kiosk/kiosk/assets/logo-white.png" alt="USFQ Galápagos">
+    <div class="wgKicker">ÁLBUM GALAPALINI 26 · TEAM USFQ GALÁPAGOS</div>
+    <h2>¿Quién eres?</h2>
+    <p>Elígete para empezar tu álbum. Desbloqueas cada cromo escribiéndole algo lindo, divertido o un agradecimiento a tu compañero, y en tu propio cromo verás todo lo que te escriban 💛</p>
+    <input id="wgSearch" placeholder="Busca tu nombre…" autocomplete="off">
+    <div class="wgList" id="wgList"></div>
+  </div>
+</div>
+
+<!-- Muro de una persona (comentarios que le han escrito) -->
+<div id="wall" class="sheet">
+  <div class="head"><h2 id="wallTitle">💌 <em>Muro</em></h2><button class="x" id="wallClose">✕</button></div>
+  <div class="sub" id="wallSub"></div>
+  <div class="wallActions" id="wallActions"></div>
+  <div class="body" id="wallBody"></div>
+</div>
+
+<!-- Ranking -->
+<div id="rank" class="sheet">
+  <div class="head"><h2>🏆 <em>Ranking</em></h2><button class="x" id="rankClose">✕</button></div>
+  <div class="sub" id="rankSub"></div>
+  <div class="body" id="rankBody"></div>
+</div>
+
+<canvas id="confetti"></canvas>
+<div id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   ÁLBUM PALINI 26 — multijugador. Backend: api.julianmaya.com/api/cromos.php
+   ════════════════════════════════════════════════════════════════════════ */
+const API    = 'https://api.julianmaya.com/api/cromos.php';
+const PER_PAGE = 4;
+const LS_ME    = 'palini26_me';
+const LS_CACHE = 'palini26_cache';
+const MIN_LEN  = 12;
+
+/* ---------- playful copy ---------- */
+const PLACEHOLDERS = [
+  'Eres el VAR de mi corazón…',
+  'Querido crack…',
+  'Científicos confirman que…',
+  'Golazo sería decirte que…',
+  'Si fueras un cromo, serías…'
+];
+const STARTERS = {
+  lindo: [
+    'El equipo no sería lo mismo sin ti porque ',
+    'Admiro mucho tu ',
+    'Gracias por siempre ',
+    'Lo que más me gusta de trabajar contigo es '
+  ],
+  chistoso: [
+    'Científicos confirman que eres ',
+    'La FIFA te investiga por exceso de ',
+    'Si fueras un cromo, serías el repetido que nadie cambia porque ',
+    'Advertencia: esta persona causa '
+  ],
+  futbolero: [
+    'Mereces el Balón de Oro por ',
+    'Eres el fichaje estrella del equipo porque ',
+    'Golazo de media cancha sería ',
+    'Te tocaría el penal decisivo porque '
+  ]
+};
+const OK_HINTS = ['¡Eso! Qué lindo 🥹','Jajaja, aprobado 😂','Directo al corazón 💘','¡Golazo de mensaje! ⚽','Panini estaría orgulloso ✨'];
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function el(tag, cls, html){ const d=document.createElement(tag); if(cls)d.className=cls; if(html!=null)d.innerHTML=html; return d; }
+function esc(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ---------- estado global ---------- */
+let STAFF=[], CROMOS=[], ME=null, SENT={}, WALL=[], RANKING=[], POPULAR=[], TARGET=0, PLAYERS=0;
+// Orden ALEATORIO de los cromos: distinto en cada visita, pero estable durante
+// la sesión (mismo seed → el álbum no se reordena con cada refresco del feed).
+const ORDER_SEED = String(Math.random());
+function buildCromos(){
+  return STAFF.map(s => ({id:s.id, n:s.name, p:s.role, img:s.photo, isMe:s.id===ME}))
+    .sort((a,b)=> hashStr(a.id+ORDER_SEED) - hashStr(b.id+ORDER_SEED));
+}
+let state={messages:{}};          // index -> {msg,ts}  (mis mensajes; compat con UI)
+let booked=false;
+
+/* ---------- API ---------- */
+async function apiGet(me){
+  const u = API + '?_t=' + Date.now() + (me ? '&me=' + encodeURIComponent(me) : '');
+  const r = await fetch(u, {cache:'no-store'});
+  return r.json();
+}
+async function apiPost(from, to, msg){
+  const r = await fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({from,to,msg})});
+  return r.json();
+}
+function saveCache(d){ try{ localStorage.setItem(LS_CACHE, JSON.stringify(d)); }catch(e){} }
+function loadCache(){ try{ return JSON.parse(localStorage.getItem(LS_CACHE)); }catch(e){ return null; } }
+
+function ingest(d){
+  if(Array.isArray(d.staff) && d.staff.length){
+    STAFF = d.staff;
+    CROMOS = buildCromos();
+  }
+  TARGET  = (d.target!=null) ? d.target : Math.max(0, CROMOS.length-1);
+  SENT    = d.sent    || {};
+  WALL    = d.wall    || [];
+  RANKING = d.ranking || [];
+  POPULAR = d.popular || [];
+  PLAYERS = d.players || 0;
+  rebuildLocalState();
+}
+function rebuildLocalState(){
+  state.messages = {};
+  CROMOS.forEach((c,i)=>{ if(c.id && SENT[c.id]) state.messages[i] = {msg:SENT[c.id].msg, ts:SENT[c.id].ts}; });
+}
+
+/* ════════ construir el libro ════════ */
+const book = document.getElementById('book');
+let pages = [];
+let cur = 0;
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const dots = document.getElementById('pageDots');
+
+function buildBook(){
+  book.innerHTML=''; dots.innerHTML=''; pages=[]; cur=0;
+
+  /* portada */
+  const cover = el('div','page cover');
+  cover.innerHTML = `
+    <img class="usfqLogo" src="https://mayait.github.io/usfq_galapagos_kiosk/kiosk/assets/logo-white.png" alt="USFQ Galápagos">
+    <div class="brandChip"><b>★ GALAPALINI ★</b><i>EDICIÓN GALÁPAGOS</i></div>
+    <div>
+      <div class="big26">26</div>
+      <div class="tagline">CROMOS MUNDIALISTAS</div>
+    </div>
+    <div class="crest">⚽</div>
+    <div>
+      <div class="team">TEAM USFQ GALÁPAGOS</div>
+      <button class="open">ABRIR ÁLBUM →</button>
+      <div class="credits">CROMOS CREADOS POR<br><b>Mateo &amp; Joha ✨</b></div>
+    </div>`;
+  book.appendChild(cover); pages.push(cover);
+  cover.addEventListener('click', ()=>{ if(cur===0) goNext(); });
+
+  /* páginas de cromos */
+  const nPages = Math.ceil(CROMOS.length / PER_PAGE);
+  for(let p=0;p<nPages;p++){
+    const page = el('div','page');
+    page.appendChild(el('div','pHead',`<div class="chip">EL EQUIPO</div><span>PÁG. ${p+1} / ${nPages}</span>`));
+    const grid = el('div','grid');
+    CROMOS.slice(p*PER_PAGE,(p+1)*PER_PAGE).forEach((c,j)=>{
+      const idx = p*PER_PAGE+j;
+      const rot = ((idx*73)%5 - 2) * 0.8;
+      const slot = el('div','slot'); slot.dataset.id = idx;
+      if(c.isMe){
+        slot.classList.add('done','mine');
+        slot.innerHTML = `
+          <div class="stickerBox">
+            <div class="sticker stuck mine" style="--rot:${rot}deg" data-id="${idx}">
+              <img src="${c.img}" alt="${esc(c.n)}" draggable="false">
+              <div class="layer holoRainbow"></div>
+              <div class="layer holoGlare"></div>
+              <div class="layer holoSpark"></div>
+              <div class="meBadge">★ TÚ</div>
+            </div>
+          </div>
+          <div class="cap"><b>${esc(c.n)}</b><span>${esc(c.p)}</span><span class="heartTag">toca para ver tu muro 💌</span></div>`;
+      } else {
+        slot.innerHTML = `
+          <div class="stickerBox">
+            <div class="sticker locked" style="--rot:${rot}deg" data-id="${idx}">
+              <img src="${c.img}" alt="${esc(c.n)}" draggable="false">
+              <div class="layer holoRainbow"></div>
+              <div class="layer holoGlare"></div>
+              <div class="layer holoSpark"></div>
+              <div class="lockCover">
+                <div class="num">${String(idx+1).padStart(2,'0')}</div>
+                <div class="pen">✍️</div>
+                <div class="t">Escríbele algo lindo<br>para conseguirlo</div>
+              </div>
+            </div>
+          </div>
+          <div class="cap"><b>${esc(c.n)}</b><span>${esc(c.p)}</span><span class="heartTag">toca para ver tu mensaje 💌</span></div>`;
+      }
+      grid.appendChild(slot);
+    });
+    page.appendChild(grid);
+    book.appendChild(page); pages.push(page);
+  }
+
+  /* página final */
+  const fin = el('div','page finalPage');
+  fin.innerHTML = `
+    <div class="cup">🏆</div>
+    <h2>RANKING DEL EQUIPO</h2>
+    <p>Un álbum no se llena con cromos,<br>se llena con personas 💛</p>
+    <div id="finTop3"></div>
+    <div class="ribbon" id="finRibbon">Te faltan cromos por conseguir…</div>
+    <button class="finRankBtn" id="finRankBtn">🏆 Ver ranking completo</button>`;
+  book.appendChild(fin); pages.push(fin);
+  fin.querySelector('#finRankBtn').addEventListener('click', openRank);
+
+  pages.forEach((pg,i)=> pg.style.zIndex = pages.length - i);
+  pages.forEach(()=> dots.appendChild(el('i')));
+  booked = true;
+  updateNav();
+}
+
+/* ---------- navegación ---------- */
+function setTurning(pg){ pg.classList.add('turning'); setTimeout(()=> pg.classList.remove('turning'), 1000); }
+function goNext(){ if(cur >= pages.length-1) return; const pg = pages[cur]; setTurning(pg); pg.classList.add('flipped'); cur++; updateNav(); }
+function goPrev(){ if(cur <= 0) return; cur--; const pg = pages[cur]; setTurning(pg); pg.classList.remove('flipped'); updateNav(); }
+function updateNav(){
+  prevBtn.disabled = cur===0;
+  nextBtn.disabled = cur===pages.length-1;
+  Array.from(dots.children).forEach((d,i)=> d.classList.toggle('on', i===cur));
+}
+let tx0=0, ty0=0;
+const bookWrap = document.getElementById('bookWrap');
+bookWrap.addEventListener('touchstart', e=>{ tx0=e.touches[0].clientX; ty0=e.touches[0].clientY; }, {passive:true});
+bookWrap.addEventListener('touchend', e=>{
+  const dx=e.changedTouches[0].clientX - tx0, dy=e.changedTouches[0].clientY - ty0;
+  if(Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)){ if(dx<0) goNext(); else goPrev(); }
+});
+prevBtn.onclick = goPrev; nextBtn.onclick = goNext;
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight') goNext();
+  else if(e.key==='ArrowLeft') goPrev();
+});
+
+/* ---------- progreso ---------- */
+function countDone(){ return Object.keys(state.messages).length; }
+function updateProgress(){
+  const n = countDone(), t = TARGET || Math.max(0, CROMOS.length-1);
+  const pct = t ? Math.min(100, n/t*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressTxt').textContent = n+'/'+t;
+  const rib = document.getElementById('finRibbon');
+  if(rib){
+    if(t && n>=t) rib.textContent = '¡Le escribiste a todo el equipo! 💛';
+    else rib.textContent = `Te faltan ${Math.max(0,t-n)} cromos por conseguir…`;
+  }
+}
+
+/* ---------- restaurar cromos pegados ---------- */
+function restoreStickers(){
+  Object.keys(state.messages).forEach(id=>{
+    const st = document.querySelector(`.sticker[data-id="${id}"]`);
+    if(st && !st.classList.contains('mine')){
+      st.classList.remove('locked'); st.classList.add('stuck');
+      const lc = st.querySelector('.lockCover'); if(lc) lc.remove();
+      st.closest('.slot').classList.add('done');
+    }
+  });
+}
+
+/* ---------- modal de mensaje ---------- */
+const modal = document.getElementById('modal');
+const mImg = document.getElementById('mImg');
+const mName = document.getElementById('mName');
+const mPuesto = document.getElementById('mPuesto');
+const mText = document.getElementById('mText');
+const mHint = document.getElementById('mHint');
+const stickBtn = document.getElementById('stickBtn');
+let modalId = null, editing = false;
+
+function openModal(id, isEdit){
+  modalId = id; editing = !!isEdit;
+  const c = CROMOS[id];
+  mImg.src = c.img;
+  mImg.parentElement.querySelector('.q').style.display = isEdit ? 'none' : 'flex';
+  mImg.style.filter = isEdit ? 'none' : '';
+  mName.textContent = c.n;
+  mPuesto.textContent = c.p;
+  mText.value = isEdit ? (state.messages[id]?.msg || '') : '';
+  mText.placeholder = pick(PLACEHOLDERS);
+  stickBtn.textContent = isEdit ? 'Actualizar mensaje 💌' : 'Pegar cromo en el álbum';
+  validate();
+  modal.classList.add('show');
+  setTimeout(()=> mText.focus(), 350);
+}
+function closeModal(){ modal.classList.remove('show'); modalId = null; }
+document.getElementById('mClose').onclick = closeModal;
+modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+
+document.querySelectorAll('.chips button').forEach(b=>{
+  b.onclick = ()=>{
+    const starter = pick(STARTERS[b.dataset.mode]);
+    mText.value = starter;
+    mText.focus();
+    mText.setSelectionRange(mText.value.length, mText.value.length);
+    validate();
+  };
+});
+
+function validate(){
+  const len = mText.value.trim().length;
+  const ok = len >= MIN_LEN;
+  stickBtn.disabled = !ok;
+  if(ok){
+    if(!mHint.dataset.okShown){ mHint.dataset.okShown = '1'; mHint.textContent = pick(OK_HINTS); }
+  } else {
+    delete mHint.dataset.okShown;
+    mHint.textContent = `Mínimo ${MIN_LEN} caracteres de cariño (o de chiste) 💛 (${len}/${MIN_LEN})`;
+  }
+}
+mText.addEventListener('input', validate);
+
+stickBtn.onclick = async ()=>{
+  if(modalId===null || !ME) return;
+  const id = modalId, wasEdit = editing, c = CROMOS[id];
+  const msg = mText.value.trim();
+  if(msg.length < MIN_LEN) return;
+  stickBtn.disabled = true;
+  const prevLabel = stickBtn.textContent;
+  stickBtn.textContent = 'Guardando…';
+  const res = await apiPost(ME, c.id, msg).catch(()=>null);
+  if(!res || !res.ok){
+    toast('No se pudo guardar 😕 revisa tu internet');
+    stickBtn.disabled = false; stickBtn.textContent = prevLabel;
+    return;
+  }
+  SENT[c.id] = {msg, ts:new Date().toISOString()};
+  state.messages[id] = {msg, ts:Date.now()};
+  closeModal();
+  if(!wasEdit) stickSticker(id);
+  else toast('Mensaje actualizado 💌');
+  updateProgress();
+  scheduleRefresh();
+};
+
+/* ---------- pegar cromo (animación) ---------- */
+function stickSticker(id){
+  const st = document.querySelector(`.sticker[data-id="${id}"]`);
+  if(!st) return;
+  st.classList.remove('locked');
+  st.classList.add('stuck','sticking');
+  const lc = st.querySelector('.lockCover'); if(lc) lc.remove();
+  st.closest('.slot').classList.add('done');
+  setTimeout(()=> st.classList.remove('sticking'), 900);
+  const r = st.getBoundingClientRect();
+  const cx = r.left + r.width/2, cy = r.top + r.height/2;
+  const glyphs = ['✦','✧','⭐','💛','✨'];
+  for(let i=0;i<14;i++){
+    const s = el('div','burst', glyphs[i%glyphs.length]);
+    const a = Math.random()*Math.PI*2, d = 50+Math.random()*70;
+    s.style.left = cx+'px'; s.style.top = cy+'px';
+    s.style.setProperty('--dx', Math.cos(a)*d+'px');
+    s.style.setProperty('--dy', Math.sin(a)*d+'px');
+    document.body.appendChild(s);
+    setTimeout(()=> s.remove(), 950);
+  }
+  if(TARGET && countDone() >= TARGET){
+    setTimeout(()=>{ document.getElementById('doneBanner').classList.add('show'); confettiBlast(); }, 700);
+  }
+}
+document.getElementById('doneClose').onclick = ()=>{ document.getElementById('doneBanner').classList.remove('show'); openRank(); };
+
+/* ---------- nota emergente (mi mensaje al cromo) ---------- */
+const notePop = document.getElementById('notePop');
+const npWho = document.getElementById('npWho');
+const npMsg = document.getElementById('npMsg');
+let noteId = null, heartTimer = null;
+
+function showNote(id, st){
+  noteId = id;
+  const c = CROMOS[id];
+  npWho.textContent = 'Tu mensaje para ' + c.n;
+  npMsg.textContent = '“' + (state.messages[id]?.msg || '') + '”';
+  const r = st.getBoundingClientRect();
+  notePop.style.visibility='hidden'; notePop.classList.add('show');
+  requestAnimationFrame(()=>{
+    const nw = notePop.offsetWidth, nh = notePop.offsetHeight;
+    let x = r.left + r.width*0.5;
+    let y = r.top - nh - 10;
+    if(y < 8){ y = r.bottom + 10; }
+    x = Math.max(8, Math.min(x, window.innerWidth - nw - 8));
+    notePop.style.left = x+'px'; notePop.style.top = y+'px';
+    notePop.style.visibility='visible';
+  });
+  clearInterval(heartTimer);
+  let count = 0;
+  heartTimer = setInterval(()=>{
+    if(++count>6){ clearInterval(heartTimer); return; }
+    const h = el('div','fheart', ['💛','💙','❤️','✨'][count%4]);
+    h.style.left = (r.left + Math.random()*r.width)+'px';
+    h.style.top = (r.top + r.height*0.4)+'px';
+    document.body.appendChild(h);
+    setTimeout(()=> h.remove(), 1650);
+  }, 180);
+}
+function hideNote(){ notePop.classList.remove('show'); noteId=null; clearInterval(heartTimer); }
+document.getElementById('npEdit').onclick = e=>{
+  e.stopPropagation();
+  const id = noteId; hideNote();
+  if(id!==null) openModal(+id, true);
+};
+
+document.addEventListener('click', e=>{
+  const st = e.target.closest('.sticker');
+  if(!st){ if(!e.target.closest('#notePop')) hideNote(); return; }
+  const id = +st.dataset.id;
+  if(st.classList.contains('mine')){ hideNote(); openWall(ME); return; }
+  if(st.classList.contains('locked')){ hideNote(); openModal(id,false); }
+  else if(st.classList.contains('stuck')){ hideNote(); openWall(CROMOS[id].id); }
+});
+
+/* ---------- lightbox ---------- */
+const lightbox = document.getElementById('lightbox');
+const lbCard = document.getElementById('lbCard');
+const lbImg = document.getElementById('lbImg');
+let lbId = null;
+function openLightbox(id){
+  lbId = id;
+  const c = CROMOS[id];
+  lbImg.src = c.img;
+  document.getElementById('lbName').textContent = c.n;
+  document.getElementById('lbPuesto').textContent = c.p;
+  const m = state.messages[id]?.msg || '';
+  document.getElementById('lbMsg').textContent = '“' + m + '”';
+  document.getElementById('lbNote').style.display = m ? 'block' : 'none';
+  const dl = document.getElementById('lbDownload');
+  dl.href = c.img;
+  dl.download = 'galapalini26_' + c.n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'_') + '.jpg';
+  lightbox.classList.add('show');
+}
+function closeLightbox(){ lightbox.classList.remove('show'); lbId = null; lbCard.style.transform = ''; }
+document.getElementById('lbClose').onclick = closeLightbox;
+lightbox.addEventListener('click', e=>{ if(e.target === lightbox) closeLightbox(); });
+document.getElementById('lbEdit').onclick = ()=>{
+  const id = lbId; closeLightbox();
+  if(id !== null) openModal(+id, true);
+};
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape'){ closeLightbox(); closeSheets(); } });
+lbCard.addEventListener('pointermove', e=>{
+  if(LITE) return;
+  const r = lbCard.getBoundingClientRect();
+  const px = (e.clientX - r.left)/r.width - .5;
+  const py = (e.clientY - r.top)/r.height - .5;
+  lbCard.style.transform = `perspective(700px) rotateY(${px*22}deg) rotateX(${-py*22}deg) scale(1.03)`;
+  setShine((50 + px*70).toFixed(1), (50 + py*70).toFixed(1));
+  lastInput = Date.now();
+});
+lbCard.addEventListener('pointerleave', ()=>{ lbCard.style.transform = ''; });
+document.getElementById('lbDownload').addEventListener('click', ()=> toast('Descargando cromo ⬇️'));
+
+const mm = q => !!(window.matchMedia && window.matchMedia(q).matches);
+let hoverEnabled = mm('(hover:hover)');
+// LITE = dispositivos táctiles / sin hover (celulares): tornasol simple y estático.
+const LITE = !hoverEnabled || mm('(hover:none)') || mm('(pointer:coarse)');
+if(LITE) document.body.classList.add('lite');
+if(hoverEnabled && !LITE){
+  document.addEventListener('mouseover', e=>{
+    const st = e.target.closest('.sticker.stuck');
+    if(st && !st.classList.contains('mine')) showNote(+st.dataset.id, st);
+  });
+  document.addEventListener('mouseout', e=>{
+    const st = e.target.closest('.sticker.stuck');
+    if(st && !e.relatedTarget?.closest('#notePop')) hideNote();
+  });
+  notePop.addEventListener('mouseleave', hideNote);
+}
+
+/* ════════ ¿Quién eres? (gate) ════════ */
+const whoGate = document.getElementById('whoGate');
+const wgList = document.getElementById('wgList');
+const wgSearch = document.getElementById('wgSearch');
+function renderGate(filter){
+  const f = (filter||'').trim().toLowerCase();
+  wgList.innerHTML='';
+  STAFF.filter(s => !f || s.name.toLowerCase().includes(f) || (s.role||'').toLowerCase().includes(f))
+    .forEach(s=>{
+      const b = el('div','wgItem');
+      b.innerHTML = `<img src="${s.photo}" alt="" loading="lazy"><div><div class="nm">${esc(s.name)}</div><div class="rl">${esc(s.role||'')}</div></div>`;
+      b.onclick = ()=> setIdentity(s.id);
+      wgList.appendChild(b);
+    });
+  if(!wgList.children.length) wgList.innerHTML = '<p style="grid-column:1/-1;opacity:.7;font-size:13px">Nadie con ese nombre…</p>';
+}
+wgSearch.addEventListener('input', ()=> renderGate(wgSearch.value));
+function showGate(){ renderGate(''); wgSearch.value=''; whoGate.classList.add('show'); }
+function hideGate(){ whoGate.classList.remove('show'); }
+
+async function setIdentity(id){
+  ME = id;
+  try{ localStorage.setItem(LS_ME, id); }catch(e){}
+  hideGate();
+  const c = STAFF.find(s=>s.id===id);
+  const data = await apiGet(ME).catch(()=>null);
+  if(data && data.ok){ ingest(data); saveCache(data); }
+  else { CROMOS = buildCromos(); rebuildLocalState(); }
+  buildBook(); restoreStickers(); updateProgress(); updateMeChip(); updateWallBadge(); renderTop3();
+  toast('¡Hola, ' + (c?c.name:'') + '! 👋 Empieza a llenar tu álbum');
+}
+function updateMeChip(){
+  const chip = document.getElementById('meChip');
+  if(!ME){ chip.style.display='none'; return; }
+  const c = STAFF.find(s=>s.id===ME);
+  if(!c){ chip.style.display='none'; return; }
+  document.getElementById('meChipImg').src = c.photo;
+  document.getElementById('meChipName').textContent = 'SOY ' + c.name;
+  chip.style.display='flex';
+}
+document.getElementById('meChip').onclick = showGate;
+document.getElementById('whoBtn').onclick = showGate;
+
+/* ════════ Muro de una persona (todos los comentarios que le escribieron) ════════ */
+const wall = document.getElementById('wall');
+let wallPerson = null;
+function indexOfId(id){ return CROMOS.findIndex(c=>c.id===id); }
+// Barajado estable: ordena por un hash del contenido → no cronológico,
+// pero el mismo conjunto de mensajes siempre sale en el mismo orden (no salta al refrescar).
+function hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function shuffleStable(arr){ return arr.slice().sort((a,b)=> hashStr(a.msg+a.from) - hashStr(b.msg+b.from)); }
+
+async function openWall(personId){
+  wallPerson = personId || ME;
+  wall.classList.add('show');
+  // estado de carga
+  document.getElementById('wallActions').innerHTML='';
+  document.getElementById('wallSub').textContent='';
+  document.getElementById('wallBody').innerHTML = '<div class="empty">Cargando mensajes… 💌</div>';
+  const c = STAFF.find(s=>s.id===wallPerson);
+  document.getElementById('wallTitle').innerHTML = (wallPerson===ME)
+    ? '💌 Tu <em>muro</em>' : '💌 Muro de <em>'+esc(c?c.name:'')+'</em>';
+  const d = await fetch(API+'?wall='+encodeURIComponent(wallPerson)+'&_t='+Date.now(), {cache:'no-store'})
+    .then(r=>r.json()).catch(()=>null);
+  if(wallPerson !== (personId||ME)) return;   // se cambió mientras cargaba
+  if(d && d.ok) renderPersonWall(d);
+  else document.getElementById('wallBody').innerHTML = '<div class="empty">No se pudo cargar 😕<br>revisa tu internet</div>';
+}
+
+function renderPersonWall(d){
+  const mine = d.id === ME;
+  const n = d.comments.length;
+  document.getElementById('wallTitle').innerHTML = mine
+    ? '💌 Tu <em>muro</em>' : '💌 Muro de <em>'+esc(d.name)+'</em>';
+  document.getElementById('wallSub').textContent = n
+    ? (mine ? `${n} ${n===1?'mensaje':'mensajes'} que te han escrito 💛`
+            : `${n} ${n===1?'mensaje':'mensajes'} para ${d.name} 💛`)
+    : '';
+
+  // acciones (editar mi mensaje)
+  const acts = document.getElementById('wallActions'); acts.innerHTML='';
+  const idx = indexOfId(d.id);
+  if(idx>=0 && !mine && state.messages[idx]){
+    const ed = el('button','wAct','✏️ Editar mi mensaje');
+    ed.onclick = ()=>{ wall.classList.remove('show'); openModal(idx,true); };
+    acts.appendChild(ed);
+  }
+
+  // el cromo arriba, y abajo todos los mensajes
+  const body = document.getElementById('wallBody'); body.innerHTML='';
+  const person = STAFF.find(s=>s.id===d.id);
+  if(person && person.photo){
+    const card = el('img','wallCard'); card.src = person.photo; card.alt = '';
+    body.appendChild(card);
+  }
+  if(!n){
+    body.appendChild(el('div','empty', mine
+      ? 'Aún nadie te ha escrito…<br>¡pronto llegarán mensajes! 💌'
+      : 'Todavía nadie le ha escrito a '+esc(d.name)+'.<br>¡Sé el primero! ✍️'));
+  } else {
+    // Mensajes ANÓNIMOS y en DESORDEN: sin autor ni hora, en orden barajado
+    // de forma estable (mismo contenido → mismo orden, pero no cronológico).
+    shuffleStable(d.comments).forEach(m=>{
+      body.appendChild(el('div','wallMsg'+(m.from===ME?' fromMe':''),
+        `<div class="txt">“${esc(m.msg)}”</div>${m.from===ME?'<span class="meTag">tú ✍️</span>':''}`));
+    });
+  }
+
+  // si es mi propio muro, actualiza el contador del badge
+  if(mine){
+    WALL = d.comments;
+    try{ localStorage.setItem('palini26_wall_seen', String(n)); }catch(e){}
+    updateWallBadge();
+  }
+}
+document.getElementById('wallBtn').onclick = ()=>{ if(!ME){ showGate(); return; } openWall(ME); };
+document.getElementById('wallClose').onclick = ()=> wall.classList.remove('show');
+function updateWallBadge(){
+  const b = document.getElementById('wallBadge');
+  let seen = 0; try{ seen = parseInt(localStorage.getItem('palini26_wall_seen')||'0',10)||0; }catch(e){}
+  const nuevos = Math.max(0, WALL.length - seen);
+  if(nuevos>0){ b.textContent = nuevos; b.style.display='flex'; } else b.style.display='none';
+}
+
+/* ════════ Ranking ════════ */
+const rank = document.getElementById('rank');
+function openRank(){ renderRank(); rank.classList.add('show'); refreshFeed(); }
+document.getElementById('rankBtn').onclick = openRank;
+document.getElementById('rankClose').onclick = ()=> rank.classList.remove('show');
+const MEDALS = ['🥇','🥈','🥉'];
+function renderRank(){
+  const t = TARGET || Math.max(0, CROMOS.length-1);
+  document.getElementById('rankSub').textContent =
+    `${PLAYERS} ${PLAYERS===1?'persona va':'personas van'} llenando su álbum · meta: ${t} cromos`;
+  const body = document.getElementById('rankBody');
+  body.innerHTML='';
+  if(!RANKING.length && !POPULAR.length){
+    body.innerHTML = '<div class="empty">Nadie ha pegado cromos todavía.<br>¡Sé el primero! 🏁</div>'; return;
+  }
+
+  // 💌 Cromos más queridos (quién ha RECIBIDO más mensajes)
+  if(POPULAR.length){
+    body.appendChild(el('div','rankSec','💌 Cromos más <em>queridos</em>'));
+    const maxC = POPULAR[0].count || 1;
+    POPULAR.forEach((r,i)=>{
+      const row = el('div','rankRow' + (r.id===ME?' meRow':''));
+      const posCell = i<3 ? `<div class="pos medal">${MEDALS[i]}</div>` : `<div class="pos">${i+1}</div>`;
+      row.innerHTML = `
+        ${posCell}
+        <img src="${r.photo}" alt="">
+        <div class="info">
+          <b>${esc(r.name)}${r.id===ME?' · tú':''}</b>
+          <div class="bar"><i style="width:${Math.min(100, r.count/maxC*100)}%"></i></div>
+        </div>
+        <div class="meta"><span class="n">💌 ${r.count}</span></div>`;
+      body.appendChild(row);
+    });
+  }
+
+  // 🏆 Carrera del álbum (quién lo completa primero)
+  if(RANKING.length){
+    body.appendChild(el('div','rankSec','🏆 Álbum completo <em>primero</em>'));
+    RANKING.forEach((r,i)=>{
+      const pct = t ? Math.min(100, r.count/t*100) : 0;
+      const row = el('div','rankRow' + (r.id===ME?' meRow':''));
+      const posCell = i<3 ? `<div class="pos medal">${MEDALS[i]}</div>` : `<div class="pos">${i+1}</div>`;
+      row.innerHTML = `
+        ${posCell}
+        <img src="${r.photo}" alt="">
+        <div class="info">
+          <b>${esc(r.name)}${r.id===ME?' · tú':''}</b>
+          <div class="bar"><i style="width:${pct}%"></i></div>
+        </div>
+        <div class="meta">
+          <span class="n">${r.count}/${t}</span>
+          ${r.completed ? '<span class="done">🏆 COMPLETO</span>' : ''}
+        </div>`;
+      body.appendChild(row);
+    });
+  }
+}
+function renderTop3(){
+  const box = document.getElementById('finTop3');
+  if(!box) return;
+  const t = TARGET || Math.max(0, CROMOS.length-1);
+  box.innerHTML='';
+  RANKING.slice(0,3).forEach((r,i)=>{
+    box.appendChild(el('div','row',
+      `<span class="medal">${MEDALS[i]}</span>
+       <img src="${r.photo}" alt="">
+       <span class="nm">${esc(r.name)}</span>
+       <span class="cnt">${r.count}/${t}${r.completed?' 🏆':''}</span>`));
+  });
+}
+function closeSheets(){ wall.classList.remove('show'); rank.classList.remove('show'); }
+
+/* ---------- refresco en vivo (ranking + muro) ---------- */
+let refreshT = null;
+function scheduleRefresh(){ clearTimeout(refreshT); refreshT = setTimeout(refreshFeed, 1200); }
+async function refreshFeed(){
+  if(!ME) return;
+  const d = await apiGet(ME).catch(()=>null);
+  if(!d || !d.ok) return;
+  ingest(d); saveCache(d);
+  restoreStickers(); updateProgress(); updateWallBadge(); renderTop3();
+  if(rank.classList.contains('show')) renderRank();
+  if(wall.classList.contains('show')) openWall(wallPerson);
+}
+setInterval(()=>{ if(ME && document.visibilityState==='visible') refreshFeed(); }, 45000);
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') refreshFeed(); });
+
+/* ---------- 3D tilt + holo shine ----------
+   En táctil (LITE) NO corremos el loop de brillo ni el tilt: el tornasol queda
+   estático y simple → no recalienta el teléfono. El desktop conserva todo. */
+const rootStyle = document.documentElement.style;
+function setShine(x,y){ rootStyle.setProperty('--gx', x); rootStyle.setProperty('--gy', y); }
+let idleT = 0, lastInput = 0;
+if(!LITE){
+  setInterval(()=>{
+    if(Date.now() - lastInput < 1800) return;
+    idleT += 0.02;
+    setShine(50 + Math.sin(idleT)*38, 50 + Math.cos(idleT*0.7)*30);
+  }, 40);
+} else {
+  setShine(38, 32);   // brillo fijo, agradable y sin costo
+}
+document.addEventListener('pointermove', e=>{
+  if(LITE) return;
+  lastInput = Date.now();
+  setShine((e.clientX/window.innerWidth*100).toFixed(1), (e.clientY/window.innerHeight*100).toFixed(1));
+  if(!hoverEnabled) return;
+  const st = e.target.closest('.sticker.stuck');
+  document.querySelectorAll('.sticker.tilted').forEach(s=>{
+    if(s!==st){ s.classList.remove('tilted'); s.style.transform=''; s.style.zIndex=''; }
+  });
+  if(st){
+    const r = st.getBoundingClientRect();
+    const px = (e.clientX - r.left)/r.width - .5;
+    const py = (e.clientY - r.top)/r.height - .5;
+    st.classList.add('tilted');
+    st.style.transform = `rotate(var(--rot)) perspective(500px) rotateY(${px*14}deg) rotateX(${-py*14}deg) scale(1.04)`;
+    st.style.zIndex = 5;
+  }
+});
+document.addEventListener('pointerleave', ()=>{
+  document.querySelectorAll('.sticker.tilted').forEach(s=>{ s.classList.remove('tilted'); s.style.transform=''; s.style.zIndex=''; });
+});
+
+/* (Se quitó el efecto de movimiento con el giroscopio: recalentaba y
+    recargaba el teléfono, provocando reinicios.) */
+
+/* ---------- footer: copiar ---------- */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(()=> t.classList.remove('show'), 2200);
+}
+document.getElementById('copyAll').onclick = ()=>{
+  const lines = CROMOS.map((c,i)=> (!c.isMe && state.messages[i]) ? `${c.n} (${c.p}):\n“${state.messages[i].msg}”` : null).filter(Boolean);
+  if(!lines.length){ toast('Aún no has escrito mensajes'); return; }
+  const txt = '💌 Mis mensajes del álbum GALAPALINI 26 · Team USFQ Galápagos\n\n' + lines.join('\n\n');
+  (navigator.clipboard?.writeText(txt) || Promise.reject()).then(
+    ()=> toast('Mensajes copiados 📋'),
+    ()=>{ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+      try{document.execCommand('copy'); toast('Mensajes copiados 📋');}catch(e){toast('No se pudo copiar');} ta.remove(); }
+  );
+};
+
+/* ---------- confetti ---------- */
+function confettiBlast(){
+  const cv = document.getElementById('confetti');
+  const ctx = cv.getContext('2d');
+  cv.width = innerWidth; cv.height = innerHeight;
+  const cols = ['#f0a93f','#e0492f','#1d6f8b','#ffd573','#9be8ff','#fff'];
+  const ps = Array.from({length:160}, ()=>({
+    x: Math.random()*cv.width, y: -20 - Math.random()*cv.height*0.5,
+    w: 6+Math.random()*7, h: 4+Math.random()*6,
+    vy: 2+Math.random()*3.5, vx: -1.5+Math.random()*3,
+    r: Math.random()*Math.PI, vr: -0.15+Math.random()*0.3,
+    c: cols[Math.floor(Math.random()*cols.length)]
+  }));
+  let frames = 0;
+  (function tick(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.r+=p.vr;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r);
+      ctx.fillStyle=p.c; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
+    });
+    if(++frames < 330) requestAnimationFrame(tick);
+    else ctx.clearRect(0,0,cv.width,cv.height);
+  })();
+}
+
+/* ---------- tiempo relativo ---------- */
+function ago(iso){
+  if(!iso) return '';
+  const d = (Date.now() - new Date(iso).getTime())/1000;
+  if(d < 60) return 'ahora';
+  if(d < 3600) return Math.floor(d/60)+' min';
+  if(d < 86400) return Math.floor(d/3600)+' h';
+  return Math.floor(d/86400)+' d';
+}
+
+/* ════════ arranque ════════ */
+async function boot(){
+  let storedMe=''; try{ storedMe = localStorage.getItem(LS_ME)||''; }catch(e){}
+  let data = await apiGet(storedMe).catch(()=>null);
+  if(!data || !data.ok) data = loadCache();
+  if(!data || !Array.isArray(data.staff) || !data.staff.length){
+    showGate();
+    wgList.innerHTML = '<p style="grid-column:1/-1;opacity:.8;font-size:13px">No se pudo conectar con el servidor. Revisa tu internet y recarga.</p>';
+    return;
+  }
+  saveCache(data);
+  const ids = data.staff.map(s=>s.id);
+  ME = (storedMe && ids.includes(storedMe)) ? storedMe : null;
+  ingest(data);
+  buildBook();
+  restoreStickers(); updateProgress(); updateMeChip(); updateWallBadge(); renderTop3();
+  if(!ME) showGate(); else hideGate();
+}
+boot();
+</script>
+</body>
+</html>

@@ -12,3 +12,6 @@ __pycache__/
 # Datos en runtime del CMS (no versionar contenido dinámico)
 cms/data/ics_cache.txt
 cms/data/marine.json
+# Mensajes del álbum de cromos: privados (repo público) — viven solo en el servidor
+cms/data/cromos.json
+cms/data/*.lock
