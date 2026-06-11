@@ -454,5 +454,69 @@
     "image": "staff/cromo_079.jpg",
     "enabled": true,
     "created_at": "2026-06-11T18:00:00-06:00"
+  },
+  {
+    "id": "cromo080",
+    "name": "CAMI",
+    "role": "Minion",
+    "image": "staff/cromo_080.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T20:00:00-06:00"
+  },
+  {
+    "id": "cromo081",
+    "name": "KATYA",
+    "role": "Minion",
+    "image": "staff/cromo_081.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T20:00:00-06:00"
+  },
+  {
+    "id": "cromo083",
+    "name": "MARIA GRACIA",
+    "role": "Pasante",
+    "image": "staff/cromo_083.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T20:00:00-06:00"
+  },
+  {
+    "id": "cromo084",
+    "name": "DEYVID",
+    "role": "OPI",
+    "image": "staff/cromo_084.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T20:00:00-06:00"
+  },
+  {
+    "id": "cromo085",
+    "name": "MATI",
+    "role": "Minion",
+    "image": "staff/cromo_085.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T20:00:00-06:00"
+  },
+  {
+    "id": "cromo086",
+    "name": "MÁXIMO",
+    "role": "Cocina",
+    "image": "staff/cromo_086.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T20:00:00-06:00"
+  },
+  {
+    "id": "cromo088",
+    "name": "YACHSSON",
+    "role": "Minion Matemático",
+    "image": "staff/cromo_088.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T20:00:00-06:00"
+  },
+  {
+    "id": "cromo090",
+    "name": "PANCHO",
+    "role": "Minion",
+    "image": "staff/cromo_090.jpg",
+    "enabled": true,
+    "created_at": "2026-06-11T20:00:00-06:00"
   }
 ]
