@@ -1246,41 +1246,34 @@ function renderRank(){
     body.innerHTML = '<div class="empty">Nadie ha pegado cromos todavía.<br>¡Sé el primero! 🏁</div>'; return;
   }
 
-  // 💌 Cromos más queridos (quién ha RECIBIDO más mensajes)
+  // 💌 Cromos más queridos (quién ha RECIBIDO más mensajes) — solo el puesto,
+  // sin conteos (decisión: no exponer cuántos mensajes tiene cada quien)
   if(POPULAR.length){
     body.appendChild(el('div','rankSec','💌 Cromos más <em>queridos</em>'));
-    const maxC = POPULAR[0].count || 1;
     POPULAR.forEach((r,i)=>{
       const row = el('div','rankRow' + (r.id===ME?' meRow':''));
       const posCell = i<3 ? `<div class="pos medal">${MEDALS[i]}</div>` : `<div class="pos">${i+1}</div>`;
       row.innerHTML = `
         ${posCell}
         <img src="${r.photo}" alt="">
-        <div class="info">
-          <b>${esc(r.name)}${r.id===ME?' · tú':''}</b>
-          <div class="bar"><i style="width:${Math.min(100, r.count/maxC*100)}%"></i></div>
-        </div>
-        <div class="meta"><span class="n">💌 ${r.count}</span></div>`;
+        <div class="info"><b>${esc(r.name)}${r.id===ME?' · tú':''}</b></div>
+        <div class="meta"><span class="n">${i+1}.º puesto</span></div>`;
       body.appendChild(row);
     });
   }
 
-  // 🏆 Carrera del álbum (quién lo completa primero)
+  // 🏆 Carrera del álbum (quién lo completa primero) — solo el puesto
   if(RANKING.length){
     body.appendChild(el('div','rankSec','🏆 Álbum completo <em>primero</em>'));
     RANKING.forEach((r,i)=>{
-      const pct = t ? Math.min(100, r.count/t*100) : 0;
       const row = el('div','rankRow' + (r.id===ME?' meRow':''));
       const posCell = i<3 ? `<div class="pos medal">${MEDALS[i]}</div>` : `<div class="pos">${i+1}</div>`;
       row.innerHTML = `
         ${posCell}
         <img src="${r.photo}" alt="">
-        <div class="info">
-          <b>${esc(r.name)}${r.id===ME?' · tú':''}</b>
-          <div class="bar"><i style="width:${pct}%"></i></div>
-        </div>
+        <div class="info"><b>${esc(r.name)}${r.id===ME?' · tú':''}</b></div>
         <div class="meta">
-          <span class="n">${r.count}/${t}</span>
+          <span class="n">${i+1}.º puesto</span>
           ${r.completed ? '<span class="done">🏆 COMPLETO</span>' : ''}
         </div>`;
       body.appendChild(row);
@@ -1297,7 +1290,7 @@ function renderTop3(){
       `<span class="medal">${MEDALS[i]}</span>
        <img src="${r.photo}" alt="">
        <span class="nm">${esc(r.name)}</span>
-       <span class="cnt">${r.count}/${t}${r.completed?' 🏆':''}</span>`));
+       <span class="cnt">${i+1}.º${r.completed?' 🏆':''}</span>`));
   });
 }
 function closeSheets(){ wall.classList.remove('show'); rank.classList.remove('show'); }
