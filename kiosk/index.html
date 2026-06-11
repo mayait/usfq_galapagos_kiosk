@@ -457,7 +457,7 @@
     let qs=(s.msgs||[]).filter(function(m){ return m && m.msg; });
     if(qs.length>2){ const rest=qs.slice(1); qs=[qs[0], rest[Math.floor(Math.random()*rest.length)]]; }
     qs=qs.slice(0,2);
-    const quotes=qs.length?`<div class="quotes">${qs.map(q=>`<div class="q"><span class="qm">“</span><div class="qt">${q.msg}</div>${q.from?`<div class="qa">— ${q.from}</div>`:''}</div>`).join('')}</div>`:'';
+    const quotes=qs.length?`<div class="quotes">${qs.map(q=>`<div class="q"><span class="qm">“</span><div class="qt">${q.msg}</div></div>`).join('')}</div>`:'';
     return `<div class="art staffa"><img class="cromo" src="${s.photo}" alt="" onerror="this.style.display='none'"/></div>
       <div class="info">
         <span class="accent" style="background:#ffd200"></span>

@@ -177,15 +177,15 @@ $staffNameById = [];
 foreach ($staffRaw as $s) if (!empty($s['id'])) $staffNameById[$s['id']] = $s['name'] ?? '';
 
 // Muro: mensajes del álbum PALINI 26 (data/cromos.json) agrupados por
-// destinatario. Texto y autor escapados aquí (contenido escrito por el staff).
+// destinatario. ANÓNIMOS en pantalla: el autor no sale del servidor.
+// Texto escapado aquí (contenido escrito por el staff).
 $cromoWall = [];
 foreach ((loadJson(CROMOS_FILE)['messages'] ?? []) as $m) {
     $to = $m['to'] ?? ''; $f = $m['from'] ?? '';
     if (!$to || !isset($staffNameById[$to]) || !isset($staffNameById[$f]) || $f === $to) continue;
     $cromoWall[$to][] = [
-        'from' => htmlspecialchars($staffNameById[$f], ENT_QUOTES, 'UTF-8'),
-        'msg'  => htmlspecialchars(trim($m['msg'] ?? ''), ENT_QUOTES, 'UTF-8'),
-        'ts'   => $m['ts'] ?? '',
+        'msg' => htmlspecialchars(trim($m['msg'] ?? ''), ENT_QUOTES, 'UTF-8'),
+        'ts'  => $m['ts'] ?? '',
     ];
 }
 foreach ($cromoWall as &$w) {
