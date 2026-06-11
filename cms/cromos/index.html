@@ -248,6 +248,7 @@ body.lite .lockCover .pen{ animation:none; }
 body.lite .cover .cta, body.lite [class*=cta]{ animation:none; }
 body.lite .sticker,
 body.lite .sticker.stuck{ transition:none; }
+
 /* Celulares: sin blur() por sticker (lo más caro de pintar) y grid más denso
    (6 cromos por página = 2×3); el fade de página es barato y se mantiene */
 body.lite .page::after{ display:none; }
@@ -585,7 +586,19 @@ footer button .badge{position:absolute;top:-6px;right:-4px;background:var(--red)
 .rankRow .meta{text-align:right;flex-shrink:0}
 .rankRow .meta .n{font-size:12px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
 .rankRow .meta .done{font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.5px;display:block}
-@media (min-width:700px){ #bookWrap{width:440px} }
+/* ── DESKTOP (≥900px con mouse): usa la pantalla de verdad ────────────────
+      Libro panorámico 3:2 con 8 cromos por página (4×2), cabecera a juego y
+      selector de identidad a 3 columnas. El alto se limita al viewport para
+      que el libro nunca se corte. (Al final de la hoja: gana la cascada.) ── */
+@media (min-width:700px) and (max-width:899px){ #bookWrap{width:440px} }
+@media (min-width:900px) and (hover:hover){
+  #topbar{ width:min(86vw, 920px, calc((100vh - 300px) * 1.5)); }
+  #bookWrap{ width:min(86vw, 920px, calc((100vh - 300px) * 1.5)); }
+  #book{ aspect-ratio:3/2; }
+  .grid{ grid-template-columns:repeat(4,1fr); gap:5% 3%; padding:2.5% 4% 3.5%; }
+  .wgCard{ width:min(90vw, 760px); }
+  .wgList{ grid-template-columns:repeat(3,1fr); }
+}
 </style>
 </head>
 <body>
@@ -701,9 +714,10 @@ footer button .badge{position:absolute;top:-6px;right:-4px;background:var(--red)
    ÁLBUM PALINI 26 — multijugador. Backend: api.julianmaya.com/api/cromos.php
    ════════════════════════════════════════════════════════════════════════ */
 const API    = 'https://api.julianmaya.com/api/cromos.php';
-// En táctil caben más cromos por página (6 = 2×3); en desktop 4 (2×2)
+// En táctil caben más cromos por página (6 = 2×3); en desktop ancho el libro
+// es panorámico con 8 (4×2); en ventanas chicas de escritorio, 4 (2×2)
 const TOUCH_DEVICE = !!(window.matchMedia && (matchMedia('(hover:none)').matches || matchMedia('(pointer:coarse)').matches));
-const PER_PAGE = TOUCH_DEVICE ? 6 : 4;
+const PER_PAGE = TOUCH_DEVICE ? 6 : (window.innerWidth >= 900 ? 8 : 4);
 const LS_ME    = 'palini26_me';
 const LS_CACHE = 'palini26_cache';
 const MIN_LEN  = 12;
