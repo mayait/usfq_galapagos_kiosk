@@ -169,15 +169,39 @@ foreach (loadPromos() as $p) {
     $promos[] = $p;
 }
 
-// ── 4b) Reconocimiento al staff (cromos) ─────────────────────────────────────
-if (!defined('STAFF_FILE')) define('STAFF_FILE', DATA_DIR . '/staff.json');
+// ── 4b) Reconocimiento al staff (cromos) + muro de mensajes ──────────────────
+if (!defined('STAFF_FILE'))  define('STAFF_FILE',  DATA_DIR . '/staff.json');
+if (!defined('CROMOS_FILE')) define('CROMOS_FILE', DATA_DIR . '/cromos.json');
+$staffRaw = loadJson(STAFF_FILE);
+$staffNameById = [];
+foreach ($staffRaw as $s) if (!empty($s['id'])) $staffNameById[$s['id']] = $s['name'] ?? '';
+
+// Muro: mensajes del álbum PALINI 26 (data/cromos.json) agrupados por
+// destinatario. Texto y autor escapados aquí (contenido escrito por el staff).
+$cromoWall = [];
+foreach ((loadJson(CROMOS_FILE)['messages'] ?? []) as $m) {
+    $to = $m['to'] ?? ''; $f = $m['from'] ?? '';
+    if (!$to || !isset($staffNameById[$to]) || !isset($staffNameById[$f]) || $f === $to) continue;
+    $cromoWall[$to][] = [
+        'from' => htmlspecialchars($staffNameById[$f], ENT_QUOTES, 'UTF-8'),
+        'msg'  => htmlspecialchars(trim($m['msg'] ?? ''), ENT_QUOTES, 'UTF-8'),
+        'ts'   => $m['ts'] ?? '',
+    ];
+}
+foreach ($cromoWall as &$w) {
+    usort($w, fn($a, $b) => strcmp($b['ts'], $a['ts']));   // recientes primero
+    $w = array_slice($w, 0, 6);                            // el kiosko elige de aquí
+}
+unset($w);
+
 $staff = [];
-foreach (loadJson(STAFF_FILE) as $s) {
+foreach ($staffRaw as $s) {
     if (!($s['enabled'] ?? true)) continue;
     $staff[] = [
         'name'  => $s['name'] ?? '',
         'role'  => $s['role'] ?? '',
         'photo' => UPLOAD_URL . ($s['image'] ?? ''),
+        'msgs'  => $cromoWall[$s['id'] ?? ''] ?? [],
     ];
 }
 
