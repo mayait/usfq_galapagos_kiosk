@@ -111,7 +111,11 @@ body::after{
   background-image:radial-gradient(rgba(23,88,115,.10) 1px, transparent 1.4px);
   background-size:16px 16px;background-position:8px 12px;background-color:var(--paper);
 }
-.page.flipped{transform:rotateY(-179.9deg);pointer-events:none}
+/* Volteada: además del rotateY se OCULTA al terminar el giro (visibility con
+   delay). En GPUs móviles (Samsung Mali/Xclipse) backface-visibility falla y
+   las páginas volteadas seguían pintándose encimadas — esto lo corta de raíz. */
+.page.flipped{transform:rotateY(-179.9deg);pointer-events:none;visibility:hidden;
+  transition:transform .95s cubic-bezier(.4,.05,.25,1), visibility 0s linear .95s}
 .page.turning{z-index:999 !important}
 .page::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(100deg,rgba(0,0,0,.10),transparent 22%)}
@@ -226,14 +230,24 @@ body::after{
       ni blend-modes pesados → no recalienta ni recarga el teléfono. El desktop
       conserva el efecto completo. ─────────────────────────────────────────── */
 body.lite .holoRainbow,
-body.lite .holoSpark{ display:none; }
-body.lite .holoGlare{
-  mix-blend-mode:normal;opacity:.35;animation:none;
-  background:linear-gradient(115deg, transparent 36%, rgba(255,255,255,.55) 50%, transparent 64%);
-  background-size:cover;background-position:center;
-}
+body.lite .holoSpark,
+body.lite .holoGlare{ display:none; }   /* tornasol APAGADO del todo en táctil */
+/* animaciones infinitas (lápiz que rebota en CADA casilla, pulse del CTA):
+   con 60+ corriendo a la vez el compositor del teléfono nunca duerme →
+   calor y batería. En táctil, quietas. */
+body.lite .lockCover .pen{ animation:none; }
+body.lite .cover .cta, body.lite [class*=cta]{ animation:none; }
 body.lite .sticker,
 body.lite .sticker.stuck{ transition:none; }
+/* Celulares: pasar de página sin animación 3D (los GPUs móviles sufren con
+   preserve-3d + perspective) y sin blur() por sticker (lo más caro de pintar) */
+body.lite #book{ perspective:none; }
+body.lite .page{ transition:none !important; }
+body.lite .page::after{ display:none; }
+body.lite .sticker.locked img{ filter:grayscale(1) brightness(.85) opacity(.30); }
+body.lite .mSticker img{ filter:grayscale(1) brightness(.8); }
+body.lite .sheet, body.lite #modal, body.lite #whoGate, body.lite #lightbox{
+  backdrop-filter:none; -webkit-backdrop-filter:none; }
 /* holo layers */
 .holoRainbow{
   background:repeating-linear-gradient(115deg,
