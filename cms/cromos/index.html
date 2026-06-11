@@ -1311,18 +1311,23 @@ function renderRank(){
     });
   }
 
-  // 🏆 Carrera del álbum (quién lo completa primero) — solo el puesto
+  // 🏆 Carrera del álbum: avance en PORCENTAJE. Medalla solo para quien ya
+  // COMPLETÓ el álbum (nada de premio anticipado); el resto, número simple.
   if(RANKING.length){
-    body.appendChild(el('div','rankSec','🏆 Álbum completo <em>primero</em>'));
+    body.appendChild(el('div','rankSec','🏆 Carrera del <em>álbum</em>'));
     RANKING.forEach((r,i)=>{
+      const pct = t ? Math.min(100, Math.round(r.count/t*100)) : 0;
       const row = el('div','rankRow' + (r.id===ME?' meRow':''));
-      const posCell = i<3 ? `<div class="pos medal">${MEDALS[i]}</div>` : `<div class="pos">${i+1}</div>`;
+      const posCell = (r.completed && i<3) ? `<div class="pos medal">${MEDALS[i]}</div>` : `<div class="pos">${i+1}</div>`;
       row.innerHTML = `
         ${posCell}
         <img src="${r.photo}" alt="">
-        <div class="info"><b>${esc(r.name)}${r.id===ME?' · tú':''}</b></div>
+        <div class="info">
+          <b>${esc(r.name)}${r.id===ME?' · tú':''}</b>
+          <div class="bar"><i style="width:${pct}%"></i></div>
+        </div>
         <div class="meta">
-          <span class="n">${i+1}.º puesto</span>
+          <span class="n">${pct}%</span>
           ${r.completed ? '<span class="done">🏆 COMPLETO</span>' : ''}
         </div>`;
       body.appendChild(row);
@@ -1335,11 +1340,12 @@ function renderTop3(){
   const t = TARGET || Math.max(0, CROMOS.length-1);
   box.innerHTML='';
   RANKING.slice(0,3).forEach((r,i)=>{
+    const pct = t ? Math.min(100, Math.round(r.count/t*100)) : 0;
     box.appendChild(el('div','row',
-      `<span class="medal">${MEDALS[i]}</span>
+      `<span class="medal">${r.completed ? MEDALS[i] : (i+1)+'.º'}</span>
        <img src="${r.photo}" alt="">
        <span class="nm">${esc(r.name)}</span>
-       <span class="cnt">${i+1}.º${r.completed?' 🏆':''}</span>`));
+       <span class="cnt">${pct}%${r.completed?' 🏆':''}</span>`));
   });
 }
 function closeSheets(){ wall.classList.remove('show'); rank.classList.remove('show'); }
